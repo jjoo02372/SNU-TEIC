@@ -1417,7 +1417,16 @@ ${f.narrative || "-"}
       live = true; document.body.classList.add("live");
       teams = j.teams || []; renderTeams(); renderFB(); poll();
       setInterval(poll, 10000);
-    }).catch(() => { /* server unreachable (or blocked inside an artifact): keep the board flow */ });
+    }).catch((err) => {
+      // server unreachable (or blocked inside an artifact): keep the board flow, but say why
+      const inArtifact = /claude\.ai|claudeusercontent/.test(location.hostname) || !!window.claude;
+      const note = document.createElement("p");
+      note.className = "small status err"; note.id = "liveDiag";
+      note.textContent = inArtifact
+        ? "팀 간 자동 메시지는 claude.ai 링크에서는 동작하지 않습니다. jjoo02372.github.io/SNU-TEIC/session4/ 로 열어 주세요."
+        : `메시지 서버에 연결하지 못해 피드백 보드 방식으로 보여 줍니다. (원인: ${String((err && err.message) || err).slice(0, 160)})`;
+      $(".rule.board-only").appendChild(note);
+    });
   }
 
   if (window.claude && window.claude.use) {

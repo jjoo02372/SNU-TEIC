@@ -251,10 +251,9 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 .stage-top button { background: transparent; color: #eef3ef; border: 1px solid #4b5e57; border-radius: 6px; padding: 5px 12px; cursor: pointer; }
 .stage-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; min-height: 0; align-items: center; }
 @media (max-width: 860px) { .stage-body { grid-template-columns: minmax(0,1fr); align-content: start; overflow: auto; } }
-.stage .script { display: grid; gap: 10px; overflow: auto; max-height: 100%; }
-.stage .script div { padding: 10px 12px; border-radius: 6px; opacity: .45; font-size: 18px; line-height: 1.55; transition: opacity .2s, background .2s; }
-.stage .script div b { display: block; font-size: 12px; letter-spacing: .08em; font-weight: 500; color: #f2d266; }
-.stage .script div.on { opacity: 1; background: #1d2b26; }
+.stage .script { overflow: auto; max-height: 100%; padding: 4px 8px; }
+.stage .script p { margin: 0 0 .9em; font-size: clamp(18px, 1.6vw, 24px); line-height: 1.7; }
+.stage .script p:last-child { margin-bottom: 0; }
 .stage .prog { height: 6px; background: #24322d; border-radius: 99px; overflow: hidden; }
 .stage .prog i { display: block; height: 100%; width: 0; background: #f2d266; }
 
@@ -1108,7 +1107,7 @@ ${JSON.stringify(f, null, 2)}`;
   function openStage() {
     if (!S.pitch.segs) setSegs(templateScript(), "기록으로 만든 초안");
     const s = slideHTML(); const el = $("#stSlide"); el.style.cssText = s.style; el.innerHTML = s.html;
-    $("#stScript").innerHTML = SEG.map((g, i) => `<div data-st="${i}"><b>${g.l} · ${g.sec}″</b>${esc(S.pitch.segs[i]?.text || "")}</div>`).join("");
+    $("#stScript").innerHTML = S.pitch.segs.map((g) => (g.text || "").trim()).filter(Boolean).map((t) => `<p>${esc(t)}</p>`).join("") || `<p>대본이 비어 있습니다.</p>`;
     stAcc = 0; stRun = false; $("#stGo").textContent = "시작"; tickStage();
     $("#stage").hidden = false; $("#stGo").focus();
   }
@@ -1117,10 +1116,6 @@ ${JSON.stringify(f, null, 2)}`;
     const left = 60 - el;
     const c = $("#stClock"); c.textContent = left >= 0 ? Math.ceil(left) : "+" + Math.floor(-left); c.classList.toggle("over", left < 0);
     $("#stProg").style.width = Math.min(100, el / 60 * 100) + "%";
-    let acc = 0, cur = SEG.length - 1;
-    for (let i = 0; i < SEG.length; i++) { acc += SEG[i].sec; if (el < acc) { cur = i; break; } }
-    $$("#stScript [data-st]").forEach((d) => d.classList.toggle("on", +d.dataset.st === cur));
-    const on = $(`#stScript [data-st="${cur}"]`); if (on && stRun) on.scrollIntoView({ block: "nearest" });
     if (stRun) stRaf = requestAnimationFrame(tickStage);
   }
 

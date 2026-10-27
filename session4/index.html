@@ -602,17 +602,15 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   ];
 
   const FIELDS = [
-    { k: "oneLiner", label: "한 줄 정의", tip: "[누가] [어떤 상황에서] [무엇을] 할 수 있게 하는 앱인지 한 문장으로 쓰세요.", bad: "학생들에게 도움이 되는 편리한 학습 앱", good: "중2 담임이 아침 조회 5분 안에 이번 주 1인 1역을 무작위로 배정하고 전자칠판에 띄울 수 있는 앱", rows: 2 },
-    { k: "user", label: "주 사용자", tip: "한 사람을 떠올리세요. '교사와 학생'처럼 둘을 쓰면 화면도 두 벌이 필요해집니다.", bad: "교사, 학생, 학부모", good: "학생 28명을 맡은 중2 담임 교사 (학생은 화면을 보기만 함)", rows: 2 },
-    { k: "scene", label: "사용 장면", tip: "언제, 어디서, 어떤 기기로 쓰나요?", bad: "수업 시간에 사용", good: "월요일 아침 조회, 교실 앞 전자칠판(가로 화면), 교사 혼자 조작", rows: 2, optional: true },
-    { k: "problem", label: "해결할 문제", tip: "준비 단계의 문제 정의가 자동으로 들어갑니다. 지금은 어떻게 해결하고 있는지(현재 방법)를 덧붙이세요.", bad: "역할 배정이 불편하다", good: "지금은 종이 명단에 손으로 돌려 적어 매주 10분이 걸리고, 같은 학생에게 궂은 역할이 반복된다는 불만이 나온다", rows: 3, from: "team.topic" },
-    { k: "flow", label: "핵심 시나리오", tip: "'사용자 행동 → 화면 반응'을 번호로 적으세요. 한 줄에 한 단계.", bad: "역할을 배정하고 결과를 본다", good: "1. 교사가 역할 목록(8개)을 확인한다 → 지난주 배정이 회색으로 보인다\n2. [배정] 버튼을 누른다 → 3초 동안 번호가 섞인다\n3. 결과 표가 전체 화면으로 뜬다 → [다시]는 1회만 가능", rows: 5 },
-    { k: "must", label: "꼭 있어야 할 기능 (Must)", tip: "이게 없으면 이 앱이 아닌 것. 3개 이하, 한 줄에 하나.", bad: "다양한 기능", good: "역할 무작위 배정\n지난주와 같은 역할 피하기\n결과 전체 화면 보기", rows: 3 },
-    { k: "should", label: "있으면 좋은 기능 (Should)", tip: "시간이 남으면 만들 것. 비워도 됩니다.", bad: "AI 추천, 통계, 알림 등등", good: "역할별 아이콘\n배정 기록 CSV로 내보내기", rows: 2, optional: true },
-    { k: "wont", label: "만들지 않을 것 (Won't)", tip: "가장 중요한 칸입니다. 적지 않으면 AI가 묻지 않고 기능을 덧붙입니다.", bad: "(비워 둠)", good: "로그인 없음\n학생 실명 저장 없음 (번호만 사용)\n점수·순위 기능 없음", rows: 3 },
-    { k: "screens", label: "화면 구성", tip: "화면 이름: 그 화면에 있는 것.", bad: "메인 화면", good: "설정 화면: 학생 번호 범위, 역할 목록 편집\n배정 화면: [배정] 버튼, 결과 표, [다시] 버튼", rows: 3, optional: true },
-    { k: "data", label: "입력·저장하는 데이터", tip: "무엇을 입력받고, 어디에, 얼마 동안 저장하나요? 5단계 윤리 점검이 이 칸을 다시 봅니다.", bad: "학생 정보", good: "학생 번호(1~28)와 역할 이름만 브라우저(localStorage)에 저장, 학기 말에 [전체 삭제]", rows: 2, optional: true },
-    { k: "success", label: "성공 기준", tip: "숫자나 눈으로 확인할 수 있는 행동으로 쓰세요.", bad: "사용하기 쉽다", good: "처음 쓰는 교사가 설명 없이 1분 안에 첫 배정을 끝낸다\n4주 동안 같은 학생이 같은 역할을 두 번 받지 않는다", rows: 3, optional: true }
+    { k: "overview", label: "개요", tip: "어떤 앱인지 한두 문장으로. [누가] [어떤 상황에서] [무엇을] 할 수 있게 하는지 쓰세요.", bad: "학생들에게 도움이 되는 편리한 학습 앱", good: "중2 담임이 아침 조회 5분 안에 이번 주 1인 1역을 무작위로 배정하고 전자칠판에 띄울 수 있는 앱", rows: 2 },
+    { k: "goal", label: "목표, 대상", tip: "이 앱으로 해결할 문제(목표)와 쓰는 사람(대상)을 적으세요. 대상은 한 사람을 떠올리면 좋습니다.", bad: "역할 배정을 편하게 / 교사, 학생, 학부모", good: "목표: 종이로 10분 걸리던 역할 배정을 1분 안에, 같은 학생에게 궂은 역할이 반복되지 않게\n대상: 학생 28명을 맡은 중2 담임 교사 (학생은 화면을 보기만 함)", rows: 3 },
+    { k: "core", label: "핵심기능", tip: "앱이 하는 일을 '사용자 행동 → 화면 반응' 순서로 적으세요. 한 줄에 한 단계.", bad: "역할을 배정하고 결과를 본다", good: "1. 교사가 역할 목록(8개)을 확인한다 → 지난주 배정이 회색으로 보인다\n2. [배정] 버튼을 누른다 → 3초 동안 번호가 섞인다\n3. 결과 표가 전체 화면으로 뜬다 → [다시]는 1회만 가능", rows: 4 },
+    { k: "screens", label: "화면구성", tip: "화면 이름: 그 화면에 있는 것.", bad: "메인 화면", good: "설정 화면: 학생 번호 범위, 역할 목록 편집\n배정 화면: [배정] 버튼, 결과 표, [다시] 버튼", rows: 3, optional: true },
+    { k: "stack", label: "기술스택", tip: "무엇으로 만들고, 어디에 저장하고, 어떻게 공유하는지 적으세요.", bad: "AI로 만듦", good: "만든 도구: Claude 아티팩트 (HTML·CSS·JavaScript 한 파일)\n저장: 브라우저 localStorage\n공유: 아티팩트 공유 링크", rows: 3 },
+    { k: "must", label: "꼭 있어야 할 기능", tip: "이게 없으면 이 앱이 아닌 것. 3개 이하, 한 줄에 하나.", bad: "다양한 기능", good: "역할 무작위 배정\n지난주와 같은 역할 피하기\n결과 전체 화면 보기", rows: 3 },
+    { k: "wont", label: "만들지 않을 기능", tip: "적어 두지 않으면 AI가 묻지 않고 기능을 덧붙입니다.", bad: "(비워 둠)", good: "로그인 없음\n학생 실명 저장 없음 (번호만 사용)\n점수·순위 기능 없음", rows: 3, optional: true },
+    { k: "data", label: "입력, 저장하는 데이터", tip: "무엇을 입력받고, 어디에, 얼마 동안 저장하나요? 5단계 윤리 점검이 이 칸을 다시 봅니다.", bad: "학생 정보", good: "학생 번호(1~28)와 역할 이름만 브라우저(localStorage)에 저장, 학기 말에 [전체 삭제]", rows: 2, optional: true },
+    { k: "link", label: "웹 앱 링크", tip: "다른 팀이 실제로 눌러 볼 수 있는 공유 링크. 준비 단계에서 적은 앱 주소가 자동으로 들어갑니다.", bad: "(내 컴퓨터에만 있는 파일)", good: "https://claude.ai/artifact/…", rows: 1 }
   ];
   const REQUIRED = FIELDS.filter((f) => !f.optional);
   const VAGUE = ["편리", "쉽게", "쉬운", "간편", "다양한", "다양하게", "적절", "효과적", "깔끔", "예쁘", "예쁜", "재미있", "빠르게", "직관적", "최적", "유용", "알아서", "등등", "기타", "여러 가지", "많은", "좋은", "잘 "];
@@ -843,7 +841,8 @@ ${fbs}
 
 [지켜야 할 것]
 - 변경점에 없는 기능과 화면은 바꾸지 마.
-- 만들지 않을 것: ${lines(p.wont).join(", ") || "(PRD에 적기)"}
+- 기술스택: ${(p.stack || "(PRD에 적기)").replace(/\n/g, " / ")}
+- 만들지 않을 기능: ${lines(p.wont).join(", ") || "(없음)"}
 - 코드를 고치기 전에, 바꿀 부분을 '화면 / 기능 / 데이터'로 나눈 목록을 먼저 보여주고 내 확인을 기다려.
 - 고친 뒤에는 무엇을 확인하면 되는지 테스트 순서를 3단계로 알려줘.`;
 
@@ -852,7 +851,7 @@ ${fbs}
 
 바꿀 곳: ${S.css.target || "(바꿀 곳)"}
 원하는 모습: ${S.css.want || "(원하는 모습)"}
-사용 장면: ${(p.scene || "(사용 장면)").replace(/\n/g, " ")}
+대상: ${(p.goal || "(목표, 대상)").replace(/\n/g, " ")}
 
 규칙:
 - HTML 구조와 JavaScript는 절대 바꾸지 마.
@@ -875,11 +874,13 @@ ${fbs}
 
 [앱]
 이름: ${app}
-한 줄 정의: ${(p.oneLiner || "").replace(/\n/g, " ")}
-사용자와 장면: ${(p.user || "").replace(/\n/g, " ")} / ${(p.scene || "").replace(/\n/g, " ")}
-핵심 기능: ${lines(p.must).join(", ")}
+개요: ${(p.overview || "").replace(/\n/g, " ")}
+목표, 대상: ${(p.goal || "").replace(/\n/g, " ")}
+핵심기능: ${lines(p.core).join(" / ")}
+꼭 있어야 할 기능: ${lines(p.must).join(", ")}
+기술스택: ${(p.stack || "").replace(/\n/g, " / ")}
 데이터: ${(p.data || "").replace(/\n/g, " ")}
-만들지 않을 것: ${lines(p.wont).join(", ")}
+만들지 않을 기능: ${lines(p.wont).join(", ")}
 
 [우리가 이미 찾은 보완점]
 ${fixes}`;
@@ -964,7 +965,7 @@ ${fixes}`;
     else if (ch.length) change = `피드백을 받아 PRD의 '${ch.map((f) => f.label).slice(0, 2).join("', '")}'을 구체적으로 고쳤습니다`;
     if (S.css.applied) change = change ? `${change} · 화면: ${S.css.applied}` : `화면: ${S.css.applied}`;
     return {
-      one: (p.oneLiner || "").trim(),
+      one: (p.overview || "").trim(),
       features: lines(p.must).slice(0, 3).join("\n"),
       change,
       promise: (S.ethics.promise || "").trim()
@@ -985,8 +986,8 @@ ${fixes}`;
     const s = slideHTML();
     const el = $("#slide"); el.style.cssText = s.style; el.innerHTML = s.html;
     const a = auto();
-    $("#sl-one").placeholder = a.one || "1단계 '한 줄 정의'가 들어갑니다";
-    $("#sl-feat").placeholder = a.features || "1단계 Must 기능이 들어갑니다";
+    $("#sl-one").placeholder = a.one || "1단계 '개요'가 들어갑니다";
+    $("#sl-feat").placeholder = a.features || "1단계 '꼭 있어야 할 기능'이 들어갑니다";
     $("#sl-change").placeholder = a.change || "3단계 변경 기록과 4단계 바꾼 화면이 들어갑니다";
     $("#sl-promise").placeholder = a.promise || "5단계 약속이 들어갑니다";
     $$("#swatches button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.ci === (S.slide.color || 0))));
@@ -1020,8 +1021,8 @@ ${fixes}`;
   function facts() {
     const p = P(), t = T(), v = slideVals();
     return {
-      team: t.name || "", members: t.members || "", app: t.app || "", problem: (p.problem || t.topic || "").trim(), oneLiner: v.one, user: (p.user || "").trim(), scene: (p.scene || "").trim(),
-      must: lines(p.must), wont: lines(p.wont),
+      team: t.name || "", members: t.members || "", app: t.app || "", problem: (t.topic || "").trim(), overview: v.one, goal: (p.goal || "").trim(), stack: (p.stack || "").trim(), link: (p.link || t.link || "").trim(),
+      core: lines(p.core), must: lines(p.must), wont: lines(p.wont),
       feedback: S.fb.map((f) => ({ stuck: f.stuck, decision: f.status === "done" ? "반영" : f.status === "keep" ? "반영 안 함" : "미정", note: f.note || "" })),
       changedFields: changedFields().map((f) => f.label), screenChange: S.css.applied || "",
       ethicsFix: ETHICS.filter((e) => S.ethics.s[e.id] === "fix").map((e) => e.q + (S.ethics.n[e.id] ? ` → ${S.ethics.n[e.id]}` : "")),
@@ -1048,10 +1049,10 @@ ${JSON.stringify(f, null, 2)}`;
     const f = facts();
     const narr = f.narrative.split(/(?<=[.!?。])\s+|\n+/).map((s) => s.trim()).filter(Boolean);
     const firstFb = S.fb.find((x) => x.status === "done") || S.fb[0];
-    const prob = f.problem ? f.problem.split(/(?<=[.!?。])\s+|\n+/)[0] : "";
+    const prob = (f.problem || f.goal) ? (f.problem || f.goal).split(/(?<=[.!?。])\s+|\n+/)[0].replace(/^목표\s*[:：]\s*/, "") : "";
     const out = {};
-    out.problem = prob ? `${f.user ? f.user.split(/[(\n]/)[0].trim() + "에게는 이런 문제가 있었습니다. " : ""}${prob.replace(/[.。]?$/, ".")}` : "";
-    out.app = `그래서 저희 ${josa(f.team || "팀", "은", "는")} ${josa(f.app || "이 앱", "을", "를")} 만들었습니다. ${f.oneLiner ? f.oneLiner.replace(/[.。]?$/, ".") : ""}${f.must.length ? ` 핵심 기능은 ${f.must.slice(0, 2).join(", ")}입니다.` : ""}`;
+    out.problem = prob ? `${prob.replace(/[.。]?$/, ".")}` : "";
+    out.app = `그래서 저희 ${josa(f.team || "팀", "은", "는")} ${josa(f.app || "이 앱", "을", "를")} 만들었습니다. ${f.overview ? f.overview.replace(/[.。]?$/, ".") : ""}${f.must.length ? ` 핵심 기능은 ${f.must.slice(0, 2).join(", ")}입니다.` : ""}`;
     let ch = "";
     if (firstFb) ch += `동료 피드백에서 "${firstFb.stuck.split("\n")[0].replace(/["“”]/g, "")}"라는 지적을 받았습니다. `;
     if (firstFb && firstFb.note) ch += `그래서 ${firstFb.note.replace(/[.。]?$/, ".")} `;
@@ -1153,7 +1154,7 @@ ${JSON.stringify(f, null, 2)}`;
     STEPS.forEach((s) => { $("#s-" + s.id).hidden = s.id !== id; });
     $$("[data-step]").forEach((a) => { if (a.dataset.step === id) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
     if (id === "revise" && !S.prdV1 && Object.values(P()).some((v) => (v || "").trim())) { S.prdV1 = Object.assign({}, P(), { _at: Date.now() }); save(); }
-    if (id === "prd" && !(P().problem || "").trim() && (T().topic || "").trim()) { S.prd.problem = T().topic; fillInputs(); save(); }
+    if (id === "prd" && !(P().link || "").trim() && (T().link || "").trim()) { S.prd.link = T().link; fillInputs(); save(); }
     refresh();
     const a = $(`[data-step="${id}"]`); if (a && window.matchMedia("(max-width: 860px)").matches) a.scrollIntoView({ inline: "center", block: "nearest" });
     window.scrollTo({ top: 0 });

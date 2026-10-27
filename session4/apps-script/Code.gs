@@ -115,9 +115,8 @@ function doPost(e) {
 var PRD_TAB = 'PRD 제출';
 var FB_TAB = '피드백';
 var PRD_FIELDS = [
-  ['oneLiner', '한 줄 정의'], ['user', '주 사용자'], ['scene', '사용 장면'], ['problem', '해결할 문제'],
-  ['flow', '핵심 시나리오'], ['must', '꼭 있어야 할 기능'], ['should', '있으면 좋은 기능'], ['wont', '만들지 않을 것'],
-  ['screens', '화면 구성'], ['data', '입력·저장하는 데이터'], ['success', '성공 기준']
+  ['overview', '개요'], ['goal', '목표, 대상'], ['core', '핵심기능'], ['screens', '화면구성'], ['stack', '기술스택'],
+  ['must', '꼭 있어야 할 기능'], ['wont', '만들지 않을 기능'], ['data', '입력, 저장하는 데이터'], ['link', '웹 앱 링크']
 ];
 var PRD_HEAD = ['제출 시각', '팀', '앱 이름'].concat(PRD_FIELDS.map(function (f) { return f[1]; }));
 var FB_HEAD = ['보낸 시각', '보낸 팀', '쓴 사람', '받은 팀', '이해됨', '막힘', '질문', '결정', '이유 / 메모', '답장 시각'];

@@ -223,7 +223,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 .slide .r { padding: 3.6cqw 3.4cqw; display: flex; flex-direction: column; gap: 1.6cqw; min-width: 0; }
 .slide .r h4 { margin: 0; font-size: 1.3cqw; letter-spacing: .1em; color: #6a7a73; font-weight: 500; }
 .slide .r ul { margin: 0; padding-left: 1.2em; font-size: 1.75cqw; line-height: 1.45; }
-.slide .r p { font-size: 1.7cqw; line-height: 1.45; }
+.slide .r p { font-size: 1.7cqw; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
 .slide .img { flex: 1 1 auto; min-height: 0; border-radius: .6cqw; background: #e9eee9 center / cover no-repeat; }
 .slide .promise { border-top: .2cqw solid var(--sc); padding-top: 1cqw; font-size: 1.6cqw; }
 .swatches { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -231,14 +231,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 .swatches button[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 2px var(--paper) inset; }
 
 /* pitch */
-.segs { display: grid; gap: 10px; }
-.segp { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 10px; align-items: start; }
-.segp .lab2 { font-size: 13px; font-weight: 700; display: grid; }
-.segp .lab2 span { font-family: var(--font-mono); font-weight: 400; color: var(--muted); font-size: 12px; }
-@media (max-width: 560px) { .segp { grid-template-columns: minmax(0,1fr); gap: 4px; } }
-.bar60 { display: flex; height: 26px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); font-size: 11px; }
-.bar60 div { display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--paper); background: var(--soft); white-space: nowrap; overflow: hidden; min-width: 0; }
-.bar60 div:nth-child(odd) { background: color-mix(in srgb, var(--chalk) 45%, var(--soft)); }
 .status { font-size: 13px; color: var(--muted); }
 .status.err { color: var(--red); }
 
@@ -249,11 +241,8 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 .stage-top .big { font-family: var(--font-mono); font-size: 34px; font-variant-numeric: tabular-nums; }
 .stage-top .big.over { color: #ff7d6e; }
 .stage-top button { background: transparent; color: #eef3ef; border: 1px solid #4b5e57; border-radius: 6px; padding: 5px 12px; cursor: pointer; }
-.stage-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; min-height: 0; align-items: center; }
-@media (max-width: 860px) { .stage-body { grid-template-columns: minmax(0,1fr); align-content: start; overflow: auto; } }
-.stage .script { overflow: auto; max-height: 100%; padding: 4px 8px; }
-.stage .script p { margin: 0 0 .9em; font-size: clamp(18px, 1.6vw, 24px); line-height: 1.7; }
-.stage .script p:last-child { margin-bottom: 0; }
+.stage-body { display: grid; place-items: center; min-height: 0; }
+.stage-body .slide-wrap { width: min(100%, calc((100vh - 140px) * 16 / 9)); }
 .stage .prog { height: 6px; background: #24322d; border-radius: 99px; overflow: hidden; }
 .stage .prog i { display: block; height: 100%; width: 0; background: #f2d266; }
 
@@ -505,17 +494,13 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">2부 · 보여주고 책임지기</span></div>
       <h1>6. 팀 소개 한 장: <span class="lens-q">한눈에</span> 보이는가</h1>
     </div>
-    <p class="lead">자동으로 채워졌습니다. 빈칸은 그대로 두고 줄일 곳만 고치세요.</p>
+    <p class="lead">발표 화면에 띄울 슬라이드 한 장을 만듭니다.</p>
 
     <div class="slide-wrap"><div class="slide" id="slide"></div></div>
 
     <div class="panel">
-      <div class="grid2">
-        <div class="field"><label for="sl-one">한 줄 소개</label><textarea id="sl-one" data-k="slide.one" rows="2"></textarea></div>
-        <div class="field"><label for="sl-feat">핵심 기능 3개 (한 줄에 하나)</label><textarea id="sl-feat" data-k="slide.features" rows="3"></textarea></div>
-        <div class="field"><label for="sl-change">오늘 바뀐 것</label><textarea id="sl-change" data-k="slide.change" rows="2"></textarea></div>
-        <div class="field"><label for="sl-promise">약속</label><textarea id="sl-promise" data-k="slide.promise" rows="2"></textarea></div>
-      </div>
+      <div class="field"><label for="sl-one">한줄 소개</label><textarea id="sl-one" data-k="slide.one" rows="2"></textarea></div>
+      <div class="field"><label for="sl-desc">설명</label><span class="hint">개발 주안점, 핵심 기능 등</span><textarea id="sl-desc" data-k="slide.desc" rows="6" placeholder="예: 전자칠판에서 교실 뒤까지 보이도록 결과를 전체 화면, 글자 48px로 보여 주는 데 집중했습니다.&#10;핵심 기능: 역할 무작위 배정, 지난주와 같은 역할 피하기, 결과 전체 화면 보기"></textarea></div>
       <div class="grid2">
         <div class="field"><span class="label">색</span><div class="swatches" id="swatches"></div></div>
         <div class="field"><label for="sl-img">앱 화면 캡처 (선택)</label>
@@ -532,30 +517,8 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">2부 · 보여주고 책임지기</span></div>
       <h1>7. 1분 발표: <span class="lens-q">우리의 이야기</span>로 말하기</h1>
     </div>
-    <p class="lead">오늘 과정을 서술하면 60초 대본이 만들어집니다.</p>
-
-    <div class="panel">
-      <div class="field"><label for="pi-narr">오늘 과정 서술</label>
-        <span class="hint">가장 뜻밖이었던 피드백, 바꾼 것, 다음에 하고 싶은 것</span>
-        <textarea id="pi-narr" data-k="pitch.narr" rows="6" placeholder="예: 다른 팀이 '크게 보여준다'가 무슨 뜻인지 모르겠다고 해서 처음으로 우리 문서가 우리끼리만 통하는 말이라는 걸 알았다. 그래서 전자칠판 전체 화면, 글자 48px로 숫자를 정했다. 윤리 점검을 하다가 학생 이름을 저장하고 있었다는 걸 발견해서 번호만 쓰기로 바꿨다. 다음에는 실제 우리 반 학생들과 2주 동안 써 보고 싶다."></textarea></div>
-      <div class="row">
-        <button class="btn chalk" id="genAI" type="button" hidden>AI로 대본 만들기</button>
-        <button class="btn" id="genTpl" type="button">기록으로 바로 대본 만들기</button>
-        <button class="btn ghost" id="genStop" type="button" hidden>멈추기</button>
-        <span class="status" id="genMsg" aria-live="polite"></span>
-      </div>
-      <details class="exd"><summary>다른 AI에서 만들고 싶다면: 프롬프트 복사</summary>
-        <pre class="prompt" id="p5"></pre>
-        <div class="row" style="margin-top:8px"><button class="btn ghost" data-copy="p5" type="button">프롬프트 복사</button></div>
-      </details>
-    </div>
-
-    <div class="block">
-      <h2>60초 대본 <span class="tag" id="pitchLen"></span></h2>
-      <div class="bar60" id="bar60" aria-hidden="true"></div>
-      <div class="segs" id="segs"></div>
-      <div class="row"><button class="btn" id="stageBtn" type="button">발표 화면 열기 (60초 타이머)</button><button class="btn ghost" data-copy-fn="script" type="button">대본 복사</button></div>
-    </div>
+    <p class="lead">발표 화면을 열고 60초 타이머로 발표하세요.</p>
+    <div class="row"><button class="btn" id="stageBtn" type="button">발표 화면 열기</button></div>
     <div class="pager"><a class="btn ghost" href="#onepage">← 6단계</a><span></span></div>
   </section>
   </main>
@@ -571,7 +534,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   </div>
   <div class="stage-body">
     <div class="slide-wrap"><div class="slide" id="stSlide"></div></div>
-    <div class="script" id="stScript"></div>
   </div>
   <div class="prog"><i id="stProg"></i></div>
 </div>
@@ -595,7 +557,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     { id: "css", n: "4", t: "화면 다듬기", min: 10, part: 2, lens: "어떻게 보이는가", out: "바꾼 화면 한 가지", next: "슬라이드·발표의 화면 변화" },
     { id: "ethics", n: "5", t: "윤리 점검", min: 5, part: 2, lens: "누가 다칠 수 있는가", out: "보완 목록, 약속", next: "발표의 마지막 문장" },
     { id: "onepage", n: "6", t: "팀 소개 한 장", min: 5, part: 2, lens: "한눈에 보이는가", out: "16:9 슬라이드", next: "발표 화면" },
-    { id: "pitch", n: "7", t: "1분 발표", min: 20, part: 2, lens: "우리의 이야기", out: "60초 대본", next: "연수 후 포트폴리오" }
+    { id: "pitch", n: "7", t: "1분 발표", min: 20, part: 2, lens: "우리의 이야기", out: "1분 발표", next: "연수 후 포트폴리오" }
   ];
 
   const FIELDS = [
@@ -691,7 +653,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   const APP_HTML = `<div class="app"><div class="top"><h1>모둠 뽑기</h1><p>모둠 수를 정하고 버튼을 누르세요 · 예시 데이터</p></div><div class="controls"><label>모둠 수 <input type="number" value="4" min="2" max="8"></label><button class="btn" type="button">모둠 만들기</button></div><div class="groups"><div class="group"><h2>1모둠</h2><p>3번 · 11번 · 19번 · 24번</p></div><div class="group"><h2>2모둠</h2><p>1번 · 8번 · 15번 · 27번</p></div><div class="group"><h2>3모둠</h2><p>5번 · 12번 · 20번 · 22번</p></div><div class="group"><h2>4모둠</h2><p>2번 · 9번 · 17번 · 26번</p></div></div></div>`;
 
   /* ---------- state ---------- */
-  const blank = () => ({ team: {}, prd: {}, prdV1: null, fb: [], css: { code: CSS0 }, ethics: { s: {}, n: {} }, slide: { color: 0 }, slideImg: "", pitch: { segs: null }, replies: [], inboxSince: 0, inboxTeam: "" });
+  const blank = () => ({ team: {}, prd: {}, prdV1: null, fb: [], css: { code: CSS0 }, ethics: { s: {}, n: {} }, slide: { color: 0 }, slideImg: "", pitch: {}, replies: [], inboxSince: 0, inboxTeam: "" });
   let S = blank();
   try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) { /* storage unavailable */ }
   S.ethics.s ??= {}; S.ethics.n ??= {}; S.replies ??= [];
@@ -794,11 +756,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     $("#v1Info").textContent = S.prdV1 ? `PRD v1 고정: ${new Date(S.prdV1._at).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}` : "PRD v1이 아직 고정되지 않았습니다.";
   }
 
-  function changeLog() {
-    const items = [];
-    S.fb.filter((f) => f.status === "done").forEach((f) => items.push({ why: f.stuck, how: f.note || "" }));
-    return items;
-  }
 
   /* ---------- prompts ---------- */
   function prompts() {
@@ -874,7 +831,6 @@ ${fbs}
 [우리가 이미 찾은 보완점]
 ${fixes}`;
 
-    $("#p5").textContent = pitchPrompt(false);
   }
 
   /* ---------- CSS lab ---------- */
@@ -945,40 +901,20 @@ ${fixes}`;
   }
 
   /* ---------- slide ---------- */
-  function auto() {
-    const p = P(), t = T();
-    const log = changeLog();
-    const ch = changedFields();
-    let change = "";
-    if (log.length && log[0].how) change = log[0].how;
-    else if (ch.length) change = `피드백을 받아 PRD의 '${ch.map((f) => f.label).slice(0, 2).join("', '")}'을 구체적으로 고쳤습니다`;
-    if (S.css.applied) change = change ? `${change} · 화면: ${S.css.applied}` : `화면: ${S.css.applied}`;
-    return {
-      one: (p.overview || "").trim(),
-      features: lines(p.must).slice(0, 3).join("\n"),
-      change,
-      promise: (S.ethics.promise || "").trim()
-    };
-  }
   function slideVals() {
-    const a = auto(), s = S.slide || {};
-    return { one: (s.one || "").trim() || a.one, features: (s.features || "").trim() || a.features, change: (s.change || "").trim() || a.change, promise: (s.promise || "").trim() || a.promise };
+    const s = S.slide || {};
+    return { one: (s.one || "").trim() || (P().overview || "").trim(), desc: (s.desc || "").trim() };
   }
   function slideHTML() {
     const v = slideVals(), t = T(), c = COLORS[S.slide.color || 0];
-    const feats = lines(v.features);
     return { style: `--sc:${c.c};--sc-ink:${c.ink}`, html:
-      `<div class="l"><div class="team">${esc(t.name || "팀 이름")}</div><div class="app">${esc(t.app || "앱 이름")}</div><div class="one">${esc(v.one || "한 줄 소개가 여기에 들어갑니다")}</div><div class="who">${esc(t.members || "")}</div></div>` +
-      `<div class="r">${S.slideImg ? `<div class="img" style="background-image:url('${S.slideImg}')"></div>` : ""}<div><h4>핵심 기능</h4><ul>${(feats.length ? feats : ["핵심 기능"]).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>${v.change ? `<div><h4>오늘 바뀐 것</h4><p>${esc(v.change)}</p></div>` : ""}${v.promise ? `<p class="promise">${esc(v.promise)}</p>` : ""}</div>` };
+      `<div class="l"><div class="team">${esc(t.name || "팀 이름")}</div><div class="app">${esc(t.app || "앱 이름")}</div><div class="one">${esc(v.one || "한줄 소개가 여기에 들어갑니다")}</div><div class="who">${esc(t.members || "")}</div></div>` +
+      `<div class="r">${S.slideImg ? `<div class="img" style="background-image:url('${S.slideImg}')"></div>` : ""}<div><h4>설명</h4><p>${esc(v.desc || "개발 주안점, 핵심 기능 등이 여기에 들어갑니다")}</p></div></div>` };
   }
   function renderSlide() {
     const s = slideHTML();
     const el = $("#slide"); el.style.cssText = s.style; el.innerHTML = s.html;
-    const a = auto();
-    $("#sl-one").placeholder = a.one || "1단계 '개요'가 들어갑니다";
-    $("#sl-feat").placeholder = a.features || "1단계 '꼭 있어야 할 기능'이 들어갑니다";
-    $("#sl-change").placeholder = a.change || "3단계 변경 기록과 4단계 바꾼 화면이 들어갑니다";
-    $("#sl-promise").placeholder = a.promise || "5단계 약속이 들어갑니다";
+    $("#sl-one").placeholder = (P().overview || "").trim() || "예: 아침 조회 5분 안에 1인 1역을 무작위로 배정하는 앱";
     $$("#swatches button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.ci === (S.slide.color || 0))));
   }
   function downscale(file) {
@@ -993,121 +929,18 @@ ${fixes}`;
     });
   }
 
-  /* ---------- pitch ---------- */
-  const SEG = [
-    { k: "problem", l: "문제", sec: 10 },
-    { k: "app", l: "우리 앱", sec: 15 },
-    { k: "change", l: "오늘 바뀐 것", sec: 20 },
-    { k: "promise", l: "약속", sec: 10 },
-    { k: "next", l: "다음", sec: 5 }
-  ];
-  const chars = (s) => String(s || "").replace(/\s/g, "").length;
+  /* ---------- text helper ---------- */
   function josa(w, withFinal, without) {
     const c = String(w || "").trim().slice(-1).charCodeAt(0);
     if (!(c >= 0xac00 && c <= 0xd7a3)) return w + without;
     return w + ((c - 0xac00) % 28 ? withFinal : without);
   }
-  function facts() {
-    const p = P(), t = T(), v = slideVals();
-    return {
-      team: t.name || "", members: t.members || "", app: t.app || "", problem: (t.topic || "").trim(), overview: v.one, goal: (p.goal || "").trim(), stack: (p.stack || "").trim(), link: (p.link || t.link || "").trim(),
-      core: lines(p.core), must: lines(p.must), wont: lines(p.wont),
-      feedback: S.fb.map((f) => ({ positive: f.clear || "", improve: f.stuck, decision: f.status === "done" ? "반영" : f.status === "keep" ? "반영 안 함" : "미정", note: f.note || "" })),
-      changedFields: changedFields().map((f) => f.label), screenChange: S.css.applied || "",
-      ethicsFix: ETHICS.filter((e) => S.ethics.s[e.id] === "fix").map((e) => e.q + (S.ethics.n[e.id] ? ` → ${S.ethics.n[e.id]}` : "")),
-      promise: v.promise, narrative: (S.pitch.narr || "").trim()
-    };
-  }
-  function pitchPrompt(forJson) {
-    const f = facts();
-    return `예비교사 연수에서 팀이 만든 교실용 웹앱을 1분 동안 소개하는 발표 대본을 써줘.
-
-[규칙]
-- 아래 기록과 서술에 있는 사실만 써. 없는 기능, 숫자, 성과를 지어내지 마.
-- 발표자가 소리 내어 읽는 존댓말 구어체로 써.
-- 다섯 구간으로 나누고, 구간별 길이를 지켜. 한국어는 1초에 공백 제외 약 5글자야.
-  문제 10초(약 50자) · 우리 앱 15초(약 75자) · 오늘 바뀐 것 20초(약 100자) · 약속 10초(약 50자) · 다음 5초(약 25자)
-- '오늘 바뀐 것'이 가장 중요해. 기능 목록 대신, 동료 피드백 → 우리가 고친 것 → 그래서 달라진 점의 순서로 이야기해.
-- '서술'에 나온 팀의 실제 표현을 살려 줘.
-${forJson ? `- 다른 말 없이 JSON만 출력해: {"problem":"…","app":"…","change":"…","promise":"…","next":"…"}` : `- 출력 형식: 구간 이름과 대본만, 다섯 줄로.`}
-
-[기록]
-${JSON.stringify(f, null, 2)}`;
-  }
-  function templateScript() {
-    const f = facts();
-    const narr = f.narrative.split(/(?<=[.!?。])\s+|\n+/).map((s) => s.trim()).filter(Boolean);
-    const firstFb = S.fb.find((x) => x.status === "done") || S.fb[0];
-    const prob = (f.problem || f.goal) ? (f.problem || f.goal).split(/(?<=[.!?。])\s+|\n+/)[0].replace(/^목표\s*[:：]\s*/, "") : "";
-    const out = {};
-    out.problem = prob ? `${prob.replace(/[.。]?$/, ".")}` : "";
-    out.app = `그래서 저희 ${josa(f.team || "팀", "은", "는")} ${josa(f.app || "이 앱", "을", "를")} 만들었습니다. ${f.overview ? f.overview.replace(/[.。]?$/, ".") : ""}${f.must.length ? ` 핵심 기능은 ${f.must.slice(0, 2).join(", ")}입니다.` : ""}`;
-    let ch = "";
-    if (firstFb) ch += `동료 피드백에서 "${firstFb.stuck.split("\n")[0].replace(/["“”]/g, "")}"라는 개선 의견을 받았습니다. `;
-    if (firstFb && firstFb.note) ch += `그래서 ${firstFb.note.replace(/[.。]?$/, ".")} `;
-    else if (f.changedFields.length) ch += `그래서 PRD의 ${f.changedFields.slice(0, 2).join(", ")}을 다시 썼습니다. `;
-    if (f.screenChange) ch += `화면은 ${f.screenChange.replace(/[.。]?$/, "")}으로 바꿨습니다. `;
-    if (narr[0]) ch += narr[0];
-    out.change = ch.trim();
-    let pr = "";
-    if (f.ethicsFix.length) pr += `윤리 점검에서 보완할 점을 찾았습니다. ${f.ethicsFix[0].split(" → ")[1] ? f.ethicsFix[0].split(" → ")[1].replace(/[.。]?$/, ".") : ""} `;
-    pr += f.promise || "";
-    out.promise = pr.trim();
-    out.next = narr.length > 1 ? narr[narr.length - 1] : "감사합니다.";
-    return out;
-  }
-  function setSegs(obj, by) {
-    S.pitch.segs = SEG.map((s) => ({ k: s.k, text: String(obj[s.k] || "").trim() }));
-    S.pitch.by = by;
-    save(); renderSegs(); navDots();
-  }
-  function renderSegs() {
-    const segs = S.pitch.segs;
-    if (!segs) {
-      $("#segs").innerHTML = `<p class="muted small">서술을 쓰고 위 버튼을 누르면 1~6단계 기록을 합쳐 대본이 만들어집니다. 직접 써도 됩니다: <button class="linkbtn" id="segManual" type="button">빈 대본 칸 열기</button></p>`;
-      $("#bar60").innerHTML = SEG.map((s) => `<div style="flex:${s.sec}">${s.l} ${s.sec}″</div>`).join("");
-      $("#pitchLen").textContent = "";
-      return;
-    }
-    $("#segs").innerHTML = SEG.map((s, i) => { const txt = segs[i]?.text || ""; const sec = chars(txt) / 5; return `<div class="segp"><div class="lab2">${s.l}<span data-sl="${i}">${sec.toFixed(0)}″ / ${s.sec}″</span></div><textarea data-seg="${i}" rows="3" aria-label="${s.l} 대본">${esc(txt)}</textarea></div>`; }).join("");
-    updateLen();
-  }
-  function updateLen() {
-    const segs = S.pitch.segs; if (!segs) return;
-    let tot = 0;
-    $("#bar60").innerHTML = SEG.map((s, i) => { const sec = chars(segs[i]?.text) / 5; tot += sec; return `<div style="flex:${Math.max(sec, 1).toFixed(1)}">${s.l}</div>`; }).join("");
-    SEG.forEach((s, i) => { const el = $(`[data-sl="${i}"]`); if (el) { const sec = chars(segs[i]?.text) / 5; el.textContent = `${sec.toFixed(0)}″ / ${s.sec}″`; el.style.color = sec > s.sec * 1.25 ? "var(--red)" : ""; } });
-    const t = Math.round(tot);
-    $("#pitchLen").textContent = `예상 ${t}초${t > 66 ? " · 줄여야 해요" : t < 45 ? " · 조금 더 써도 돼요" : ""}${S.pitch.by ? " · " + S.pitch.by : ""}`;
-  }
-
-  let sample = null, ctl = null;
-  async function genAI() {
-    if (!sample) return;
-    const btn = $("#genAI"), msg = $("#genMsg");
-    btn.disabled = true; $("#genTpl").disabled = true; $("#genStop").hidden = false; msg.className = "status"; msg.textContent = "AI가 기록을 읽고 대본을 쓰는 중… (10~40초)";
-    ctl = new AbortController();
-    try {
-      const data = await sample.json(pitchPrompt(true), { signal: ctl.signal, cache: false });
-      if (!data || typeof data !== "object") throw { code: "bad_output" };
-      setSegs(data, "AI 초안");
-      msg.textContent = "만들었습니다. 우리 말투로 고쳐 읽어 보세요.";
-    } catch (e) {
-      msg.className = "status err";
-      const c = e && e.code;
-      if (c === "not_granted") { msg.textContent = "AI 사용이 허용되지 않았습니다. '기록으로 바로 대본 만들기'를 쓰세요."; btn.hidden = true; }
-      else if (c === "rate_limited") msg.textContent = "요청이 몰렸습니다. 1분 뒤 다시 누르거나 '기록으로 바로 대본 만들기'를 쓰세요.";
-      else if (c === "aborted" || (e && e.name === "AbortError")) { msg.className = "status"; msg.textContent = "멈췄습니다."; }
-      else msg.textContent = "대본을 만들지 못했습니다. '기록으로 바로 대본 만들기'를 쓰거나 프롬프트를 복사해 다른 AI에서 만들어 보세요.";
-    } finally { btn.disabled = false; $("#genTpl").disabled = false; $("#genStop").hidden = true; ctl = null; }
-  }
 
   /* ---------- presenter ---------- */
   let stT0 = 0, stAcc = 0, stRun = false, stRaf = 0;
   function openStage() {
-    if (!S.pitch.segs) setSegs(templateScript(), "기록으로 만든 초안");
     const s = slideHTML(); const el = $("#stSlide"); el.style.cssText = s.style; el.innerHTML = s.html;
-    $("#stScript").innerHTML = S.pitch.segs.map((g) => (g.text || "").trim()).filter(Boolean).map((t) => `<p>${esc(t)}</p>`).join("") || `<p>대본이 비어 있습니다.</p>`;
+    S.pitch.opened = true; save(); navDots();
     stAcc = 0; stRun = false; $("#stGo").textContent = "시작"; tickStage();
     $("#stage").hidden = false; $("#stGo").focus();
   }
@@ -1128,8 +961,8 @@ ${JSON.stringify(f, null, 2)}`;
       revise: S.fb.length > 0 && S.fb.every((f) => f.status),
       css: (S.css.done || 0) >= 3 && !!S.css.applied,
       ethics: ETHICS.every((e) => S.ethics.s[e.id]) && !!(S.ethics.promise || "").trim(),
-      onepage: !!(slideVals().one && slideVals().features),
-      pitch: !!S.pitch.segs
+      onepage: !!(slideVals().one && slideVals().desc),
+      pitch: !!S.pitch.opened
     };
     $$("[data-dot]").forEach((d) => d.classList.toggle("done", !!done[d.dataset.dot]));
   }
@@ -1154,8 +987,7 @@ ${JSON.stringify(f, null, 2)}`;
 
   /* ---------- export ---------- */
   function exportMD() {
-    const t = T(), f = facts();
-    const seg = S.pitch.segs ? SEG.map((s, i) => `- ${s.l} (${s.sec}초): ${S.pitch.segs[i]?.text || ""}`).join("\n") : "(아직 없음)";
+    const t = T(), v = slideVals();
     return `# ${t.app || "앱"} · ${t.name || "팀"} (4차시 완성 워크북)
 팀원: ${t.members || ""}
 앱 주소: ${t.link || ""}
@@ -1172,13 +1004,12 @@ ${S.fb.map((x, i) => `${i + 1}. [${x.from || "익명"}] 개선할 점: ${x.stuck
 
 # 윤리 점검
 ${ETHICS.map((e) => `- [${{ ok: "지킴", fix: "보완 필요", na: "해당 없음" }[S.ethics.s[e.id]] || "미점검"}] ${e.q}${S.ethics.n[e.id] ? ` → ${S.ethics.n[e.id]}` : ""}`).join("\n")}
-약속: ${f.promise || "-"}
+약속: ${(S.ethics.promise || "").trim() || "-"}
 
-# 1분 발표 대본
-${seg}
-
-# 오늘 과정 서술
-${f.narrative || "-"}
+# 팀 소개 한 장
+한줄 소개: ${v.one || "-"}
+설명:
+${v.desc || "-"}
 `;
   }
   async function copyText(text, btn) {
@@ -1199,8 +1030,6 @@ ${f.narrative || "-"}
       save(); refreshSoon();
     } else if (el.dataset.fbn) {
       const f = S.fb.find((x) => x.id === el.dataset.fbn); if (f) { f.note = el.value; save(); refreshSoon(); }
-    } else if (el.dataset.seg != null) {
-      S.pitch.segs[+el.dataset.seg].text = el.value; save(); updateLen();
     } else if (el.id === "cssCode") {
       S.css.code = el.value; save(); clearTimeout(el._t); el._t = setTimeout(applyCSS, 200);
     }
@@ -1212,13 +1041,11 @@ ${f.narrative || "-"}
   document.addEventListener("click", async (e) => {
     const b = e.target.closest("button"); if (!b) return;
     if (b.dataset.copy) { copyText($("#" + b.dataset.copy).textContent, b); return; }
-    if (b.dataset.copyFn === "script") { copyText(S.pitch.segs ? SEG.map((s, i) => `[${s.l} ${s.sec}초] ${S.pitch.segs[i]?.text || ""}`).join("\n") : "아직 대본이 없습니다.", b); return; }
     if (b.dataset.fbdel) { S.fb = S.fb.filter((x) => x.id !== b.dataset.fbdel); save(); renderFB(); refresh(); return; }
     if (b.dataset.fbs) { const f = S.fb.find((x) => x.id === b.dataset.fbs); if (f) { f.status = f.status === b.dataset.val ? "" : b.dataset.val; save(); renderFB(); refresh(); } return; }
     if (b.closest(".eth-item")) { const id = b.closest(".eth-item").dataset.eid; S.ethics.s[id] = S.ethics.s[id] === b.dataset.v ? "" : b.dataset.v; save(); renderEthics(); refresh(); return; }
     if (b.dataset.w) { pvWidth = b.dataset.w; $$("[data-w]").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); applyCSS(); return; }
     if (b.dataset.ci != null) { S.slide.color = +b.dataset.ci; save(); renderSlide(); return; }
-    if (b.id === "segManual") { setSegs({}, ""); return; }
   });
 
   $("#fbAdd").addEventListener("click", () => {
@@ -1266,17 +1093,10 @@ ${f.narrative || "-"}
   $("#sl-img").addEventListener("change", async (e) => { const f = e.target.files[0]; if (!f) return; try { S.slideImg = await downscale(f); save(); renderSlide(); } catch (_) { toast("이미지를 읽지 못했습니다. PNG나 JPG로 다시 올려 주세요."); } e.target.value = ""; });
   $("#imgClear").addEventListener("click", () => { S.slideImg = ""; save(); renderSlide(); });
 
-  $("#genTpl").addEventListener("click", () => {
-    if (S.pitch.segs && S.pitch.segs.some((s) => s.text) && !$("#genTpl").dataset.armed) { $("#genTpl").dataset.armed = "1"; $("#genTpl").textContent = "지금 대본을 덮어쓸까요? 한 번 더 누르기"; setTimeout(() => { delete $("#genTpl").dataset.armed; $("#genTpl").textContent = "기록으로 바로 대본 만들기"; }, 3500); return; }
-    delete $("#genTpl").dataset.armed; $("#genTpl").textContent = "기록으로 바로 대본 만들기";
-    setSegs(templateScript(), "기록으로 만든 초안"); $("#genMsg").className = "status"; $("#genMsg").textContent = "초안을 만들었습니다. 이어지지 않는 문장을 우리 말로 고치세요.";
-  });
-  $("#genAI").addEventListener("click", genAI);
-  $("#genStop").addEventListener("click", () => ctl && ctl.abort());
 
   $("#stageBtn").addEventListener("click", openStage);
   $("#stGo").addEventListener("click", () => { if (stRun) { stAcc += (performance.now() - stT0) / 1000; stRun = false; cancelAnimationFrame(stRaf); $("#stGo").textContent = "이어서"; } else { stT0 = performance.now(); stRun = true; $("#stGo").textContent = "멈춤"; tickStage(); } });
-  $("#stRe").addEventListener("click", () => { stRun = false; cancelAnimationFrame(stRaf); stAcc = 0; $("#stGo").textContent = "시작"; $("#stScript").scrollTop = 0; tickStage(); });
+  $("#stRe").addEventListener("click", () => { stRun = false; cancelAnimationFrame(stRaf); stAcc = 0; $("#stGo").textContent = "시작"; tickStage(); });
   $("#stFull").addEventListener("click", () => { const st = $("#stage"); try { (st.requestFullscreen ? st.requestFullscreen() : Promise.reject()).catch(() => toast("이 화면에서는 전체 화면을 쓸 수 없습니다")); } catch (_) { toast("이 화면에서는 전체 화면을 쓸 수 없습니다"); } });
   function closeStage() { stRun = false; cancelAnimationFrame(stRaf); $("#stage").hidden = true; if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); $("#stageBtn").focus(); }
   $("#stClose").addEventListener("click", closeStage);
@@ -1289,7 +1109,7 @@ ${f.narrative || "-"}
     if (!b.dataset.armed) { b.dataset.armed = "1"; b.textContent = "모든 입력이 지워집니다. 한 번 더 누르면 삭제"; setTimeout(() => { delete b.dataset.armed; b.textContent = "이 기기의 기록 지우기"; }, 4000); return; }
     S = blank(); try { localStorage.removeItem(KEY); } catch (_) { /* ignore */ }
     delete b.dataset.armed; b.textContent = "이 기기의 기록 지우기";
-    fillInputs(); $("#cssCode").value = CSS0; applyCSS(); renderFB(); renderSegs(); refresh(); toast("지웠습니다");
+    fillInputs(); $("#cssCode").value = CSS0; applyCSS(); renderFB(); refresh(); toast("지웠습니다");
   });
 
   window.addEventListener("hashchange", route);
@@ -1398,7 +1218,7 @@ ${f.narrative || "-"}
 
   /* ---------- boot ---------- */
   buildNav(); buildPRD(); buildEthics(); buildSwatches();
-  fillInputs(); setupLab(); renderFB(); renderSegs(); route();
+  fillInputs(); setupLab(); renderFB(); route();
 
   if (API_URL) {
     apiGet({ action: "teams" }).then((j) => {
@@ -1418,7 +1238,6 @@ ${f.narrative || "-"}
   }
 
   if (window.claude && window.claude.use) {
-    window.claude.use("sample").then((s) => { if (s) { sample = s; $("#genAI").hidden = false; } }).catch(() => {});
     window.claude.use("downloads").then((d) => {
       if (!d) return;
       const sb = $("#saveBtn"); sb.hidden = false;

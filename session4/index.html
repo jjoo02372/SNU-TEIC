@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>4차시 완성 워크북</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -345,17 +346,21 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">1부 · 설계를 다시 쓰다</span></div>
       <h1>2. 팀 간 피드백: <span class="lens-q">남이 읽고 만들 수 있는가</span></h1>
     </div>
-    <div class="rule"><span>옆 팀과 자리를 바꿔 PRD만 읽고 카드를 남깁니다. <b>아이디어 평가 없이, 이 문서만으로 만들 수 있는지만</b> 봅니다.</span></div>
+    <div class="rule"><span>노트북은 바꾸지 않습니다. 각자 자리에서 <b>피드백 보드(구글 시트)</b>로 PRD와 피드백을 주고받습니다. <b>아이디어 평가 없이, 이 문서만으로 만들 수 있는지만</b> 봅니다.</span>
+      <ol class="small" style="margin:4px 0 0;padding-left:1.3em"><li>아래 <b>보드에 붙일 PRD 복사</b>를 눌러 보드의 우리 팀 줄 D칸에 붙여 넣기</li><li>보드에서 짝 팀 줄의 PRD를 읽고, 그 줄의 E~H칸(쓴 사람 · 이해됨 · 막힘 · 질문)에 피드백 쓰기</li><li>우리 팀 줄의 E~H칸을 한꺼번에 복사해 아래 <b>받은 피드백 붙여넣기</b>에 붙이고 카드로 저장하기</li></ol>
+      <div class="row" style="margin-top:6px"><a class="btn" id="boardLink" href="https://docs.google.com/spreadsheets/d/1CO0CH6IwnQzJCZPnWSaNYoOkKJkfIx4lx9BAfRD0ZYE/edit" target="_blank" rel="noopener">피드백 보드 열기</a></div></div>
 
     <div class="block">
-      <h2>읽을 PRD <span class="tag" id="fbFor"></span></h2>
+      <h2>우리 PRD 보내기 <span class="tag" id="fbFor"></span></h2>
       <div class="panel prd-card" id="prdCard"></div>
+      <div class="row"><button class="btn chalk" id="prdCopy" type="button">보드에 붙일 PRD 복사</button><span class="status">한 줄로 복사되니 보드 칸을 한 번 클릭하고 붙여 넣으면 됩니다.</span></div>
     </div>
 
     <div class="block">
-      <h2>피드백 카드 쓰기 <span class="tag">상대 팀이 작성</span></h2>
+      <h2>받은 피드백 옮겨 오기 <span class="tag">보드의 우리 팀 줄 E~H칸</span></h2>
       <div class="panel">
-        <div class="field"><label for="fb-from">쓰는 사람 (팀 / 이름)</label><input type="text" id="fb-from" placeholder="예: 5조 정OO"></div>
+        <div class="field"><label for="fb-paste">받은 피드백 붙여넣기</label><span class="hint">보드에서 우리 팀 줄의 E~H칸 네 칸을 드래그해 복사한 뒤 여기에 붙여 넣으면 아래 칸이 자동으로 채워집니다. 직접 옮겨 적어도 됩니다.</span><textarea id="fb-paste" rows="2" placeholder="여기에 붙여넣기 (Ctrl+V / ⌘V)"></textarea></div>
+        <div class="field"><label for="fb-from">쓴 사람 (팀 / 이름)</label><input type="text" id="fb-from" placeholder="예: 5조 정OO"></div>
         <div class="field"><label for="fb-clear">이해됨: 이 부분은 그대로 만들 수 있다</label><textarea id="fb-clear" rows="2" placeholder="예: 핵심 시나리오 1~3단계는 순서와 버튼이 분명해서 바로 만들 수 있음"></textarea></div>
         <div class="field"><label for="fb-stuck">막힘: 두 가지 이상으로 해석되는 문장 <span class="req">필수</span></label><textarea id="fb-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot; → 전체 화면인지, 글자만 큰 건지 모르겠음"></textarea></div>
         <div class="field"><label for="fb-q">질문 하나: 만드는 사람이라면 꼭 물어볼 것</label><textarea id="fb-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
@@ -756,7 +761,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   }
   function renderFB() {
     $("#fbCount").textContent = S.fb.length + "장";
-    $("#fbList").innerHTML = S.fb.length ? S.fb.map((f) => fbCardHTML(f, false)).join("") : `<p class="muted small">아직 받은 피드백이 없습니다. 다른 팀이 이 화면에서 위 카드를 쓰면 여기에 쌓입니다.</p>`;
+    $("#fbList").innerHTML = S.fb.length ? S.fb.map((f) => fbCardHTML(f, false)).join("") : `<p class="muted small">아직 받은 피드백이 없습니다. 짝 팀이 보드에 피드백을 쓰면, 우리 팀 줄의 E~H칸을 복사해 위에 붙여 넣으세요.</p>`;
     $("#decList").innerHTML = S.fb.length ? S.fb.map((f) => fbCardHTML(f, true)).join("") : `<p class="muted small">2단계에서 받은 피드백이 없습니다. 미니 미션 1의 AI 질문 중 하나를 피드백으로 옮겨 적어도 됩니다.</p>`;
     const decided = S.fb.filter((f) => f.status).length;
     $("#decCount").textContent = S.fb.length ? `${decided} / ${S.fb.length} 결정` : "";
@@ -1109,7 +1114,7 @@ ${JSON.stringify(f, null, 2)}`;
     const done = {
       start: !!(T().name && T().app && T().topic),
       prd: REQUIRED.every((f) => (P()[f.k] || "").trim()),
-      feedback: S.fb.length >= 2,
+      feedback: S.fb.length >= 1,
       revise: S.fb.length > 0 && S.fb.every((f) => f.status),
       css: (S.css.done || 0) >= 3 && !!S.css.applied,
       ethics: ETHICS.every((e) => S.ethics.s[e.id]) && !!(S.ethics.promise || "").trim(),
@@ -1211,8 +1216,37 @@ ${f.narrative || "-"}
     if (!stuck) { $("#fbMsg").className = "status err"; $("#fbMsg").textContent = "'막힘' 칸을 채워 주세요. 해석이 갈리는 문장을 하나 인용하면 됩니다."; $("#fb-stuck").focus(); return; }
     S.fb.push({ id: "f" + Date.now().toString(36), from: $("#fb-from").value.trim(), clear: $("#fb-clear").value.trim(), stuck, q: $("#fb-q").value.trim(), status: "", note: "" });
     ["#fb-from", "#fb-clear", "#fb-stuck", "#fb-q"].forEach((s) => { $(s).value = ""; });
-    $("#fbMsg").className = "status"; $("#fbMsg").textContent = "피드백 카드를 남겼습니다. 자리로 돌아가세요.";
+    $("#fbMsg").className = "status"; $("#fbMsg").textContent = "피드백 카드를 저장했습니다. 3단계에서 반영 여부를 정하세요.";
     save(); renderFB(); refresh();
+  });
+
+  function boardLine() {
+    const t = T();
+    const one = (s) => String(s || "").trim().replace(/\s*\n+\s*/g, " / ").replace(/\t/g, " ");
+    return `[${one(t.name) || "팀"} · ${one(t.app) || "앱"}] ` + FIELDS.map((f) => `▶ ${f.label}: ${one(P()[f.k]) || "(비어 있음)"}`).join("  ");
+  }
+  $("#prdCopy").addEventListener("click", () => copyText(boardLine()));
+  function parseRow(t) {
+    t = String(t || "").replace(/\r/g, "");
+    const out = []; let cur = "", q = false;
+    for (let i = 0; i < t.length; i++) {
+      const c = t[i];
+      if (q) { if (c === '"') { if (t[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c; continue; }
+      if (c === '"' && cur === "") { q = true; continue; }
+      if (c === "\t") { out.push(cur); cur = ""; continue; }
+      if (c === "\n") break;
+      cur += c;
+    }
+    out.push(cur);
+    return out.map((s) => s.trim());
+  }
+  $("#fb-paste").addEventListener("input", (e) => {
+    const v = e.target.value;
+    if (!v.includes("\t")) return;
+    const [from, clear, stuck, q] = parseRow(v);
+    $("#fb-from").value = from || ""; $("#fb-clear").value = clear || ""; $("#fb-stuck").value = stuck || ""; $("#fb-q").value = q || "";
+    e.target.value = "";
+    $("#fbMsg").className = "status"; $("#fbMsg").textContent = "아래 칸을 채웠습니다. 확인하고 '피드백 카드 남기기'를 누르세요.";
   });
 
   $("#v1Btn").addEventListener("click", () => { S.prdV1 = Object.assign({}, P(), { _at: Date.now() }); save(); refresh(); toast("현재 PRD를 v1로 고정했습니다"); });
@@ -1266,3 +1300,5 @@ ${f.narrative || "-"}
   }
 })();
 </script>
+
+</body></html>

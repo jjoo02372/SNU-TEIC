@@ -173,7 +173,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 .fb-list { display: grid; gap: 10px; }
 .fb { border: 1px solid var(--line); border-left: 3px solid var(--red); border-radius: 6px; padding: 10px 12px; background: var(--surface); display: grid; gap: 6px; min-width: 0; }
 .fb .who { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
-.fb .kv { display: grid; grid-template-columns: 4.5em minmax(0,1fr); gap: 6px; font-size: 14px; }
+.fb .kv { display: grid; grid-template-columns: 6.5em minmax(0,1fr); gap: 6px; font-size: 14px; }
 .fb .kv span:first-child { color: var(--muted); font-size: 12px; padding-top: 3px; }
 .fb .kv span:last-child { white-space: pre-wrap; word-break: break-word; }
 .linkbtn { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 12px; text-decoration: underline; padding: 0; }
@@ -349,7 +349,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     </div>
     <div class="rule live-only"><span>각자 자리에서 우리 PRD를 보내고, 다른 팀 PRD를 골라 피드백을 보냅니다. 받은 피드백은 자동으로 도착합니다. <b>아이디어 평가 없이, 이 문서만으로 만들 수 있는지만</b> 봅니다.</span></div>
     <div class="rule board-only"><span>노트북은 바꾸지 않습니다. 각자 자리에서 <b>피드백 보드(구글 시트)</b>로 PRD와 피드백을 주고받습니다. <b>아이디어 평가 없이, 이 문서만으로 만들 수 있는지만</b> 봅니다.</span>
-      <ol class="small" style="margin:4px 0 0;padding-left:1.3em"><li>아래 <b>보드에 붙일 PRD 복사</b>를 눌러 보드의 우리 팀 줄 D칸에 붙여 넣기</li><li>보드에서 짝 팀 줄의 PRD를 읽고, 그 줄의 E~H칸(쓴 사람 · 이해됨 · 막힘 · 질문)에 피드백 쓰기</li><li>우리 팀 줄의 E~H칸을 한꺼번에 복사해 아래 <b>받은 피드백 붙여넣기</b>에 붙이고 카드로 저장하기</li></ol>
+      <ol class="small" style="margin:4px 0 0;padding-left:1.3em"><li>아래 <b>보드에 붙일 PRD 복사</b>를 눌러 보드의 우리 팀 줄 D칸에 붙여 넣기</li><li>보드에서 짝 팀 줄의 PRD를 읽고, 그 줄의 E~H칸(보낸 팀 · 긍정적인 점 · 개선할 점 · 질문)에 피드백 쓰기</li><li>우리 팀 줄의 E~H칸을 한꺼번에 복사해 아래 <b>받은 피드백 붙여넣기</b>에 붙이고 카드로 저장하기</li></ol>
       <div class="row" style="margin-top:6px"><a class="btn" id="boardLink" href="https://docs.google.com/spreadsheets/d/1CO0CH6IwnQzJCZPnWSaNYoOkKJkfIx4lx9BAfRD0ZYE/edit" target="_blank" rel="noopener">피드백 보드 열기</a></div></div>
 
     <div class="block">
@@ -364,10 +364,10 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="panel">
         <div class="row"><select id="liveTeam" aria-label="피드백할 팀" style="width:auto;min-width:12em;max-width:100%"></select><button class="linkbtn" id="liveTeamsReload" type="button">팀 목록 새로고침</button></div>
         <div class="prd-card" id="livePrdCard"></div>
-        <div class="field"><label for="lf-name">쓰는 사람 이름</label><input type="text" id="lf-name" placeholder="예: 정OO"></div>
-        <div class="field"><label for="lf-clear">이해됨: 이 부분은 그대로 만들 수 있다</label><textarea id="lf-clear" rows="2" placeholder="예: 핵심 시나리오 1~3단계는 순서와 버튼이 분명해서 바로 만들 수 있음"></textarea></div>
-        <div class="field"><label for="lf-stuck">막힘: 두 가지 이상으로 해석되는 문장 <span class="req">필수</span></label><textarea id="lf-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot; → 전체 화면인지, 글자만 큰 건지 모르겠음"></textarea></div>
-        <div class="field"><label for="lf-q">질문 하나: 만드는 사람이라면 꼭 물어볼 것</label><textarea id="lf-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
+        <div class="field"><label for="lf-team">우리 팀 이름 <span class="req">필수</span></label><input type="text" id="lf-team" data-k="team.name" placeholder="예: 5조"></div>
+        <div class="field"><label for="lf-clear">긍정적인 점 <span class="req">필수</span></label><textarea id="lf-clear" rows="2" placeholder="예: 핵심기능이 &quot;행동 → 화면 반응&quot; 순서로 적혀 있어서 그대로 만들 수 있음"></textarea></div>
+        <div class="field"><label for="lf-stuck">개선할 점 <span class="req">필수</span></label><textarea id="lf-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot;가 전체 화면인지 글자만 큰 건지 모호함 → 글자 크기를 숫자로 적으면 좋겠음"></textarea></div>
+        <div class="field"><label for="lf-q">질문</label><textarea id="lf-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
         <div class="row"><button class="btn" id="liveSend" type="button">이 팀에 피드백 보내기</button><span class="status" id="liveMsg" aria-live="polite"></span></div>
       </div>
     </div>
@@ -376,10 +376,10 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <h2>받은 피드백 옮겨 오기 <span class="tag">보드의 우리 팀 줄 E~H칸</span></h2>
       <div class="panel">
         <div class="field"><label for="fb-paste">받은 피드백 붙여넣기</label><span class="hint">보드에서 우리 팀 줄의 E~H칸 네 칸을 드래그해 복사한 뒤 여기에 붙여 넣으면 아래 칸이 자동으로 채워집니다. 직접 옮겨 적어도 됩니다.</span><textarea id="fb-paste" rows="2" placeholder="여기에 붙여넣기 (Ctrl+V / ⌘V)"></textarea></div>
-        <div class="field"><label for="fb-from">쓴 사람 (팀 / 이름)</label><input type="text" id="fb-from" placeholder="예: 5조 정OO"></div>
-        <div class="field"><label for="fb-clear">이해됨: 이 부분은 그대로 만들 수 있다</label><textarea id="fb-clear" rows="2" placeholder="예: 핵심 시나리오 1~3단계는 순서와 버튼이 분명해서 바로 만들 수 있음"></textarea></div>
-        <div class="field"><label for="fb-stuck">막힘: 두 가지 이상으로 해석되는 문장 <span class="req">필수</span></label><textarea id="fb-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot; → 전체 화면인지, 글자만 큰 건지 모르겠음"></textarea></div>
-        <div class="field"><label for="fb-q">질문 하나: 만드는 사람이라면 꼭 물어볼 것</label><textarea id="fb-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
+        <div class="field"><label for="fb-from">보낸 팀 이름 <span class="req">필수</span></label><input type="text" id="fb-from" placeholder="예: 5조"></div>
+        <div class="field"><label for="fb-clear">긍정적인 점 <span class="req">필수</span></label><textarea id="fb-clear" rows="2" placeholder="예: 핵심기능이 &quot;행동 → 화면 반응&quot; 순서로 적혀 있어서 그대로 만들 수 있음"></textarea></div>
+        <div class="field"><label for="fb-stuck">개선할 점 <span class="req">필수</span></label><textarea id="fb-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot;가 전체 화면인지 글자만 큰 건지 모호함 → 글자 크기를 숫자로 적으면 좋겠음"></textarea></div>
+        <div class="field"><label for="fb-q">질문</label><textarea id="fb-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
         <div class="row"><button class="btn" id="fbAdd" type="button">피드백 카드 남기기</button><span class="status" id="fbMsg"></span></div>
       </div>
     </div>
@@ -778,7 +778,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
         [["done", "반영함"], ["keep", "반영 안 함"]].map(([v, l]) => `<button type="button" data-fbs="${f.id}" data-v="${v === "done" ? "ok" : "na"}" data-val="${v}" aria-pressed="${f.status === v}">${l}</button>`).join("") +
         `</span>${live && f.fromTeam ? `<button class="linkbtn" data-reply="${f.id}" type="button">${f.replied ? "답장 다시 보내기" : esc(f.fromTeam) + "에 답장 보내기"}</button>` : ""}</div><input type="text" data-fbn="${f.id}" value="${esc(f.note || "")}" placeholder="${f.status === "keep" ? "왜 바꾸지 않았나요?" : "어떻게 바꿨나요? 예: '크게'를 '전체 화면, 글자 48px'로 수정"}" aria-label="결정 이유">`;
     }
-    return `<div class="fb"><div class="who"><span>${esc(f.from || "익명")}</span>${withDecision ? "" : `<button class="linkbtn" data-fbdel="${f.id}" type="button">지우기</button>`}</div>${kv("이해됨", f.clear)}<div class="kv"><span>막힘</span><span class="pen">${esc(f.stuck)}</span></div>${kv("질문", f.q)}${dec}</div>`;
+    return `<div class="fb"><div class="who"><span>${esc(f.from || "익명")}</span>${withDecision ? "" : `<button class="linkbtn" data-fbdel="${f.id}" type="button">지우기</button>`}</div>${kv("긍정적인 점", f.clear)}<div class="kv"><span>개선할 점</span><span class="pen">${esc(f.stuck)}</span></div>${kv("질문", f.q)}${dec}</div>`;
   }
   function renderFB() {
     $("#fbCount").textContent = S.fb.length + "장";
@@ -829,7 +829,7 @@ ${prdText()}`;
     const v1 = S.prdV1 || {};
     const ch = changedFields();
     const diff = ch.length ? ch.map((f) => `- ${f.label}\n  전: ${(v1[f.k] || "(비어 있음)").trim().replace(/\n/g, " / ")}\n  후: ${(p[f.k] || "(비어 있음)").trim().replace(/\n/g, " / ")}`).join("\n") : "- (아직 바뀐 칸이 없습니다. 3단계에서 PRD를 고치면 여기에 들어옵니다.)";
-    const fbs = S.fb.length ? S.fb.map((f, i) => `${i + 1}. 막힘: ${f.stuck}${f.status ? ` → ${f.status === "done" ? "반영" : "반영 안 함"}${f.note ? ` (${f.note})` : ""}` : ""}`).join("\n") : "(없음)";
+    const fbs = S.fb.length ? S.fb.map((f, i) => `${i + 1}. 개선할 점: ${f.stuck}${f.status ? ` → ${f.status === "done" ? "반영" : "반영 안 함"}${f.note ? ` (${f.note})` : ""}` : ""}`).join("\n") : "(없음)";
     $("#p2").textContent =
 `우리 앱 "${app}"의 PRD를 동료 피드백을 받아 고쳤어. 아래 변경점만 앱에 반영해줘.
 
@@ -1023,7 +1023,7 @@ ${fixes}`;
     return {
       team: t.name || "", members: t.members || "", app: t.app || "", problem: (t.topic || "").trim(), overview: v.one, goal: (p.goal || "").trim(), stack: (p.stack || "").trim(), link: (p.link || t.link || "").trim(),
       core: lines(p.core), must: lines(p.must), wont: lines(p.wont),
-      feedback: S.fb.map((f) => ({ stuck: f.stuck, decision: f.status === "done" ? "반영" : f.status === "keep" ? "반영 안 함" : "미정", note: f.note || "" })),
+      feedback: S.fb.map((f) => ({ positive: f.clear || "", improve: f.stuck, decision: f.status === "done" ? "반영" : f.status === "keep" ? "반영 안 함" : "미정", note: f.note || "" })),
       changedFields: changedFields().map((f) => f.label), screenChange: S.css.applied || "",
       ethicsFix: ETHICS.filter((e) => S.ethics.s[e.id] === "fix").map((e) => e.q + (S.ethics.n[e.id] ? ` → ${S.ethics.n[e.id]}` : "")),
       promise: v.promise, narrative: (S.pitch.narr || "").trim()
@@ -1054,7 +1054,7 @@ ${JSON.stringify(f, null, 2)}`;
     out.problem = prob ? `${prob.replace(/[.。]?$/, ".")}` : "";
     out.app = `그래서 저희 ${josa(f.team || "팀", "은", "는")} ${josa(f.app || "이 앱", "을", "를")} 만들었습니다. ${f.overview ? f.overview.replace(/[.。]?$/, ".") : ""}${f.must.length ? ` 핵심 기능은 ${f.must.slice(0, 2).join(", ")}입니다.` : ""}`;
     let ch = "";
-    if (firstFb) ch += `동료 피드백에서 "${firstFb.stuck.split("\n")[0].replace(/["“”]/g, "")}"라는 지적을 받았습니다. `;
+    if (firstFb) ch += `동료 피드백에서 "${firstFb.stuck.split("\n")[0].replace(/["“”]/g, "")}"라는 개선 의견을 받았습니다. `;
     if (firstFb && firstFb.note) ch += `그래서 ${firstFb.note.replace(/[.。]?$/, ".")} `;
     else if (f.changedFields.length) ch += `그래서 PRD의 ${f.changedFields.slice(0, 2).join(", ")}을 다시 썼습니다. `;
     if (f.screenChange) ch += `화면은 ${f.screenChange.replace(/[.。]?$/, "")}으로 바꿨습니다. `;
@@ -1179,7 +1179,7 @@ ${JSON.stringify(f, null, 2)}`;
 ${prdText()}
 
 # 받은 피드백과 결정
-${S.fb.map((x, i) => `${i + 1}. [${x.from || "익명"}] 막힘: ${x.stuck}\n   이해됨: ${x.clear || "-"} / 질문: ${x.q || "-"}\n   결정: ${x.status === "done" ? "반영" : x.status === "keep" ? "반영 안 함" : "미정"} ${x.note || ""}`).join("\n") || "(없음)"}
+${S.fb.map((x, i) => `${i + 1}. [${x.from || "익명"}] 개선할 점: ${x.stuck}\n   긍정적인 점: ${x.clear || "-"} / 질문: ${x.q || "-"}\n   결정: ${x.status === "done" ? "반영" : x.status === "keep" ? "반영 안 함" : "미정"} ${x.note || ""}`).join("\n") || "(없음)"}
 
 # 화면 다듬기
 예시 앱 미션 통과: ${S.css.done || 0}/3
@@ -1238,7 +1238,8 @@ ${f.narrative || "-"}
 
   $("#fbAdd").addEventListener("click", () => {
     const stuck = $("#fb-stuck").value.trim();
-    if (!stuck) { $("#fbMsg").className = "status err"; $("#fbMsg").textContent = "'막힘' 칸을 채워 주세요. 해석이 갈리는 문장을 하나 인용하면 됩니다."; $("#fb-stuck").focus(); return; }
+    const miss = [["#fb-from", "보낸 팀 이름"], ["#fb-clear", "긍정적인 점"], ["#fb-stuck", "개선할 점"]].find(([sel]) => !$(sel).value.trim());
+    if (miss) { $("#fbMsg").className = "status err"; $("#fbMsg").textContent = `'${miss[1]}' 칸을 채워 주세요.`; $(miss[0]).focus(); return; }
     S.fb.push({ id: "f" + Date.now().toString(36), from: $("#fb-from").value.trim(), clear: $("#fb-clear").value.trim(), stuck, q: $("#fb-q").value.trim(), status: "", note: "" });
     ["#fb-from", "#fb-clear", "#fb-stuck", "#fb-q"].forEach((s) => { $(s).value = ""; });
     $("#fbMsg").className = "status"; $("#fbMsg").textContent = "피드백 카드를 저장했습니다. 3단계에서 반영 여부를 정하세요.";
@@ -1344,7 +1345,7 @@ ${f.narrative || "-"}
     if (!live) return;
     $("#replyCount").textContent = S.replies.length ? S.replies.length + "개" : "";
     $("#replyList").innerHTML = S.replies.length
-      ? S.replies.map((r) => `<div class="fb"><div class="who"><span>${esc(r.from)}</span><span>${hhmm(r.time)}</span></div><div class="kv"><span>우리 지적</span><span class="pen">${esc(r.stuck)}</span></div><div class="kv"><span>결정</span><span>${r.status === "done" ? "반영함" : r.status === "keep" ? "반영 안 함" : "미정"}${r.note ? " · " + esc(r.note) : ""}</span></div></div>`).join("")
+      ? S.replies.map((r) => `<div class="fb"><div class="who"><span>${esc(r.from)}</span><span>${hhmm(r.time)}</span></div><div class="kv"><span>개선할 점</span><span class="pen">${esc(r.stuck)}</span></div><div class="kv"><span>결정</span><span>${r.status === "done" ? "반영함" : r.status === "keep" ? "반영 안 함" : "미정"}${r.note ? " · " + esc(r.note) : ""}</span></div></div>`).join("")
       : `<p class="muted small">우리가 보낸 피드백에 다른 팀이 답장하면 여기에 보입니다.</p>`;
   }
   async function poll() {
@@ -1369,7 +1370,7 @@ ${f.narrative || "-"}
   }
   function needTeam(msgEl) {
     if (myTeam()) return false;
-    msgEl.className = "status err"; msgEl.textContent = "준비 단계에서 팀 이름을 먼저 정해 주세요."; return true;
+    msgEl.className = "status err"; msgEl.textContent = "'우리 팀 이름'을 먼저 적어 주세요."; $("#lf-team").focus(); return true;
   }
   $("#livePrdSend").addEventListener("click", async (e) => {
     const b = e.currentTarget, msg = $("#livePrdMsg");
@@ -1387,12 +1388,13 @@ ${f.narrative || "-"}
   $("#liveSend").addEventListener("click", async (e) => {
     const b = e.currentTarget, msg = $("#liveMsg");
     if (needTeam(msg)) return;
-    const to = $("#liveTeam").value, stuck = $("#lf-stuck").value.trim();
+    const to = $("#liveTeam").value, stuck = $("#lf-stuck").value.trim(), clear = $("#lf-clear").value.trim();
     if (!to) { msg.className = "status err"; msg.textContent = "피드백할 팀을 먼저 고르세요."; return; }
-    if (!stuck) { msg.className = "status err"; msg.textContent = "'막힘' 칸을 채워 주세요."; $("#lf-stuck").focus(); return; }
+    if (!clear) { msg.className = "status err"; msg.textContent = "'긍정적인 점' 칸을 채워 주세요."; $("#lf-clear").focus(); return; }
+    if (!stuck) { msg.className = "status err"; msg.textContent = "'개선할 점' 칸을 채워 주세요."; $("#lf-stuck").focus(); return; }
     b.disabled = true; msg.className = "status"; msg.textContent = "보내는 중…";
     try {
-      await apiPost({ from: myTeam(), to, kind: "feedback", body: { name: $("#lf-name").value.trim(), clear: $("#lf-clear").value.trim(), stuck, q: $("#lf-q").value.trim() } });
+      await apiPost({ from: myTeam(), to, kind: "feedback", body: { clear, stuck, q: $("#lf-q").value.trim() } });
       ["#lf-clear", "#lf-stuck", "#lf-q"].forEach((s) => { $(s).value = ""; });
       msg.textContent = `${to}에 보냈습니다.`;
     } catch (_) { msg.className = "status err"; msg.textContent = "보내지 못했습니다. 다시 눌러 주세요."; }

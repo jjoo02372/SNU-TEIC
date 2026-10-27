@@ -119,7 +119,7 @@ var PRD_FIELDS = [
   ['must', '꼭 있어야 할 기능'], ['wont', '만들지 않을 기능'], ['data', '입력, 저장하는 데이터'], ['link', '웹 앱 링크']
 ];
 var PRD_HEAD = ['제출 시각', '팀', '앱 이름'].concat(PRD_FIELDS.map(function (f) { return f[1]; }));
-var FB_HEAD = ['보낸 시각', '보낸 팀', '쓴 사람', '받은 팀', '이해됨', '막힘', '질문', '결정', '이유 / 메모', '답장 시각'];
+var FB_HEAD = ['보낸 시각', '보낸 팀', '받은 팀', '긍정적인 점', '개선할 점', '질문', '결정', '이유 / 메모', '답장 시각'];
 
 function tab_(name, head) {
   var ss = spreadsheet_();
@@ -146,25 +146,25 @@ function teacherRow_(time, from, to, kind, b) {
     var prd = b.prd || {};
     tab_(PRD_TAB, PRD_HEAD).appendRow([new Date(time), from, cell_(b.app)].concat(PRD_FIELDS.map(function (f) { return cell_(prd[f[0]]); })));
   } else if (kind === 'feedback') {
-    tab_(FB_TAB, FB_HEAD).appendRow([new Date(time), from, cell_(b.name), to, cell_(b.clear), cell_(b.stuck), cell_(b.q), '', '', '']);
+    tab_(FB_TAB, FB_HEAD).appendRow([new Date(time), from, to, cell_(b.clear), cell_(b.stuck), cell_(b.q), '', '', '']);
   } else if (kind === 'reply') {
-    // 답장: 원래 피드백 줄(보낸 팀 = 답장 받는 팀, 받은 팀 = 답장 보낸 팀, 같은 '막힘')에 결정을 채웁니다
+    // 답장: 원래 피드백 줄(보낸 팀 = 답장 받는 팀, 받은 팀 = 답장 보낸 팀, 같은 '개선할 점')에 결정을 채웁니다
     var sh = tab_(FB_TAB, FB_HEAD);
     var n = sh.getLastRow() - 1;
     var decision = b.status === 'done' ? '반영함' : b.status === 'keep' ? '반영 안 함' : '';
     var stuck = cell_(b.stuck);
     if (n > 0) {
-      var vals = sh.getRange(2, 1, n, 6).getDisplayValues();
+      var vals = sh.getRange(2, 1, n, 5).getDisplayValues();
       for (var i = n - 1; i >= 0; i--) {
-        if (vals[i][1] === to && vals[i][3] === from && vals[i][5] === stuck.replace(/^'/, '')) {
-          sh.getRange(i + 2, 8, 1, 3).setValues([[decision, cell_(b.note), new Date(time)]]);
-          sh.getRange(i + 2, 10).setNumberFormat('yyyy-mm-dd hh:mm');
+        if (vals[i][1] === to && vals[i][2] === from && vals[i][4] === stuck.replace(/^'/, '')) {
+          sh.getRange(i + 2, 7, 1, 3).setValues([[decision, cell_(b.note), new Date(time)]]);
+          sh.getRange(i + 2, 9).setNumberFormat('yyyy-mm-dd hh:mm');
           return;
         }
       }
     }
     // 원래 줄을 못 찾으면 새 줄로 남깁니다
-    sh.appendRow([new Date(time), to, '', from, '', stuck, '', decision, cell_(b.note), new Date(time)]);
+    sh.appendRow([new Date(time), to, from, '', stuck, '', decision, cell_(b.note), new Date(time)]);
   }
 }
 

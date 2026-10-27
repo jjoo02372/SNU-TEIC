@@ -13,10 +13,13 @@
 var SHEET_NAME = 'messages';
 var KINDS = { prd: true, feedback: true, reply: true };
 var MAX_BODY = 8000;
+// 기록을 받을 스프레드시트 (교사 계정 소유). 비워 두면 처음 실행할 때 새로 만듭니다.
+var SPREADSHEET_ID = '18fCgcJ1BtjySPSVrMyXcn2hGLpMNxhyaclVauyUtWUs';
 // 시트에서 열지 않고 따로 만든 스크립트는 처음 실행할 때 메시지 시트를 직접 만들고 그 ID를 기억합니다.
 function spreadsheet_() {
   var active = SpreadsheetApp.getActiveSpreadsheet();
   if (active) return active;
+  if (SPREADSHEET_ID) return SpreadsheetApp.openById(SPREADSHEET_ID);
   var props = PropertiesService.getScriptProperties();
   var id = props.getProperty('SPREADSHEET_ID');
   if (id) return SpreadsheetApp.openById(id);
@@ -108,22 +111,28 @@ function doPost(e) {
   }
 }
 
-// ---------- 교사용 보기 탭 ----------
-var TEACHER_SHEET = '교사용 보기';
-var TEACHER_HEAD = ['시각', '종류', '보낸 팀', '받는 팀', '쓴 사람', '이해됨', '막힘', '질문', '결정', '이유 / 메모', '앱 이름', '한 줄 정의', '핵심 기능(Must)', '만들지 않을 것'];
-var KIND_LABEL = { prd: 'PRD 제출', feedback: '피드백', reply: '답장' };
+// ---------- 교사용 탭: PRD 제출 / 피드백 ----------
+var PRD_TAB = 'PRD 제출';
+var FB_TAB = '피드백';
+var PRD_FIELDS = [
+  ['oneLiner', '한 줄 정의'], ['user', '주 사용자'], ['scene', '사용 장면'], ['problem', '해결할 문제'],
+  ['flow', '핵심 시나리오'], ['must', '꼭 있어야 할 기능'], ['should', '있으면 좋은 기능'], ['wont', '만들지 않을 것'],
+  ['screens', '화면 구성'], ['data', '입력·저장하는 데이터'], ['success', '성공 기준']
+];
+var PRD_HEAD = ['제출 시각', '팀', '앱 이름'].concat(PRD_FIELDS.map(function (f) { return f[1]; }));
+var FB_HEAD = ['보낸 시각', '보낸 팀', '쓴 사람', '받은 팀', '이해됨', '막힘', '질문', '결정', '이유 / 메모', '답장 시각'];
 
-function teacherSheet_() {
+function tab_(name, head) {
   var ss = spreadsheet_();
-  var sh = ss.getSheetByName(TEACHER_SHEET);
+  var sh = ss.getSheetByName(name);
   if (!sh) {
-    sh = ss.insertSheet(TEACHER_SHEET, 0);
-    sh.appendRow(TEACHER_HEAD);
+    sh = ss.insertSheet(name, 0);
+    sh.appendRow(head);
     sh.setFrozenRows(1);
-    sh.getRange(1, 1, 1, TEACHER_HEAD.length).setFontWeight('bold').setBackground('#eaf0ec');
-    sh.setColumnWidths(5, 10, 220);
+    sh.getRange(1, 1, 1, head.length).setFontWeight('bold').setBackground('#eaf0ec');
+    sh.setColumnWidths(2, head.length - 1, 200);
     sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
-    sh.getRange('B:N').setWrap(true).setVerticalAlignment('top');
+    sh.getRange(1, 1, sh.getMaxRows(), head.length).setWrap(true).setVerticalAlignment('top');
   }
   return sh;
 }
@@ -134,23 +143,43 @@ function cell_(v) {
 }
 
 function teacherRow_(time, from, to, kind, b) {
-  var prd = b.prd || {};
-  var decision = b.status === 'done' ? '반영함' : b.status === 'keep' ? '반영 안 함' : '';
-  teacherSheet_().appendRow([
-    new Date(time), KIND_LABEL[kind] || kind, from, kind === 'prd' ? '(전체)' : to,
-    cell_(b.name), cell_(b.clear), cell_(b.stuck), cell_(b.q), decision, cell_(b.note),
-    cell_(b.app), cell_(prd.oneLiner), cell_(prd.must), cell_(prd.wont)
-  ]);
+  if (kind === 'prd') {
+    var prd = b.prd || {};
+    tab_(PRD_TAB, PRD_HEAD).appendRow([new Date(time), from, cell_(b.app)].concat(PRD_FIELDS.map(function (f) { return cell_(prd[f[0]]); })));
+  } else if (kind === 'feedback') {
+    tab_(FB_TAB, FB_HEAD).appendRow([new Date(time), from, cell_(b.name), to, cell_(b.clear), cell_(b.stuck), cell_(b.q), '', '', '']);
+  } else if (kind === 'reply') {
+    // 답장: 원래 피드백 줄(보낸 팀 = 답장 받는 팀, 받은 팀 = 답장 보낸 팀, 같은 '막힘')에 결정을 채웁니다
+    var sh = tab_(FB_TAB, FB_HEAD);
+    var n = sh.getLastRow() - 1;
+    var decision = b.status === 'done' ? '반영함' : b.status === 'keep' ? '반영 안 함' : '';
+    var stuck = cell_(b.stuck);
+    if (n > 0) {
+      var vals = sh.getRange(2, 1, n, 6).getDisplayValues();
+      for (var i = n - 1; i >= 0; i--) {
+        if (vals[i][1] === to && vals[i][3] === from && vals[i][5] === stuck.replace(/^'/, '')) {
+          sh.getRange(i + 2, 8, 1, 3).setValues([[decision, cell_(b.note), new Date(time)]]);
+          sh.getRange(i + 2, 10).setNumberFormat('yyyy-mm-dd hh:mm');
+          return;
+        }
+      }
+    }
+    // 원래 줄을 못 찾으면 새 줄로 남깁니다
+    sh.appendRow([new Date(time), to, '', from, '', stuck, '', decision, cell_(b.note), new Date(time)]);
+  }
 }
 
-// 이미 쌓인 메시지로 교사용 보기 탭을 처음부터 다시 만듭니다 (편집기에서 한 번 실행)
+// 이미 쌓인 메시지로 'PRD 제출'·'피드백' 탭을 처음부터 다시 만듭니다 (편집기에서 한 번 실행)
 function rebuildTeacherView() {
   var ss = spreadsheet_();
-  var old = ss.getSheetByName(TEACHER_SHEET);
-  if (old) ss.deleteSheet(old);
+  [PRD_TAB, FB_TAB, '교사용 보기'].forEach(function (name) {
+    var old = ss.getSheetByName(name);
+    if (old) ss.deleteSheet(old);
+  });
+  tab_(FB_TAB, FB_HEAD);
+  tab_(PRD_TAB, PRD_HEAD);
   rows_().forEach(function (m) { teacherRow_(m.time, m.from, m.to, m.kind, m.body || {}); });
-  teacherSheet_();
-  Logger.log('교사용 보기: ' + ss.getUrl());
+  Logger.log('교사용 시트: ' + ss.getUrl());
 }
 
 // 편집기에서 실행해 시트 접근을 확인하는 함수 (메시지 시트 주소도 로그에 남깁니다)

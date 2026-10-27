@@ -52,12 +52,6 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .band .event { font-size: 12px; letter-spacing: .06em; opacity: .8; }
 .band .name { font-weight: 700; font-size: 17px; }
 .band .team { font-size: 13px; padding: 2px 10px; border: 1px solid color-mix(in srgb, var(--board-ink) 35%, transparent); border-radius: 99px; }
-.timer { margin-left: auto; display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); }
-.timer .clock { font-size: 20px; font-variant-numeric: tabular-nums; min-width: 4.2ch; text-align: right; }
-.timer .clock.over { color: var(--red); }
-.timer .lbl { font-family: var(--font-body); font-size: 12px; opacity: .75; }
-.band button { background: transparent; color: var(--board-ink); border: 1px solid color-mix(in srgb, var(--board-ink) 40%, transparent); border-radius: 6px; padding: 3px 10px; cursor: pointer; font-size: 13px; }
-.band button:hover { background: color-mix(in srgb, var(--board-ink) 12%, transparent); }
 
 /* page grid */
 .wrap { max-width: 1180px; margin: 0 auto; padding-block: 24px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
@@ -275,12 +269,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="name">완성 워크북</div>
     </div>
     <span class="team" id="teamChip">팀 이름을 정해 주세요</span>
-    <div class="timer" aria-live="polite">
-      <span class="lbl" id="timerLbl">활동 타이머</span>
-      <span class="clock" id="clock">00:00</span>
-      <button id="tStart" type="button">시작</button>
-      <button id="tReset" type="button">처음으로</button>
-    </div>
   </div>
 </header>
 
@@ -1116,11 +1104,6 @@ ${JSON.stringify(f, null, 2)}`;
     if (stRun) stRaf = requestAnimationFrame(tickStage);
   }
 
-  /* ---------- activity timer ---------- */
-  let cur = "start", tLeft = 0, tRun = false, tEnd = 0, tInt = 0;
-  function setTimerFor(id) { if (tRun) return; const s = STEPS.find((x) => x.id === id); tLeft = s.min * 60; $("#timerLbl").textContent = `${s.n === "0" ? "준비" : s.n + "단계"} ${s.min}분`; drawClock(); }
-  function drawClock() { const v = Math.abs(Math.round(tLeft)); const c = $("#clock"); c.textContent = (tLeft < 0 ? "+" : "") + String(Math.floor(v / 60)).padStart(2, "0") + ":" + String(v % 60).padStart(2, "0"); c.classList.toggle("over", tLeft < 0); }
-
   /* ---------- nav & routing ---------- */
   function navDots() {
     const done = {
@@ -1138,12 +1121,10 @@ ${JSON.stringify(f, null, 2)}`;
   function route() {
     let id = (location.hash || "").slice(1);
     if (!STEPS.some((s) => s.id === id)) id = "start";
-    cur = id;
     STEPS.forEach((s) => { $("#s-" + s.id).hidden = s.id !== id; });
     $$("[data-step]").forEach((a) => { if (a.dataset.step === id) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
     if (id === "revise" && !S.prdV1 && Object.values(P()).some((v) => (v || "").trim())) { S.prdV1 = Object.assign({}, P(), { _at: Date.now() }); save(); }
     if (id === "prd" && !(P().problem || "").trim() && (T().topic || "").trim()) { S.prd.problem = T().topic; fillInputs(); save(); }
-    setTimerFor(id);
     refresh();
     const a = $(`[data-step="${id}"]`); if (a && window.matchMedia("(max-width: 860px)").matches) a.scrollIntoView({ inline: "center", block: "nearest" });
     window.scrollTo({ top: 0 });
@@ -1256,11 +1237,6 @@ ${f.narrative || "-"}
   $("#stClose").addEventListener("click", closeStage);
   document.addEventListener("keydown", (e) => { if (!$("#stage").hidden) { if (e.key === "Escape") closeStage(); else if (e.key === " " && e.target.tagName !== "BUTTON") { e.preventDefault(); $("#stGo").click(); } } });
 
-  $("#tStart").addEventListener("click", () => {
-    if (tRun) { tRun = false; clearInterval(tInt); tLeft = (tEnd - Date.now()) / 1000; $("#tStart").textContent = "이어서"; }
-    else { tRun = true; tEnd = Date.now() + tLeft * 1000; $("#tStart").textContent = "멈춤"; tInt = setInterval(() => { tLeft = (tEnd - Date.now()) / 1000; drawClock(); }, 250); }
-  });
-  $("#tReset").addEventListener("click", () => { tRun = false; clearInterval(tInt); $("#tStart").textContent = "시작"; setTimerFor(cur); });
 
   $("#exportBtn").addEventListener("click", () => copyText(exportMD()));
   $("#wipeBtn").addEventListener("click", (e) => {

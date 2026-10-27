@@ -99,12 +99,58 @@ function doPost(e) {
     var id = Utilities.getUuid().slice(0, 8);
     var now = Date.now();
     sheet_().appendRow([now, id, from, kind === 'prd' ? '*' : to, kind, body]);
+    try { teacherRow_(now, from, to, kind, d.body || {}); } catch (e3) { /* 교사용 보기 실패는 메시지 전달을 막지 않습니다 */ }
     return json_({ ok: true, id: id, time: now });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
   } finally {
     try { lock.releaseLock(); } catch (e2) { /* not held */ }
   }
+}
+
+// ---------- 교사용 보기 탭 ----------
+var TEACHER_SHEET = '교사용 보기';
+var TEACHER_HEAD = ['시각', '종류', '보낸 팀', '받는 팀', '쓴 사람', '이해됨', '막힘', '질문', '결정', '이유 / 메모', '앱 이름', '한 줄 정의', '핵심 기능(Must)', '만들지 않을 것'];
+var KIND_LABEL = { prd: 'PRD 제출', feedback: '피드백', reply: '답장' };
+
+function teacherSheet_() {
+  var ss = spreadsheet_();
+  var sh = ss.getSheetByName(TEACHER_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(TEACHER_SHEET, 0);
+    sh.appendRow(TEACHER_HEAD);
+    sh.setFrozenRows(1);
+    sh.getRange(1, 1, 1, TEACHER_HEAD.length).setFontWeight('bold').setBackground('#eaf0ec');
+    sh.setColumnWidths(5, 10, 220);
+    sh.getRange('A:A').setNumberFormat('yyyy-mm-dd hh:mm');
+    sh.getRange('B:N').setWrap(true).setVerticalAlignment('top');
+  }
+  return sh;
+}
+
+function cell_(v) {
+  // 학생 입력이 수식으로 실행되지 않도록 막습니다
+  return String(v == null ? '' : v).trim().replace(/^[=+\-@]/, "'$&");
+}
+
+function teacherRow_(time, from, to, kind, b) {
+  var prd = b.prd || {};
+  var decision = b.status === 'done' ? '반영함' : b.status === 'keep' ? '반영 안 함' : '';
+  teacherSheet_().appendRow([
+    new Date(time), KIND_LABEL[kind] || kind, from, kind === 'prd' ? '(전체)' : to,
+    cell_(b.name), cell_(b.clear), cell_(b.stuck), cell_(b.q), decision, cell_(b.note),
+    cell_(b.app), cell_(prd.oneLiner), cell_(prd.must), cell_(prd.wont)
+  ]);
+}
+
+// 이미 쌓인 메시지로 교사용 보기 탭을 처음부터 다시 만듭니다 (편집기에서 한 번 실행)
+function rebuildTeacherView() {
+  var ss = spreadsheet_();
+  var old = ss.getSheetByName(TEACHER_SHEET);
+  if (old) ss.deleteSheet(old);
+  rows_().forEach(function (m) { teacherRow_(m.time, m.from, m.to, m.kind, m.body || {}); });
+  teacherSheet_();
+  Logger.log('교사용 보기: ' + ss.getUrl());
 }
 
 // 편집기에서 실행해 시트 접근을 확인하는 함수 (메시지 시트 주소도 로그에 남깁니다)

@@ -1,0 +1,1373 @@
+<title>4차시 완성 워크북</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;700&family=Nanum+Pen+Script&display=swap">
+<style>
+/* Layout: a lesson-plan (지도안) page — chalkboard header band, left timeline column with minutes, one activity open at a time. */
+:root {
+  --paper: #f6f8f5;
+  --surface: #ffffff;
+  --ink: #1c2a25;
+  --muted: #5a6a63;
+  --line: #d6ddd8;
+  --board: #23403a;
+  --board-ink: #eef3ef;
+  --chalk: #f2d266;
+  --on-chalk: #1c2a25;
+  --red: #c4362c;
+  --ok: #2c7a4c;
+  --warn: #a8701a;
+  --soft: #eaf0ec;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --font-pen: "Nanum Pen Script", "IBM Plex Sans KR", cursive;
+  --r: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111815; --surface: #172019; --ink: #e5ece8; --muted: #9aaaa3; --line: #2a3832;
+    --board: #1b302b; --board-ink: #e5ece8; --chalk: #efcd5c; --on-chalk: #1c2a25;
+    --red: #ff7d6e; --ok: #5cc48a; --warn: #e2a64b; --soft: #1d2a25; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111815; --surface: #172019; --ink: #e5ece8; --muted: #9aaaa3; --line: #2a3832;
+  --board: #1b302b; --board-ink: #e5ece8; --chalk: #efcd5c; --on-chalk: #1c2a25;
+  --red: #ff7d6e; --ok: #5cc48a; --warn: #e2a64b; --soft: #1d2a25; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.65; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--board); }
+h1, h2, h3 { text-wrap: balance; line-height: 1.3; margin: 0; }
+p { margin: 0; }
+button, input, textarea, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--chalk); outline-offset: 2px; }
+
+/* header band */
+.band { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--board); color: var(--board-ink);
+  padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band-in { max-width: 1180px; margin: 0 auto; display: flex; align-items: center; gap: 12px 20px; flex-wrap: wrap; }
+.band .event { font-size: 12px; letter-spacing: .06em; opacity: .8; }
+.band .name { font-weight: 700; font-size: 17px; }
+.band .team { font-size: 13px; padding: 2px 10px; border: 1px solid color-mix(in srgb, var(--board-ink) 35%, transparent); border-radius: 99px; }
+.timer { margin-left: auto; display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); }
+.timer .clock { font-size: 20px; font-variant-numeric: tabular-nums; min-width: 4.2ch; text-align: right; }
+.timer .clock.over { color: var(--red); }
+.timer .lbl { font-family: var(--font-body); font-size: 12px; opacity: .75; }
+.band button { background: transparent; color: var(--board-ink); border: 1px solid color-mix(in srgb, var(--board-ink) 40%, transparent); border-radius: 6px; padding: 3px 10px; cursor: pointer; font-size: 13px; }
+.band button:hover { background: color-mix(in srgb, var(--board-ink) 12%, transparent); }
+
+/* page grid */
+.wrap { max-width: 1180px; margin: 0 auto; padding-block: 24px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px; align-items: start; }
+@media (max-width: 860px) { .wrap { grid-template-columns: minmax(0, 1fr); gap: 16px; } }
+
+/* timeline */
+.plan { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 70px); }
+.plan h2 { font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 500; margin: 14px 0 6px; }
+.plan h2:first-child { margin-top: 0; }
+.plan ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.plan a { display: grid; grid-template-columns: 2.6ch 1fr auto; gap: 8px; align-items: baseline; padding: 7px 10px; border-radius: 6px; color: var(--ink); text-decoration: none; }
+.plan a:hover { background: var(--soft); }
+.plan a[aria-current="step"] { background: var(--board); color: var(--board-ink); }
+.plan .no { font-family: var(--font-mono); font-size: 12px; opacity: .7; }
+.plan .lens { grid-column: 2 / 4; font-size: 12px; color: var(--muted); line-height: 1.35; }
+.plan a[aria-current="step"] .lens { color: color-mix(in srgb, var(--board-ink) 75%, transparent); }
+.plan .min { font-family: var(--font-mono); font-size: 12px; font-variant-numeric: tabular-nums; }
+.plan .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--line); margin-left: 6px; vertical-align: middle; }
+.plan .dot.done { background: var(--ok); }
+.plan-tools { margin-top: 18px; display: grid; gap: 6px; }
+@media (max-width: 860px) {
+  .plan { position: static; }
+  .plan nav { overflow-x: auto; }
+  .plan h2, .plan .lens, .plan-tools { display: none; }
+  .plan nav > div { display: flex; gap: 4px; width: max-content; }
+  .plan ol { display: flex; gap: 4px; }
+  .plan a { grid-template-columns: auto auto; white-space: nowrap; border: 1px solid var(--line); }
+  .plan .min { display: none; }
+}
+
+/* sections */
+main { min-width: 0; }
+section.step { display: grid; gap: 22px; }
+.step-head { display: grid; gap: 8px; border-bottom: 2px solid var(--ink); padding-bottom: 14px; }
+.step-head .meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 13px; color: var(--muted); }
+.step-head .meta .part { font-family: var(--font-mono); }
+.step-head h1 { font-size: clamp(24px, 3.2vw, 32px); font-weight: 700; }
+.lens-q { display: inline; background: var(--chalk); color: var(--on-chalk); padding: 0 6px; border-radius: 3px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.handoff { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; font-size: 13px; }
+.handoff div { border: 1px solid var(--line); border-radius: var(--r); padding: 10px 12px; background: var(--surface); }
+.handoff b { display: block; font-size: 11px; letter-spacing: .08em; color: var(--muted); font-weight: 500; }
+.lead { max-width: 68ch; color: var(--ink); }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+
+.block { display: grid; gap: 14px; }
+.block > h2 { font-size: 18px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.block > h2 .tag { font-size: 12px; font-weight: 500; font-family: var(--font-mono); color: var(--muted); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 12px; min-width: 0; }
+
+/* form */
+.field { display: grid; gap: 6px; min-width: 0; }
+.field > label, .field > .label { font-weight: 700; font-size: 14px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.field .hint { font-size: 13px; color: var(--muted); }
+.req { font-family: var(--font-mono); font-size: 11px; color: var(--red); font-weight: 500; }
+input[type="text"], textarea, select { width: 100%; border: 1px solid var(--line); background: var(--paper); border-radius: 6px; padding: 8px 10px; line-height: 1.55; }
+textarea { resize: vertical; min-height: 2.6em; }
+input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--ink); outline: none; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 640px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+.ex { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 8px; font-size: 13px; }
+@media (max-width: 640px) { .ex { grid-template-columns: minmax(0,1fr); } }
+.ex div { padding: 8px 10px; border-radius: 6px; white-space: pre-wrap; }
+.ex .bad { background: color-mix(in srgb, var(--red) 9%, transparent); }
+.ex .good { background: color-mix(in srgb, var(--ok) 10%, transparent); }
+.ex b { display: block; font-size: 11px; letter-spacing: .06em; }
+.ex .bad b { color: var(--red); } .ex .good b { color: var(--ok); }
+details.exd > summary { cursor: pointer; font-size: 13px; color: var(--muted); width: fit-content; }
+details.exd[open] > summary { margin-bottom: 6px; }
+
+.btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 6px; padding: 7px 14px; cursor: pointer; font-weight: 500; font-size: 14px; }
+.btn:hover { opacity: .9; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn.ghost:hover { border-color: var(--ink); }
+.btn.chalk { background: var(--chalk); color: var(--on-chalk); border-color: var(--chalk); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.pager { display: flex; justify-content: space-between; gap: 8px; border-top: 1px solid var(--line); padding-top: 16px; flex-wrap: wrap; }
+
+/* meters & chips */
+.meter { height: 6px; background: var(--soft); border-radius: 99px; overflow: hidden; }
+.meter > i { display: block; height: 100%; background: var(--ok); width: 0; transition: width .3s; }
+.chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; padding: 1px 8px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); white-space: nowrap; }
+.chip.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); }
+.chip.warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, transparent); }
+.chip.red { color: var(--red); border-color: color-mix(in srgb, var(--red) 45%, transparent); }
+.vague mark { background: color-mix(in srgb, var(--red) 15%, transparent); color: var(--red); padding: 0 3px; border-radius: 3px; }
+
+/* mission (prompt) cards */
+.mission { border: 1.5px dashed var(--ink); border-radius: var(--r); padding: 14px 16px; display: grid; gap: 10px; background: var(--surface); min-width: 0; }
+.mission .mh { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.mission .mh b { font-family: var(--font-mono); font-size: 12px; background: var(--ink); color: var(--paper); padding: 1px 8px; border-radius: 4px; }
+.mission .mh h3 { font-size: 16px; }
+.mission ol { margin: 0; padding-left: 1.3em; font-size: 14px; }
+pre.prompt { margin: 0; white-space: pre-wrap; word-break: break-word; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.6; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 12px; max-height: 300px; overflow: auto; }
+
+/* flow table */
+.tbl-wrap { overflow-x: auto; }
+table.flow { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14px; }
+table.flow th, table.flow td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+table.flow th { font-size: 12px; color: var(--muted); font-weight: 500; letter-spacing: .04em; }
+table.flow td.t { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13px; }
+
+/* PRD readonly card */
+.prd-card { display: grid; gap: 10px; }
+.prd-card .it { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 10px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.prd-card .it:last-child { border-bottom: 0; }
+.prd-card .k { font-size: 13px; color: var(--muted); font-weight: 500; }
+.prd-card .v { white-space: pre-wrap; word-break: break-word; }
+.prd-card .v.empty { color: var(--red); font-family: var(--font-pen); font-size: 20px; line-height: 1.2; }
+@media (max-width: 560px) { .prd-card .it { grid-template-columns: minmax(0,1fr); gap: 2px; } }
+
+/* red pen feedback */
+.pen { font-family: var(--font-pen); color: var(--red); font-size: 21px; line-height: 1.25; }
+.fb-list { display: grid; gap: 10px; }
+.fb { border: 1px solid var(--line); border-left: 3px solid var(--red); border-radius: 6px; padding: 10px 12px; background: var(--surface); display: grid; gap: 6px; min-width: 0; }
+.fb .who { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.fb .kv { display: grid; grid-template-columns: 4.5em minmax(0,1fr); gap: 6px; font-size: 14px; }
+.fb .kv span:first-child { color: var(--muted); font-size: 12px; padding-top: 3px; }
+.fb .kv span:last-child { white-space: pre-wrap; word-break: break-word; }
+.linkbtn { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 12px; text-decoration: underline; padding: 0; }
+.rule { background: var(--soft); border-radius: var(--r); padding: 12px 14px; font-size: 14px; display: grid; gap: 4px; }
+.rule b { font-size: 12px; letter-spacing: .06em; }
+
+/* revise */
+.diff-old { font-size: 13px; color: var(--red); text-decoration: line-through; white-space: pre-wrap; word-break: break-word; }
+
+/* css lab */
+.lab { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+@media (max-width: 980px) { .lab { grid-template-columns: minmax(0, 1fr); } }
+.lab textarea.code { font-family: var(--font-mono); font-size: 12.5px; min-height: 420px; line-height: 1.55; tab-size: 2; white-space: pre; overflow: auto; }
+.preview-box { border: 1px solid var(--line); border-radius: 6px; background: repeating-linear-gradient(45deg, var(--soft) 0 8px, transparent 8px 16px); padding: 10px; overflow: auto; min-height: 260px; }
+.preview-host { display: block; background: #fff; margin: 0 auto; max-width: 100%; border-radius: 4px; overflow: hidden; }
+.checks { display: grid; gap: 8px; }
+.check { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.check .n { font-family: var(--font-mono); font-size: 12px; background: var(--soft); border-radius: 4px; padding: 1px 6px; }
+.check p { font-size: 14px; }
+.check .how { font-size: 12.5px; color: var(--muted); }
+.cheat { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.cheat div { background: var(--soft); border-radius: 6px; padding: 10px 12px; font-size: 13px; }
+.cheat code, .lead code, .check code, .muted code { font-family: var(--font-mono); font-size: 12.5px; background: var(--soft); padding: 0 4px; border-radius: 3px; }
+.cheat div code { background: var(--surface); }
+
+/* ethics */
+.eth { display: grid; gap: 8px; }
+.eth-cat { font-size: 12px; letter-spacing: .08em; color: var(--muted); margin-top: 6px; }
+.eth-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 14px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); align-items: center; }
+.eth-item .q { font-size: 14px; font-weight: 500; }
+.eth-item .h { font-size: 12.5px; color: var(--muted); font-weight: 400; display: block; }
+.eth-item input { grid-column: 1 / -1; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.seg button { border: 0; background: transparent; padding: 4px 10px; font-size: 13px; cursor: pointer; border-right: 1px solid var(--line); white-space: nowrap; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"][data-v="ok"] { background: var(--ok); color: var(--paper); }
+.seg button[aria-pressed="true"][data-v="fix"] { background: var(--red); color: var(--paper); }
+.seg button[aria-pressed="true"][data-v="na"] { background: var(--muted); color: var(--paper); }
+@media (max-width: 560px) { .eth-item { grid-template-columns: minmax(0,1fr); } }
+
+/* slide */
+.slide-wrap { container-type: inline-size; max-width: 100%; }
+.slide { --sc: #23403a; --sc-ink: #ffffff; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; border-radius: 6px; overflow: hidden; display: grid; grid-template-columns: 1.15fr 1fr; background: #fbfbf8; color: #1c2a25; border: 1px solid var(--line); font-family: var(--font-body); }
+.slide .l { background: var(--sc); color: var(--sc-ink); padding: 4.5cqw 4cqw; display: flex; flex-direction: column; gap: 1.6cqw; min-width: 0; }
+.slide .team { font-size: 1.6cqw; letter-spacing: .08em; opacity: .85; }
+.slide .app { font-size: 4.6cqw; font-weight: 700; line-height: 1.15; overflow-wrap: anywhere; }
+.slide .one { font-size: 1.9cqw; line-height: 1.5; opacity: .95; }
+.slide .who { margin-top: auto; font-size: 1.5cqw; opacity: .8; }
+.slide .r { padding: 3.6cqw 3.4cqw; display: flex; flex-direction: column; gap: 1.6cqw; min-width: 0; }
+.slide .r h4 { margin: 0; font-size: 1.3cqw; letter-spacing: .1em; color: #6a7a73; font-weight: 500; }
+.slide .r ul { margin: 0; padding-left: 1.2em; font-size: 1.75cqw; line-height: 1.45; }
+.slide .r p { font-size: 1.7cqw; line-height: 1.45; }
+.slide .img { flex: 1 1 auto; min-height: 0; border-radius: .6cqw; background: #e9eee9 center / cover no-repeat; }
+.slide .promise { border-top: .2cqw solid var(--sc); padding-top: 1cqw; font-size: 1.6cqw; }
+.swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+.swatches button { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--line); cursor: pointer; }
+.swatches button[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 2px var(--paper) inset; }
+
+/* pitch */
+.segs { display: grid; gap: 10px; }
+.segp { display: grid; grid-template-columns: 7.5em minmax(0, 1fr); gap: 10px; align-items: start; }
+.segp .lab2 { font-size: 13px; font-weight: 700; display: grid; }
+.segp .lab2 span { font-family: var(--font-mono); font-weight: 400; color: var(--muted); font-size: 12px; }
+@media (max-width: 560px) { .segp { grid-template-columns: minmax(0,1fr); gap: 4px; } }
+.bar60 { display: flex; height: 26px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); font-size: 11px; }
+.bar60 div { display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--paper); background: var(--soft); white-space: nowrap; overflow: hidden; min-width: 0; }
+.bar60 div:nth-child(odd) { background: color-mix(in srgb, var(--chalk) 45%, var(--soft)); }
+.status { font-size: 13px; color: var(--muted); }
+.status.err { color: var(--red); }
+
+/* presenter */
+.stage { position: fixed; inset: 0; z-index: 50; background: #0f1714; color: #eef3ef; display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  padding-block: max(14px, env(safe-area-inset-top, 0px)) max(14px, env(safe-area-inset-bottom, 0px)); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); gap: 12px; }
+.stage-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.stage-top .big { font-family: var(--font-mono); font-size: 34px; font-variant-numeric: tabular-nums; }
+.stage-top .big.over { color: #ff7d6e; }
+.stage-top button { background: transparent; color: #eef3ef; border: 1px solid #4b5e57; border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+.stage-body { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; min-height: 0; align-items: center; }
+@media (max-width: 860px) { .stage-body { grid-template-columns: minmax(0,1fr); align-content: start; overflow: auto; } }
+.stage .script { display: grid; gap: 10px; overflow: auto; max-height: 100%; }
+.stage .script div { padding: 10px 12px; border-radius: 6px; opacity: .45; font-size: 18px; line-height: 1.55; transition: opacity .2s, background .2s; }
+.stage .script div b { display: block; font-size: 12px; letter-spacing: .08em; font-weight: 500; color: #f2d266; }
+.stage .script div.on { opacity: 1; background: #1d2b26; }
+.stage .prog { height: 6px; background: #24322d; border-radius: 99px; overflow: hidden; }
+.stage .prog i { display: block; height: 100%; width: 0; background: #f2d266; }
+
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 6px; font-size: 14px; z-index: 60; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<header class="band">
+  <div class="band-in">
+    <div>
+      <div class="event">SNU TEIC 바이브코딩 연수 · 4차시</div>
+      <div class="name">완성 워크북</div>
+    </div>
+    <span class="team" id="teamChip">팀 이름을 정해 주세요</span>
+    <div class="timer" aria-live="polite">
+      <span class="lbl" id="timerLbl">활동 타이머</span>
+      <span class="clock" id="clock">00:00</span>
+      <button id="tStart" type="button">시작</button>
+      <button id="tReset" type="button">처음으로</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <aside class="plan">
+    <nav aria-label="활동 순서"><div id="planNav"></div></nav>
+    <div class="plan-tools">
+      <button class="btn ghost" id="exportBtn" type="button">워크북 전체 복사</button>
+      <button class="btn ghost" id="saveBtn" type="button" hidden>워크북 파일로 저장 (.md)</button>
+      <button class="linkbtn" id="wipeBtn" type="button">이 기기의 기록 지우기</button>
+      <p class="small muted">입력한 내용은 이 브라우저에만 저장됩니다. 다른 기기에서 이어 쓰려면 위 버튼으로 복사해 두세요.</p>
+    </div>
+  </aside>
+
+  <main id="main">
+
+  <!-- 0. START -->
+  <section class="step" id="s-start">
+    <div class="step-head">
+      <div class="meta"><span class="part">준비 · 3분</span></div>
+      <h1>오늘은 만든 앱을 <span class="lens-q">말로 설명할 수 있는 앱</span>으로 바꿉니다</h1>
+    </div>
+    <p class="lead">1~3차시에 문제를 정의하고 간단한 웹앱을 만들었습니다. 4차시에는 새 기능을 더하지 않습니다. 이미 만든 앱을 문서(PRD)로 다시 쓰고, 다른 팀에게 읽혀 보고, 화면과 윤리를 점검한 뒤, 1분 안에 소개합니다. 각 단계는 <b>서로 다른 질문 하나</b>만 다룹니다. 앞 단계에서 쓴 내용은 다음 단계로 자동으로 넘어가므로 같은 내용을 두 번 쓰지 않아도 됩니다.</p>
+
+    <div class="block">
+      <h2>우리 팀 정보 <span class="tag">모든 단계에 쓰입니다</span></h2>
+      <div class="panel">
+        <div class="grid2">
+          <div class="field"><label for="t-name">팀 이름 <span class="req">필수</span></label><input type="text" id="t-name" data-k="team.name" placeholder="예: 3조 아침조회"></div>
+          <div class="field"><label for="t-members">팀원</label><input type="text" id="t-members" data-k="team.members" placeholder="예: 김OO, 이OO, 박OO (발표 슬라이드에 들어갑니다)"></div>
+          <div class="field"><label for="t-app">앱 이름 <span class="req">필수</span></label><input type="text" id="t-app" data-k="team.app" placeholder="예: 오늘의 1인 1역"></div>
+          <div class="field"><label for="t-link">앱 주소 (있으면)</label><input type="text" id="t-link" data-k="team.link" placeholder="예: Gemini Canvas 또는 Claude 아티팩트 공유 링크"></div>
+        </div>
+        <div class="field"><label for="t-topic">1차시에 정의한 문제 <span class="req">필수</span></label>
+          <span class="hint">그때 쓴 문장을 그대로 붙여넣으세요. 1단계 PRD의 '해결할 문제' 칸으로 이어집니다.</span>
+          <textarea id="t-topic" data-k="team.topic" rows="3" placeholder="예: 1인 1역 배정을 종이로 하다 보니 시간이 오래 걸리고, 같은 학생에게 궂은 역할이 반복된다."></textarea></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>오늘의 흐름 <span class="tag">80분</span></h2>
+      <div class="tbl-wrap">
+        <table class="flow">
+          <thead><tr><th>시간</th><th>활동</th><th>이 단계의 질문</th><th>남기는 것</th><th>다음 단계로 넘기는 것</th></tr></thead>
+          <tbody id="flowBody"></tbody>
+        </table>
+      </div>
+      <p class="small muted">피드백은 <b>글이 읽히는지</b>, CSS는 <b>화면이 보이는지</b>, 윤리는 <b>누가 다칠 수 있는지</b>만 봅니다. 앞 단계에서 다룬 질문은 다음 단계에서 다시 묻지 않습니다.</p>
+    </div>
+    <div class="pager"><span></span><a class="btn" href="#prd">1단계 PRD 쓰기로 →</a></div>
+  </section>
+
+  <!-- 1. PRD -->
+  <section class="step" id="s-prd" hidden>
+    <div class="step-head">
+      <div class="meta"><span class="part">1부 · 설계를 다시 쓰다</span><span>개인 작성 15분</span></div>
+      <h1>1. PRD 쓰기: <span class="lens-q">무엇을, 누구를 위해</span> 만드는가</h1>
+    </div>
+    <div class="handoff">
+      <div><b>입력</b>준비 단계의 팀 정보, 1차시 문제 정의</div>
+      <div><b>결과물</b>PRD 초안 (v1)</div>
+      <div><b>넘기는 것</b>2단계에서 다른 팀이 이 PRD만 읽고 피드백합니다</div>
+    </div>
+    <p class="lead">PRD(제품 요구사항 문서)는 <b>나 대신 AI나 다른 사람이 읽고 똑같은 앱을 만들 수 있게 하는 문서</b>입니다. 이미 만든 앱을 보면서 쓰세요. 좋은 PRD에는 <b>숫자, 순서, 그리고 만들지 않을 것</b>이 들어 있습니다.</p>
+
+    <div class="panel">
+      <div class="row" style="justify-content:space-between">
+        <span class="small"><b id="prdDone">0</b> / <span id="prdTotal">10</span> 칸 작성</span>
+        <span class="small muted">칸마다 '예시 보기'를 열면 나쁜 예와 좋은 예를 볼 수 있어요</span>
+      </div>
+      <div class="meter"><i id="prdMeter"></i></div>
+    </div>
+
+    <div id="prdForm" class="block"></div>
+
+    <div class="panel vague" aria-live="polite">
+      <div class="row" style="justify-content:space-between"><b>모호어 검사</b><span class="chip" id="vagueCount">0개</span></div>
+      <p class="small muted">'편리하게', '다양한', '적절히'처럼 읽는 사람마다 다르게 해석하는 말을 찾아 줍니다. 숫자나 구체적인 행동으로 바꿔 보세요.</p>
+      <div id="vagueOut" class="small"></div>
+    </div>
+
+    <div class="mission">
+      <div class="mh"><b>미니 미션 1</b><h3>AI 개발자에게 질문 받기</h3><span class="small muted">3분</span></div>
+      <ol>
+        <li>아래 프롬프트를 복사해 평소 쓰는 AI(Claude, Gemini, ChatGPT)에 붙여넣으세요. 내 PRD가 자동으로 들어가 있습니다.</li>
+        <li>AI가 고른 '두 가지로 해석되는 문장' 중 하나를 골라 위 PRD에서 고치세요.</li>
+      </ol>
+      <pre class="prompt" id="p1"></pre>
+      <div class="row"><button class="btn chalk" data-copy="p1" type="button">프롬프트 복사</button></div>
+    </div>
+    <div class="pager"><a class="btn ghost" href="#start">← 준비</a><a class="btn" href="#feedback">2단계 팀 간 피드백으로 →</a></div>
+  </section>
+
+  <!-- 2. FEEDBACK -->
+  <section class="step" id="s-feedback" hidden>
+    <div class="step-head">
+      <div class="meta"><span class="part">1부 · 설계를 다시 쓰다</span><span>팀 간 교환 15분</span></div>
+      <h1>2. 팀 간 피드백: <span class="lens-q">남이 읽고 만들 수 있는가</span></h1>
+    </div>
+    <div class="handoff">
+      <div><b>입력</b>1단계 PRD v1 (아래 카드)</div>
+      <div><b>결과물</b>빨간 펜 피드백 카드 2장 이상</div>
+      <div><b>넘기는 것</b>3단계에서 카드 한 장마다 반영 여부를 정합니다</div>
+    </div>
+    <div class="rule">
+      <b>진행 방법</b>
+      <span>① 옆 팀과 노트북을 바꿔 앉습니다. ② 상대 팀 화면의 PRD 카드만 읽습니다 (앱은 열지 않습니다). ③ 아래 피드백 카드를 상대 팀 화면에 직접 써서 남깁니다. ④ 7분 뒤 한 번 더 다른 팀과 바꿉니다.</span>
+      <b style="margin-top:6px">피드백 규칙</b>
+      <span>아이디어가 좋은지는 평가하지 않습니다. <b>"이 문서만 보고 내가 똑같이 만들 수 있는가"</b>만 봅니다. 화면 디자인과 윤리는 4·5단계에서 따로 다룹니다.</span>
+    </div>
+
+    <div class="block">
+      <h2>읽을 PRD <span class="tag" id="fbFor"></span></h2>
+      <div class="panel prd-card" id="prdCard"></div>
+    </div>
+
+    <div class="block">
+      <h2>피드백 카드 쓰기 <span class="tag">상대 팀이 작성</span></h2>
+      <div class="panel">
+        <div class="field"><label for="fb-from">쓰는 사람 (팀 / 이름)</label><input type="text" id="fb-from" placeholder="예: 5조 정OO"></div>
+        <div class="field"><label for="fb-clear">이해됨: 이 부분은 그대로 만들 수 있다</label><textarea id="fb-clear" rows="2" placeholder="예: 핵심 시나리오 1~3단계는 순서와 버튼이 분명해서 바로 만들 수 있음"></textarea></div>
+        <div class="field"><label for="fb-stuck">막힘: 두 가지 이상으로 해석되는 문장 <span class="req">필수</span></label><span class="hint">PRD의 문장을 그대로 따옴표로 인용하고, 어떻게 다르게 읽혔는지 적으세요.</span><textarea id="fb-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot; → 전체 화면인지, 글자만 큰 건지 모르겠음"></textarea></div>
+        <div class="field"><label for="fb-q">질문 하나: 만드는 사람이라면 꼭 물어볼 것</label><textarea id="fb-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
+        <div class="row"><button class="btn" id="fbAdd" type="button">피드백 카드 남기기</button><span class="status" id="fbMsg"></span></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h2>받은 피드백 <span class="tag" id="fbCount">0장</span></h2>
+      <div class="fb-list" id="fbList"></div>
+    </div>
+    <div class="pager"><a class="btn ghost" href="#prd">← 1단계</a><a class="btn" href="#revise">3단계 PRD 고치기로 →</a></div>
+  </section>
+
+  <!-- 3. REVISE -->
+  <section class="step" id="s-revise" hidden>
+    <div class="step-head">
+      <div class="meta"><span class="part">1부 · 설계를 다시 쓰다</span><span>팀 작업 10분</span></div>
+      <h1>3. PRD 고치기: <span class="lens-q">무엇이 왜 바뀌었나</span></h1>
+    </div>
+    <div class="handoff">
+      <div><b>입력</b>2단계 피드백 카드, PRD v1</div>
+      <div><b>결과물</b>PRD v2와 변경 기록</div>
+      <div><b>넘기는 것</b>변경 기록은 6단계 슬라이드와 7단계 발표의 '오늘 바뀐 것'이 됩니다</div>
+    </div>
+    <p class="lead">피드백을 모두 받아들일 필요는 없습니다. 카드마다 <b>반영 / 반영 안 함</b>을 고르고 그 이유를 한 줄로 남기세요. "왜 안 바꿨는지"도 좋은 설계 기록입니다.</p>
+
+    <div class="panel">
+      <div class="row" style="justify-content:space-between">
+        <span class="small" id="v1Info">PRD v1이 아직 고정되지 않았습니다.</span>
+        <button class="btn ghost" id="v1Btn" type="button">지금 PRD를 v1로 고정</button>
+      </div>
+      <p class="small muted">이 단계를 처음 열면 현재 PRD가 v1로 자동 고정됩니다. 아래에서 고치면 바뀐 칸에 v1 문장이 빨간 줄로 남습니다.</p>
+    </div>
+
+    <div class="block">
+      <h2>피드백마다 결정하기 <span class="tag" id="decCount"></span></h2>
+      <div class="fb-list" id="decList"></div>
+    </div>
+
+    <div class="block">
+      <h2>PRD v2 <span class="tag" id="changedCount"></span></h2>
+      <div id="reviseForm" class="block"></div>
+    </div>
+
+    <div class="mission">
+      <div class="mh"><b>미니 미션 2</b><h3>바뀐 PRD를 앱에 반영할 지시문 만들기</h3><span class="small muted">3분</span></div>
+      <ol>
+        <li>프롬프트에 v1→v2 변경점과 '만들지 않을 것'이 자동으로 들어갑니다.</li>
+        <li>앱을 만든 AI 대화에 붙여넣으세요. 대화가 길어서 AI가 앞의 규칙을 잊은 것 같으면 새 대화에서 PRD v2 전체와 함께 시작하세요.</li>
+      </ol>
+      <pre class="prompt" id="p2"></pre>
+      <div class="row"><button class="btn chalk" data-copy="p2" type="button">프롬프트 복사</button></div>
+    </div>
+    <div class="pager"><a class="btn ghost" href="#feedback">← 2단계</a><a class="btn" href="#css">2부 · 4단계 화면 다듬기로 →</a></div>
+  </section>
+
+  <!-- 4. CSS -->
+  <section class="step" id="s-css" hidden>
+    <div class="step-head">
+      <div class="meta"><span class="part">2부 · 보여주고 책임지기</span><span>실습 10분</span></div>
+      <h1>4. 화면 다듬기: <span class="lens-q">어떻게 보이는가</span></h1>
+    </div>
+    <div class="handoff">
+      <div><b>입력</b>예시 앱 (모둠 뽑기), 우리 앱</div>
+      <div><b>결과물</b>예시 앱 미션 3개 통과, 우리 앱에서 바꾼 화면 한 가지</div>
+      <div><b>넘기는 것</b>'바꾼 화면'은 슬라이드와 발표에 들어갑니다</div>
+    </div>
+    <p class="lead">CSS는 기능은 그대로 두고 <b>보이는 모습만</b> 바꾸는 언어입니다. 그래서 화면 수정은 AI에게 "HTML과 JavaScript는 건드리지 말고 CSS만"이라고 범위를 정해 요청하는 것이 안전합니다. 먼저 아래 예시 앱으로 직접 고쳐 본 뒤, 같은 방법을 우리 앱에 적용합니다.</p>
+
+    <div class="cheat">
+      <div><b>규칙 한 줄 읽기</b><br><code>.btn { font-size: 16px; }</code><br><code>.btn</code>(어디를) <code>font-size</code>(무엇을) <code>16px</code>(얼마나)</div>
+      <div><b>색은 변수 하나로</b><br><code>--main: #2f6fde;</code>를 바꾸면 <code>var(--main)</code>을 쓰는 곳이 모두 바뀝니다.</div>
+      <div><b>줄바꿈 허용</b><br><code>flex-wrap: wrap;</code>을 넣으면 가로로 늘어선 상자가 화면이 좁을 때 아랫줄로 내려갑니다.</div>
+      <div><b>내 앱에서 찾기</b><br>앱 화면에서 바꾸고 싶은 곳을 마우스 오른쪽 클릭 → '검사'(F12)를 누르면 그 부분의 클래스 이름이 보입니다.</div>
+    </div>
+
+    <div class="block">
+      <h2>예시 앱으로 연습하기 <span class="tag">왼쪽 CSS를 고치면 오른쪽이 바로 바뀝니다</span></h2>
+      <div class="lab">
+        <div class="field">
+          <div class="row" style="justify-content:space-between"><label for="cssCode">CSS</label><button class="linkbtn" id="cssReset" type="button">처음 CSS로 되돌리기</button></div>
+          <textarea id="cssCode" class="code" spellcheck="false" aria-label="예시 앱 CSS"></textarea>
+        </div>
+        <div class="field">
+          <div class="row" style="justify-content:space-between"><span class="label">미리보기</span>
+            <span class="seg" role="group" aria-label="미리보기 폭"><button type="button" data-w="wide" aria-pressed="true">넓게</button><button type="button" data-w="360" aria-pressed="false">휴대폰 360px</button></span></div>
+          <div class="preview-box"><div class="preview-host" id="pv"></div></div>
+          <div class="checks" id="checks"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission">
+      <div class="mh"><b>미니 미션 3</b><h3>우리 앱 화면 한 곳을 CSS만으로 바꾸기</h3><span class="small muted">4분</span></div>
+      <div class="grid2">
+        <div class="field"><label for="c-target">바꿀 곳</label><input type="text" id="c-target" data-k="css.target" placeholder="예: 결과 표의 학생 번호 글자"></div>
+        <div class="field"><label for="c-want">원하는 모습</label><input type="text" id="c-want" data-k="css.want" placeholder="예: 교실 뒤에서도 읽히도록 크게, 역할 이름은 굵게"></div>
+      </div>
+      <pre class="prompt" id="p3"></pre>
+      <div class="row"><button class="btn chalk" data-copy="p3" type="button">프롬프트 복사</button></div>
+      <div class="field"><label for="c-applied">실제로 바꾼 것 (전 → 후)</label><input type="text" id="c-applied" data-k="css.applied" placeholder="예: 결과 표 글자 14px → 28px, 버튼 높이 30px → 48px"></div>
+    </div>
+    <div class="pager"><a class="btn ghost" href="#revise">← 3단계</a><a class="btn" href="#ethics">5단계 윤리 점검으로 →</a></div>
+  </section>
+
+  <!-- 5. ETHICS -->
+  <section class="step" id="s-ethics" hidden>
+    <div class="step-head">
+      <div class="meta"><span class="part">2부 · 보여주고 책임지기</span><span>팀 점검 5분</span></div>
+      <h1>5. 윤리 점검: <span class="lens-q">누가 다칠 수 있는가</span></h1>
+    </div>
+    <div class="handoff">
+      <div><b>입력</b>PRD v2의 '데이터'와 '만들지 않을 것'</div>
+      <div><b>결과물</b>보완 목록, 우리 앱의 약속 한 문장</div>
+      <div><b>넘기는 것</b>'약속'은 슬라이드 하단과 발표의 마지막 부분이 됩니다</div>
+    </div>
+    <p class="lead">교실 앱은 사용자가 학생이고, 학생은 사용을 거절하기 어렵습니다. 항목마다 <b>지킴 / 보완 필요 / 해당 없음</b>을 고르세요. '보완 필요'를 고르면 무엇을 할지 한 줄로 적습니다. 모든 항목을 '지킴'으로 고르는 것보다 정직하게 '보완 필요'를 찾는 것이 목표입니다.</p>
+
+    <div class="panel">
+      <div class="row" style="justify-content:space-between">
+        <span class="small" id="ethSum">0 / 9 점검</span>
+        <span class="row"><span class="chip ok" id="ethOk">지킴 0</span><span class="chip red" id="ethFix">보완 0</span><span class="chip" id="ethNa">해당 없음 0</span></span>
+      </div>
+      <div class="meter"><i id="ethMeter"></i></div>
+    </div>
+    <div class="eth" id="ethList"></div>
+
+    <div class="block">
+      <h2>우리 앱의 약속 <span class="tag">한 문장</span></h2>
+      <div class="panel">
+        <div class="field"><label for="e-promise">학생과 동료 교사에게 하는 약속</label>
+          <span class="hint">'지킴'으로 고른 항목 중 가장 중요한 것을 사용자 입장의 말로 바꾸세요.</span>
+          <input type="text" id="e-promise" data-k="ethics.promise" placeholder="예: 이 앱은 학생 이름을 저장하지 않고, 결과는 교사만 다시 뽑을 수 있습니다.">
+          <div class="row"><button class="linkbtn" id="promiseSuggest" type="button">체크 결과로 초안 만들기</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission">
+      <div class="mh"><b>미니 미션 4</b><h3>학생의 '최악의 하루' 시나리오 받기</h3><span class="small muted">팀 과제 또는 연수 후</span></div>
+      <p class="small">체크리스트로 찾기 어려운 위험을 AI에게 이야기 형식으로 찾게 합니다. 결과 중 하나를 '보완 필요'에 추가하세요.</p>
+      <pre class="prompt" id="p4"></pre>
+      <div class="row"><button class="btn chalk" data-copy="p4" type="button">프롬프트 복사</button></div>
+    </div>
+    <div class="pager"><a class="btn ghost" href="#css">← 4단계</a><a class="btn" href="#onepage">6단계 팀 소개 한 장으로 →</a></div>
+  </section>
+
+  <!-- 6. ONE PAGE -->
+  <section class="step" id="s-onepage" hidden>
+    <div class="step-head">
+      <div class="meta"><span class="part">2부 · 보여주고 책임지기</span><span>팀 작업 5분</span></div>
+      <h1>6. 팀 소개 한 장: <span class="lens-q">한눈에</span> 보이는가</h1>
+    </div>
+    <div class="handoff">
+      <div><b>입력</b>PRD v2, 변경 기록, 바꾼 화면, 약속</div>
+      <div><b>결과물</b>발표 화면에 띄울 16:9 슬라이드 한 장</div>
+      <div><b>넘기는 것</b>7단계 발표 모드의 배경 화면이 됩니다</div>
+    </div>
+    <p class="lead">앞 단계에서 쓴 내용으로 슬라이드가 이미 채워져 있습니다. 새로 쓰지 말고 <b>줄이기만</b> 하세요. 빈칸으로 두면 자동으로 채운 문장을 그대로 씁니다.</p>
+
+    <div class="slide-wrap"><div class="slide" id="slide"></div></div>
+
+    <div class="panel">
+      <div class="grid2">
+        <div class="field"><label for="sl-one">한 줄 소개</label><textarea id="sl-one" data-k="slide.one" rows="2"></textarea></div>
+        <div class="field"><label for="sl-feat">핵심 기능 3개 (한 줄에 하나)</label><textarea id="sl-feat" data-k="slide.features" rows="3"></textarea></div>
+        <div class="field"><label for="sl-change">오늘 바뀐 것</label><textarea id="sl-change" data-k="slide.change" rows="2"></textarea></div>
+        <div class="field"><label for="sl-promise">약속</label><textarea id="sl-promise" data-k="slide.promise" rows="2"></textarea></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><span class="label">색</span><div class="swatches" id="swatches"></div></div>
+        <div class="field"><label for="sl-img">앱 화면 캡처 (선택)</label>
+          <input type="file" id="sl-img" accept="image/*">
+          <span class="hint">학생 이름이나 얼굴이 보이는 캡처는 쓰지 마세요. <button class="linkbtn" id="imgClear" type="button">이미지 빼기</button></span></div>
+      </div>
+    </div>
+    <div class="pager"><a class="btn ghost" href="#ethics">← 5단계</a><a class="btn" href="#pitch">7단계 1분 발표로 →</a></div>
+  </section>
+
+  <!-- 7. PITCH -->
+  <section class="step" id="s-pitch" hidden>
+    <div class="step-head">
+      <div class="meta"><span class="part">2부 · 보여주고 책임지기</span><span>준비 3분 + 팀별 발표 1분 (전체 20분)</span></div>
+      <h1>7. 1분 발표: <span class="lens-q">우리의 이야기</span>로 말하기</h1>
+    </div>
+    <div class="handoff">
+      <div><b>입력</b>1~6단계 전체 + 지금 쓰는 서술</div>
+      <div><b>결과물</b>60초 대본과 발표 화면</div>
+      <div><b>구조</b>문제 10초 · 우리 앱 15초 · 오늘 바뀐 것 20초 · 약속 10초 · 다음 5초</div>
+    </div>
+    <p class="lead">기능 목록을 읽지 말고 <b>오늘 무엇이 바뀌었는지</b>를 이야기하세요. 아래에 오늘 과정을 편하게 서술하면, 1~6단계 기록과 합쳐 60초 대본을 만들어 줍니다.</p>
+
+    <div class="panel">
+      <div class="field"><label for="pi-narr">오늘 과정 서술</label>
+        <span class="hint">이 질문에 답하듯 쓰면 됩니다. 가장 뜻밖이었던 피드백은? PRD를 고치면서 버린 것은? 윤리 점검에서 처음 알게 된 것은? 다음에 이 앱으로 하고 싶은 것은?</span>
+        <textarea id="pi-narr" data-k="pitch.narr" rows="6" placeholder="예: 다른 팀이 '크게 보여준다'가 무슨 뜻인지 모르겠다고 해서 처음으로 우리 문서가 우리끼리만 통하는 말이라는 걸 알았다. 그래서 전자칠판 전체 화면, 글자 48px로 숫자를 정했다. 윤리 점검을 하다가 학생 이름을 저장하고 있었다는 걸 발견해서 번호만 쓰기로 바꿨다. 다음에는 실제 우리 반 학생들과 2주 동안 써 보고 싶다."></textarea></div>
+      <div class="row">
+        <button class="btn chalk" id="genAI" type="button" hidden>AI로 대본 만들기</button>
+        <button class="btn" id="genTpl" type="button">기록으로 바로 대본 만들기</button>
+        <button class="btn ghost" id="genStop" type="button" hidden>멈추기</button>
+        <span class="status" id="genMsg" aria-live="polite"></span>
+      </div>
+      <details class="exd"><summary>다른 AI에서 만들고 싶다면: 프롬프트 복사</summary>
+        <pre class="prompt" id="p5"></pre>
+        <div class="row" style="margin-top:8px"><button class="btn ghost" data-copy="p5" type="button">프롬프트 복사</button><span class="small muted">결과를 아래 칸에 나눠 붙여넣으세요.</span></div>
+      </details>
+    </div>
+
+    <div class="block">
+      <h2>60초 대본 <span class="tag" id="pitchLen"></span></h2>
+      <div class="bar60" id="bar60" aria-hidden="true"></div>
+      <div class="segs" id="segs"></div>
+      <p class="small muted">한국어 발표는 1초에 약 5글자(공백 제외)로 계산합니다. 구간 시간보다 길면 빨간색으로 표시됩니다.</p>
+      <div class="row"><button class="btn" id="stageBtn" type="button">발표 화면 열기 (60초 타이머)</button><button class="btn ghost" data-copy-fn="script" type="button">대본 복사</button></div>
+    </div>
+    <div class="pager"><a class="btn ghost" href="#onepage">← 6단계</a><span></span></div>
+  </section>
+  </main>
+</div>
+
+<div class="stage" id="stage" hidden>
+  <div class="stage-top">
+    <span class="big" id="stClock">60</span>
+    <button id="stGo" type="button">시작</button>
+    <button id="stRe" type="button">처음부터</button>
+    <button id="stFull" type="button">전체 화면</button>
+    <button id="stClose" type="button" style="margin-left:auto">닫기</button>
+  </div>
+  <div class="stage-body">
+    <div class="slide-wrap"><div class="slide" id="stSlide"></div></div>
+    <div class="script" id="stScript"></div>
+  </div>
+  <div class="prog"><i id="stProg"></i></div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const KEY = "teic-s4-workbook-v1";
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const lines = (s) => String(s || "").split("\n").map((x) => x.replace(/^\s*(\d+[.)]|[-*•])\s*/, "").trim()).filter(Boolean);
+
+  const STEPS = [
+    { id: "start", n: "0", t: "준비", min: 3, part: 0, lens: "오늘의 흐름", out: "팀 정보", next: "모든 단계의 이름·문제" },
+    { id: "prd", n: "1", t: "PRD 쓰기", min: 15, part: 1, lens: "무엇을, 누구를 위해", out: "PRD v1", next: "다른 팀이 읽을 문서" },
+    { id: "feedback", n: "2", t: "팀 간 피드백", min: 15, part: 1, lens: "남이 읽고 만들 수 있는가", out: "빨간 펜 카드", next: "반영할 후보" },
+    { id: "revise", n: "3", t: "PRD 고치기", min: 10, part: 1, lens: "무엇이 왜 바뀌었나", out: "PRD v2 + 변경 기록", next: "'오늘 바뀐 것'" },
+    { id: "css", n: "4", t: "화면 다듬기", min: 10, part: 2, lens: "어떻게 보이는가", out: "바꾼 화면 한 가지", next: "슬라이드·발표의 화면 변화" },
+    { id: "ethics", n: "5", t: "윤리 점검", min: 5, part: 2, lens: "누가 다칠 수 있는가", out: "보완 목록, 약속", next: "발표의 마지막 문장" },
+    { id: "onepage", n: "6", t: "팀 소개 한 장", min: 5, part: 2, lens: "한눈에 보이는가", out: "16:9 슬라이드", next: "발표 화면" },
+    { id: "pitch", n: "7", t: "1분 발표", min: 20, part: 2, lens: "우리의 이야기", out: "60초 대본", next: "연수 후 포트폴리오" }
+  ];
+
+  const FIELDS = [
+    { k: "oneLiner", label: "한 줄 정의", tip: "[누가] [어떤 상황에서] [무엇을] 할 수 있게 하는 앱인지 한 문장으로 쓰세요.", bad: "학생들에게 도움이 되는 편리한 학습 앱", good: "중2 담임이 아침 조회 5분 안에 이번 주 1인 1역을 무작위로 배정하고 전자칠판에 띄울 수 있는 앱", rows: 2 },
+    { k: "user", label: "주 사용자", tip: "한 사람을 떠올리세요. '교사와 학생'처럼 둘을 쓰면 화면도 두 벌이 필요해집니다.", bad: "교사, 학생, 학부모", good: "학생 28명을 맡은 중2 담임 교사 (학생은 화면을 보기만 함)", rows: 2 },
+    { k: "scene", label: "사용 장면", tip: "언제, 어디서, 어떤 기기로 쓰나요?", bad: "수업 시간에 사용", good: "월요일 아침 조회, 교실 앞 전자칠판(가로 화면), 교사 혼자 조작", rows: 2 },
+    { k: "problem", label: "해결할 문제", tip: "준비 단계의 문제 정의가 자동으로 들어갑니다. 지금은 어떻게 해결하고 있는지(현재 방법)를 덧붙이세요.", bad: "역할 배정이 불편하다", good: "지금은 종이 명단에 손으로 돌려 적어 매주 10분이 걸리고, 같은 학생에게 궂은 역할이 반복된다는 불만이 나온다", rows: 3, from: "team.topic" },
+    { k: "flow", label: "핵심 시나리오", tip: "'사용자 행동 → 화면 반응'을 번호로 적으세요. 한 줄에 한 단계.", bad: "역할을 배정하고 결과를 본다", good: "1. 교사가 역할 목록(8개)을 확인한다 → 지난주 배정이 회색으로 보인다\n2. [배정] 버튼을 누른다 → 3초 동안 번호가 섞인다\n3. 결과 표가 전체 화면으로 뜬다 → [다시]는 1회만 가능", rows: 5 },
+    { k: "must", label: "꼭 있어야 할 기능 (Must)", tip: "이게 없으면 이 앱이 아닌 것. 3개 이하, 한 줄에 하나.", bad: "다양한 기능", good: "역할 무작위 배정\n지난주와 같은 역할 피하기\n결과 전체 화면 보기", rows: 3 },
+    { k: "should", label: "있으면 좋은 기능 (Should)", tip: "시간이 남으면 만들 것. 비워도 됩니다.", bad: "AI 추천, 통계, 알림 등등", good: "역할별 아이콘\n배정 기록 CSV로 내보내기", rows: 2, optional: true },
+    { k: "wont", label: "만들지 않을 것 (Won't)", tip: "가장 중요한 칸입니다. 적지 않으면 AI가 묻지 않고 기능을 덧붙입니다.", bad: "(비워 둠)", good: "로그인 없음\n학생 실명 저장 없음 (번호만 사용)\n점수·순위 기능 없음", rows: 3 },
+    { k: "screens", label: "화면 구성", tip: "화면 이름: 그 화면에 있는 것.", bad: "메인 화면", good: "설정 화면: 학생 번호 범위, 역할 목록 편집\n배정 화면: [배정] 버튼, 결과 표, [다시] 버튼", rows: 3 },
+    { k: "data", label: "입력·저장하는 데이터", tip: "무엇을 입력받고, 어디에, 얼마 동안 저장하나요? 5단계 윤리 점검이 이 칸을 다시 봅니다.", bad: "학생 정보", good: "학생 번호(1~28)와 역할 이름만 브라우저(localStorage)에 저장, 학기 말에 [전체 삭제]", rows: 2 },
+    { k: "success", label: "성공 기준", tip: "숫자나 눈으로 확인할 수 있는 행동으로 쓰세요.", bad: "사용하기 쉽다", good: "처음 쓰는 교사가 설명 없이 1분 안에 첫 배정을 끝낸다\n4주 동안 같은 학생이 같은 역할을 두 번 받지 않는다", rows: 3 }
+  ];
+  const REQUIRED = FIELDS.filter((f) => !f.optional);
+  const VAGUE = ["편리", "쉽게", "쉬운", "간편", "다양한", "다양하게", "적절", "효과적", "깔끔", "예쁘", "예쁜", "재미있", "빠르게", "직관적", "최적", "유용", "알아서", "등등", "기타", "여러 가지", "많은", "좋은", "잘 "];
+
+  const ETHICS = [
+    { cat: "개인정보", id: "e1", q: "이름·학번·연락처·사진 없이도 앱이 돌아가나요?", h: "번호나 별명으로 바꿀 수 있으면 바꿉니다. 연습할 때는 가짜 데이터를 씁니다." },
+    { cat: "개인정보", id: "e2", q: "데이터가 어디에 저장되는지 알고, 지우는 방법이 있나요?", h: "브라우저(localStorage), 구글 시트, Firebase 중 어디인지. [전체 삭제] 버튼이 있는지." },
+    { cat: "개인정보", id: "e3", q: "HTML/JS 코드에 API 키가 그대로 들어 있지 않나요?", h: "앱 화면에서 F12를 누르면 누구나 코드를 볼 수 있습니다. 키는 서버나 Apps Script 속성에 둡니다." },
+    { cat: "학생 보호", id: "e4", q: "점수·순위·오답이 다른 학생에게 공개되지 않나요?", h: "전자칠판에 띄우는 화면이라면 특히 중요합니다." },
+    { cat: "학생 보호", id: "e5", q: "뽑기·추천·채점이 특정 학생에게 반복해서 불리하지 않고, 교사가 결과를 확인하고 바꿀 수 있나요?", h: "자동 결과를 교사가 되돌릴 수 있어야 합니다." },
+    { cat: "투명성", id: "e6", q: "AI가 만든 문제·피드백·설명에 AI가 만들었다고 표시하고, 틀릴 수 있다고 안내하나요?", h: "AI 기능이 없다면 '해당 없음'." },
+    { cat: "투명성", id: "e7", q: "이미지·글꼴·문항·음원의 출처를 알고 허락된 범위 안에서 쓰나요?", h: "AI가 만든 이미지도 서비스 약관을 확인합니다." },
+    { cat: "모두를 위한 화면", id: "e8", q: "색만으로 정답/오답을 구분하지 않고, 글자가 교실 뒤에서도 읽히나요?", h: "4단계에서 확인한 글자 16px·버튼 44px 기준을 우리 앱에도 적용했는지 봅니다." },
+    { cat: "모두를 위한 화면", id: "e9", q: "학생(과 보호자)이 이 앱이 무엇을 기록하는지 알 수 있나요?", h: "첫 화면 안내 문구나 가정통신문 한 줄이면 됩니다." }
+  ];
+
+  const COLORS = [
+    { c: "#23403a", ink: "#ffffff", n: "칠판 초록" },
+    { c: "#1f3b73", ink: "#ffffff", n: "남색" },
+    { c: "#8a2f2a", ink: "#ffffff", n: "벽돌" },
+    { c: "#5b3f8c", ink: "#ffffff", n: "보라" },
+    { c: "#e8c35a", ink: "#1c2a25", n: "분필 노랑" },
+    { c: "#2b2b2b", ink: "#ffffff", n: "먹색" }
+  ];
+
+  const CSS0 = `.app {
+  --main: #8a8a8a;
+  --text: #222222;
+  font-family: sans-serif;
+  background: #ffffff;
+  color: var(--text);
+  padding: 16px;
+}
+.top h1 {
+  color: #333333;
+  font-size: 20px;
+  margin: 0 0 4px;
+}
+.top p {
+  font-size: 12px;
+  color: #999999;
+  margin: 0 0 12px;
+}
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.controls input {
+  width: 56px;
+  padding: 4px;
+}
+.btn {
+  background: var(--main);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 3px 8px;
+}
+.groups {
+  display: flex;
+  gap: 8px;
+}
+.group {
+  flex: 0 0 200px;
+  border: 1px solid #dddddd;
+  border-radius: 6px;
+  padding: 8px;
+}
+.group h2 {
+  font-size: 14px;
+  margin: 0 0 4px;
+  color: var(--main);
+}
+.group p {
+  margin: 0;
+  font-size: 13px;
+}`;
+  const APP_HTML = `<div class="app"><div class="top"><h1>모둠 뽑기</h1><p>모둠 수를 정하고 버튼을 누르세요 · 예시 데이터</p></div><div class="controls"><label>모둠 수 <input type="number" value="4" min="2" max="8"></label><button class="btn" type="button">모둠 만들기</button></div><div class="groups"><div class="group"><h2>1모둠</h2><p>3번 · 11번 · 19번 · 24번</p></div><div class="group"><h2>2모둠</h2><p>1번 · 8번 · 15번 · 27번</p></div><div class="group"><h2>3모둠</h2><p>5번 · 12번 · 20번 · 22번</p></div><div class="group"><h2>4모둠</h2><p>2번 · 9번 · 17번 · 26번</p></div></div></div>`;
+
+  /* ---------- state ---------- */
+  const blank = () => ({ team: {}, prd: {}, prdV1: null, fb: [], css: { code: CSS0 }, ethics: { s: {}, n: {} }, slide: { color: 0 }, slideImg: "", pitch: { segs: null } });
+  let S = blank();
+  try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) { /* storage unavailable */ }
+  S.ethics.s ??= {}; S.ethics.n ??= {};
+  let saveT;
+  function save() { clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* full or blocked */ } }, 250); }
+  const getK = (p) => p.split(".").reduce((o, k) => (o == null ? undefined : o[k]), S);
+  function setK(p, v) { const ks = p.split("."); let o = S; ks.slice(0, -1).forEach((k) => { if (o[k] == null || typeof o[k] !== "object") o[k] = {}; o = o[k]; }); o[ks[ks.length - 1]] = v; }
+
+  function toast(msg) { const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 1800); }
+
+  /* ---------- build static pieces ---------- */
+  function buildNav() {
+    const parts = [["준비", [0]], ["1부 · 설계를 다시 쓰다 (40분)", [1, 2, 3]], ["2부 · 보여주고 책임지기 (40분)", [4, 5, 6, 7]]];
+    $("#planNav").innerHTML = "<div>" + parts.map(([h, idx]) => `<h2>${h}</h2><ol>` + idx.map((i) => { const s = STEPS[i]; return `<li><a href="#${s.id}" data-step="${s.id}"><span class="no">${s.n}</span><span>${s.t}<i class="dot" data-dot="${s.id}"></i></span><span class="min">${s.min}′</span><span class="lens">${s.lens}</span></a></li>`; }).join("") + "</ol>").join("") + "</div>";
+    let t = 0, rows = "";
+    STEPS.forEach((s, i) => {
+      if (i === 1) rows += `<tr class="part"><td colspan="5">1부 · 설계를 다시 쓰다 (40분)</td></tr>`;
+      if (i === 4) rows += `<tr class="part"><td colspan="5">2부 · 보여주고 책임지기 (40분)</td></tr>`;
+      if (i === 0) return;
+      const a = t; t += s.min;
+      rows += `<tr><td class="t">${a}–${t}′</td><td><b>${s.n}. ${s.t}</b></td><td>${s.lens}</td><td>${s.out}</td><td>${s.next}</td></tr>`;
+    });
+    $("#flowBody").innerHTML = rows;
+  }
+
+  function fieldHTML(f, mode) {
+    const id = `${mode}-${f.k}`;
+    const req = f.optional ? "" : `<span class="req">필수</span>`;
+    const ex = mode === "prd" ? `<details class="exd"><summary>예시 보기</summary><div class="ex"><div class="bad"><b>모호한 예</b>${esc(f.bad)}</div><div class="good"><b>구체적인 예</b>${esc(f.good)}</div></div></details>` : `<div class="diff-old" data-old="${f.k}" hidden></div>`;
+    return `<div class="field" data-field="${f.k}"><label for="${id}">${f.label} ${req}<span class="chip red" data-changed="${f.k}" hidden>v1에서 바뀜</span></label>${mode === "prd" ? `<span class="hint">${f.tip}</span>` : ""}<textarea id="${id}" data-k="prd.${f.k}" rows="${f.rows}" placeholder="${esc(f.good)}"></textarea>${ex}</div>`;
+  }
+  function buildPRD() {
+    $("#prdForm").innerHTML = `<div class="panel">` + FIELDS.map((f) => fieldHTML(f, "prd")).join("") + `</div>`;
+    $("#reviseForm").innerHTML = `<div class="panel">` + FIELDS.map((f) => fieldHTML(f, "rev")).join("") + `</div>`;
+    $("#prdTotal").textContent = REQUIRED.length;
+  }
+
+  function buildEthics() {
+    let cat = "", h = "";
+    ETHICS.forEach((e) => {
+      if (e.cat !== cat) { cat = e.cat; h += `<div class="eth-cat">${cat}</div>`; }
+      h += `<div class="eth-item" data-eid="${e.id}"><div class="q">${e.q}<span class="h">${e.h}</span></div><span class="seg" role="group" aria-label="점검 결과">` +
+        [["ok", "지킴"], ["fix", "보완 필요"], ["na", "해당 없음"]].map(([v, l]) => `<button type="button" data-v="${v}" aria-pressed="false">${l}</button>`).join("") +
+        `</span><input type="text" id="en-${e.id}" data-k="ethics.n.${e.id}" placeholder="무엇을 하겠나요? 예: 이름 칸을 번호로 바꾸기" hidden></div>`;
+    });
+    $("#ethList").innerHTML = h;
+  }
+
+  function buildSwatches() {
+    $("#swatches").innerHTML = COLORS.map((c, i) => `<button type="button" data-ci="${i}" aria-label="${c.n}" title="${c.n}" style="background:${c.c}" aria-pressed="false"></button>`).join("");
+  }
+
+  /* ---------- fill inputs from state ---------- */
+  function fillInputs() {
+    $$("[data-k]").forEach((el) => { const v = getK(el.dataset.k); el.value = v == null ? "" : v; });
+  }
+
+  /* ---------- derived views ---------- */
+  const P = () => S.prd || {};
+  const T = () => S.team || {};
+  function prdText(prd) {
+    prd = prd || P();
+    return FIELDS.map((f) => `## ${f.label}\n${(prd[f.k] || "").trim() || "(비어 있음)"}`).join("\n\n");
+  }
+
+  function renderPRDStatus() {
+    const done = REQUIRED.filter((f) => (P()[f.k] || "").trim()).length;
+    $("#prdDone").textContent = done;
+    $("#prdMeter").style.width = (done / REQUIRED.length * 100) + "%";
+    const found = [];
+    FIELDS.forEach((f) => {
+      const v = P()[f.k] || "";
+      VAGUE.forEach((w) => { if (v.includes(w)) found.push([f.label, w.trim()]); });
+    });
+    $("#vagueCount").textContent = found.length + "개";
+    $("#vagueCount").className = "chip " + (found.length ? "red" : "ok");
+    $("#vagueOut").innerHTML = found.length ? found.map(([l, w]) => `<div>${esc(l)}: <mark>${esc(w)}</mark></div>`).join("") : `<span class="muted">${done ? "찾은 모호어가 없습니다." : "PRD를 쓰면 여기에 결과가 나옵니다."}</span>`;
+  }
+
+  function renderPRDCard() {
+    $("#fbFor").textContent = (T().name || "우리 팀") + " · " + (T().app || "앱 이름 없음");
+    $("#prdCard").innerHTML = FIELDS.map((f) => { const v = (P()[f.k] || "").trim(); return `<div class="it"><div class="k">${f.label}</div><div class="v ${v ? "" : "empty"}">${v ? esc(v) : "비어 있음"}</div></div>`; }).join("");
+  }
+
+  function fbCardHTML(f, withDecision) {
+    const kv = (k, v) => v ? `<div class="kv"><span>${k}</span><span>${esc(v)}</span></div>` : "";
+    let dec = "";
+    if (withDecision) {
+      dec = `<div class="row"><span class="seg" role="group" aria-label="반영 여부">` +
+        [["done", "반영함"], ["keep", "반영 안 함"]].map(([v, l]) => `<button type="button" data-fbs="${f.id}" data-v="${v === "done" ? "ok" : "na"}" data-val="${v}" aria-pressed="${f.status === v}">${l}</button>`).join("") +
+        `</span></div><input type="text" data-fbn="${f.id}" value="${esc(f.note || "")}" placeholder="${f.status === "keep" ? "왜 바꾸지 않았나요?" : "어떻게 바꿨나요? 예: '크게'를 '전체 화면, 글자 48px'로 수정"}" aria-label="결정 이유">`;
+    }
+    return `<div class="fb"><div class="who"><span>${esc(f.from || "익명")}</span>${withDecision ? "" : `<button class="linkbtn" data-fbdel="${f.id}" type="button">지우기</button>`}</div>${kv("이해됨", f.clear)}<div class="kv"><span>막힘</span><span class="pen">${esc(f.stuck)}</span></div>${kv("질문", f.q)}${dec}</div>`;
+  }
+  function renderFB() {
+    $("#fbCount").textContent = S.fb.length + "장";
+    $("#fbList").innerHTML = S.fb.length ? S.fb.map((f) => fbCardHTML(f, false)).join("") : `<p class="muted small">아직 받은 피드백이 없습니다. 다른 팀이 이 화면에서 위 카드를 쓰면 여기에 쌓입니다.</p>`;
+    $("#decList").innerHTML = S.fb.length ? S.fb.map((f) => fbCardHTML(f, true)).join("") : `<p class="muted small">2단계에서 받은 피드백이 없습니다. 미니 미션 1의 AI 질문 중 하나를 피드백으로 옮겨 적어도 됩니다.</p>`;
+    const decided = S.fb.filter((f) => f.status).length;
+    $("#decCount").textContent = S.fb.length ? `${decided} / ${S.fb.length} 결정` : "";
+  }
+
+  function changedFields() {
+    if (!S.prdV1) return [];
+    return FIELDS.filter((f) => (S.prdV1[f.k] || "").trim() !== (P()[f.k] || "").trim());
+  }
+  function renderRevise() {
+    $("#v1Info").textContent = S.prdV1 ? `PRD v1 고정: ${new Date(S.prdV1._at).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}` : "PRD v1이 아직 고정되지 않았습니다.";
+    const ch = changedFields();
+    $("#changedCount").textContent = S.prdV1 ? `${ch.length}칸 바뀜` : "";
+    FIELDS.forEach((f) => {
+      const changed = ch.includes(f);
+      $$(`[data-changed="${f.k}"]`).forEach((el) => { el.hidden = !changed; });
+      const old = $(`[data-old="${f.k}"]`);
+      if (old) { const ov = S.prdV1 ? (S.prdV1[f.k] || "").trim() : ""; old.hidden = !changed || !ov; old.textContent = ov; }
+    });
+  }
+
+  function changeLog() {
+    const items = [];
+    S.fb.filter((f) => f.status === "done").forEach((f) => items.push({ why: f.stuck, how: f.note || "" }));
+    return items;
+  }
+
+  /* ---------- prompts ---------- */
+  function prompts() {
+    const t = T(), p = P();
+    const app = t.app || "(앱 이름)";
+    $("#p1").textContent =
+`너는 아래 PRD만 보고 웹앱 "${app}"을 처음부터 만들어야 하는 개발자야. 아직 코드는 쓰지 마.
+
+1) 이 PRD에서 두 가지 이상으로 해석될 수 있는 문장을 찾아 그대로 인용하고, 해석마다 앱이 어떻게 다르게 만들어질지 적어줘.
+2) 만들기 전에 나에게 꼭 물어볼 질문 5개를 중요한 순서로 적어줘.
+3) '만들지 않을 것'에 추가하면 좋을 항목 2개를 이유와 함께 제안해줘.
+4) 숫자로 바꿀 수 있는 표현(예: '빠르게', '크게')이 있으면 바꿀 예시를 보여줘.
+
+[PRD]
+${prdText()}`;
+
+    const v1 = S.prdV1 || {};
+    const ch = changedFields();
+    const diff = ch.length ? ch.map((f) => `- ${f.label}\n  전: ${(v1[f.k] || "(비어 있음)").trim().replace(/\n/g, " / ")}\n  후: ${(p[f.k] || "(비어 있음)").trim().replace(/\n/g, " / ")}`).join("\n") : "- (아직 바뀐 칸이 없습니다. 3단계에서 PRD를 고치면 여기에 들어옵니다.)";
+    const fbs = S.fb.length ? S.fb.map((f, i) => `${i + 1}. 막힘: ${f.stuck}${f.status ? ` → ${f.status === "done" ? "반영" : "반영 안 함"}${f.note ? ` (${f.note})` : ""}` : ""}`).join("\n") : "(없음)";
+    $("#p2").textContent =
+`우리 앱 "${app}"의 PRD를 동료 피드백을 받아 고쳤어. 아래 변경점만 앱에 반영해줘.
+
+[변경점: PRD v1 → v2]
+${diff}
+
+[동료 피드백과 우리 결정]
+${fbs}
+
+[지켜야 할 것]
+- 변경점에 없는 기능과 화면은 바꾸지 마.
+- 만들지 않을 것: ${lines(p.wont).join(", ") || "(PRD에 적기)"}
+- 코드를 고치기 전에, 바꿀 부분을 '화면 / 기능 / 데이터'로 나눈 목록을 먼저 보여주고 내 확인을 기다려.
+- 고친 뒤에는 무엇을 확인하면 되는지 테스트 순서를 3단계로 알려줘.`;
+
+    $("#p3").textContent =
+`우리 앱 "${app}"의 화면을 CSS만으로 다듬고 싶어.
+
+바꿀 곳: ${S.css.target || "(바꿀 곳)"}
+원하는 모습: ${S.css.want || "(원하는 모습)"}
+사용 장면: ${(p.scene || "(사용 장면)").replace(/\n/g, " ")}
+
+규칙:
+- HTML 구조와 JavaScript는 절대 바꾸지 마.
+- 바꾸기 전에, 바꿀 CSS 선택자와 속성을 '전 → 후' 표로 먼저 보여줘.
+- 색은 :root 변수(--main 등)로 모아줘.
+- 버튼은 높이 44px 이상, 본문 글자는 16px 이상을 지켜줘.
+- 폭 360px 화면에서도 가로 스크롤이 생기지 않게 해줘.
+- 바꾼 CSS 부분만 보여주고, 어디에 붙여넣을지 알려줘.`;
+
+    const fixes = ETHICS.filter((e) => S.ethics.s[e.id] === "fix").map((e) => `- ${e.q}${S.ethics.n[e.id] ? ` (계획: ${S.ethics.n[e.id]})` : ""}`).join("\n") || "- (아직 없음)";
+    $("#p4").textContent =
+`너는 학교 현장의 개인정보 보호와 학생 인권을 검토하는 선생님이야. 아래 교실용 웹앱 설명을 읽고, 이 앱 때문에 학생 한 명이 겪을 수 있는 '최악의 하루' 시나리오 3개를 짧은 이야기로 써줘.
+
+각 시나리오마다:
+(1) 원인이 되는 기능이나 데이터
+(2) 미리 막는 방법 한 가지
+(3) 막는 데 드는 노력: 쉬움 / 보통 / 어려움
+
+과장하지 말고 실제 교실에서 일어날 법한 일만 써줘.
+
+[앱]
+이름: ${app}
+한 줄 정의: ${(p.oneLiner || "").replace(/\n/g, " ")}
+사용자와 장면: ${(p.user || "").replace(/\n/g, " ")} / ${(p.scene || "").replace(/\n/g, " ")}
+핵심 기능: ${lines(p.must).join(", ")}
+데이터: ${(p.data || "").replace(/\n/g, " ")}
+만들지 않을 것: ${lines(p.wont).join(", ")}
+
+[우리가 이미 찾은 보완점]
+${fixes}`;
+
+    $("#p5").textContent = pitchPrompt(false);
+  }
+
+  /* ---------- CSS lab ---------- */
+  let pvRoot, probeRoot, pvWidth = "wide";
+  function setupLab() {
+    pvRoot = $("#pv").attachShadow({ mode: "open" });
+    const probe = document.createElement("div");
+    probe.setAttribute("aria-hidden", "true");
+    probe.style.cssText = "position:fixed;left:0;top:0;width:360px;visibility:hidden;pointer-events:none;z-index:-1;contain:layout;";
+    document.body.appendChild(probe);
+    probeRoot = probe.attachShadow({ mode: "open" });
+    $("#cssCode").value = S.css.code || CSS0;
+    applyCSS();
+  }
+  function applyCSS() {
+    const css = $("#cssCode").value;
+    const base = ":host{display:block}*{box-sizing:border-box}";
+    pvRoot.innerHTML = `<style>${base}${css}</style>${APP_HTML}`;
+    probeRoot.innerHTML = `<style>${base}${css}</style>${APP_HTML}`;
+    $("#pv").style.width = pvWidth === "360" ? "360px" : "100%";
+    requestAnimationFrame(runChecks);
+  }
+  function runChecks() {
+    const app = pvRoot.querySelector(".app"), btn = pvRoot.querySelector(".btn"), h1 = pvRoot.querySelector("h1");
+    const main = getComputedStyle(app).getPropertyValue("--main").trim().toLowerCase();
+    const h1c = getComputedStyle(h1).color;
+    const m1 = main && main !== "#8a8a8a" && h1c !== "rgb(51, 51, 51)";
+    const br = btn.getBoundingClientRect(), bfs = parseFloat(getComputedStyle(btn).fontSize);
+    const m2 = br.height >= 44 && bfs >= 16;
+    const papp = probeRoot.querySelector(".app");
+    const m3 = papp.scrollWidth <= 361;
+    const res = [
+      { ok: m1, t: "앱 색 정하기", d: "회색 <code>--main</code>을 앱에 어울리는 색으로 바꾸고, 제목 <code>h1</code>도 <code>var(--main)</code>을 쓰게 하세요.", now: `지금 --main: ${esc(main || "없음")}` },
+      { ok: m2, t: "누르기 쉬운 버튼", d: "<code>.btn</code>의 높이를 44px 이상, 글자를 16px 이상으로. 손가락과 전자칠판 펜으로 누르는 크기입니다.", now: `지금 높이 ${Math.round(br.height)}px · 글자 ${Math.round(bfs)}px` },
+      { ok: m3, t: "휴대폰에서 가로 스크롤 없애기", d: "폭 360px에서 모둠 상자가 화면 밖으로 나갑니다. <code>.groups</code>에 <code>flex-wrap: wrap</code>을, <code>.group</code>의 <code>flex</code>를 <code>1 1 140px</code>로 바꿔 보세요.", now: `360px 화면에서 내용 폭 ${papp.scrollWidth}px` }
+    ];
+    S.css.done = res.filter((r) => r.ok).length;
+    $("#checks").innerHTML = res.map((r, i) => `<div class="check"><span class="n">M${i + 1}</span><div><p><b>${r.t}</b></p><p class="how">${r.d}</p><p class="how">${r.now}</p></div><span class="chip ${r.ok ? "ok" : "warn"}">${r.ok ? "통과" : "도전"}</span></div>`).join("");
+    navDots();
+  }
+
+  /* ---------- ethics ---------- */
+  function renderEthics() {
+    let ok = 0, fix = 0, na = 0;
+    ETHICS.forEach((e) => {
+      const v = S.ethics.s[e.id];
+      if (v === "ok") ok++; else if (v === "fix") fix++; else if (v === "na") na++;
+      const row = $(`[data-eid="${e.id}"]`);
+      $$("button", row).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === v)));
+      $(`#en-${e.id}`).hidden = v !== "fix";
+    });
+    const n = ok + fix + na;
+    $("#ethSum").textContent = `${n} / ${ETHICS.length} 점검`;
+    $("#ethOk").textContent = "지킴 " + ok; $("#ethFix").textContent = "보완 " + fix; $("#ethNa").textContent = "해당 없음 " + na;
+    $("#ethMeter").style.width = (n / ETHICS.length * 100) + "%";
+  }
+  function suggestPromise() {
+    const ok = ETHICS.filter((e) => S.ethics.s[e.id] === "ok").map((e) => e.id);
+    const parts = [];
+    if (ok.includes("e1")) parts.push("학생 이름 대신 번호만 쓰고");
+    if (ok.includes("e2")) parts.push("기록은 언제든 지울 수 있게 하고");
+    if (ok.includes("e4")) parts.push("점수와 순위는 다른 학생에게 보이지 않게 하고");
+    if (ok.includes("e5")) parts.push("자동 결과는 교사가 확인하고 바꿀 수 있게 하고");
+    if (ok.includes("e6")) parts.push("AI가 만든 내용은 그렇다고 표시하고");
+    if (!parts.length) return "지킴으로 고른 항목이 생기면 초안을 만들 수 있어요.";
+    const s = parts.slice(0, 2).join(", ");
+    return `${josa(T().app || "이 앱", "은", "는")} ${s.replace(/하고$/, "합니다")}.`;
+  }
+
+  /* ---------- slide ---------- */
+  function auto() {
+    const p = P(), t = T();
+    const log = changeLog();
+    const ch = changedFields();
+    let change = "";
+    if (log.length && log[0].how) change = log[0].how;
+    else if (ch.length) change = `피드백을 받아 PRD의 '${ch.map((f) => f.label).slice(0, 2).join("', '")}'을 구체적으로 고쳤습니다`;
+    if (S.css.applied) change = change ? `${change} · 화면: ${S.css.applied}` : `화면: ${S.css.applied}`;
+    return {
+      one: (p.oneLiner || "").trim(),
+      features: lines(p.must).slice(0, 3).join("\n"),
+      change,
+      promise: (S.ethics.promise || "").trim()
+    };
+  }
+  function slideVals() {
+    const a = auto(), s = S.slide || {};
+    return { one: (s.one || "").trim() || a.one, features: (s.features || "").trim() || a.features, change: (s.change || "").trim() || a.change, promise: (s.promise || "").trim() || a.promise };
+  }
+  function slideHTML() {
+    const v = slideVals(), t = T(), c = COLORS[S.slide.color || 0];
+    const feats = lines(v.features);
+    return { style: `--sc:${c.c};--sc-ink:${c.ink}`, html:
+      `<div class="l"><div class="team">${esc(t.name || "팀 이름")}</div><div class="app">${esc(t.app || "앱 이름")}</div><div class="one">${esc(v.one || "한 줄 소개가 여기에 들어갑니다")}</div><div class="who">${esc(t.members || "")}</div></div>` +
+      `<div class="r">${S.slideImg ? `<div class="img" style="background-image:url('${S.slideImg}')"></div>` : ""}<div><h4>핵심 기능</h4><ul>${(feats.length ? feats : ["핵심 기능"]).map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>${v.change ? `<div><h4>오늘 바뀐 것</h4><p>${esc(v.change)}</p></div>` : ""}${v.promise ? `<p class="promise">${esc(v.promise)}</p>` : ""}</div>` };
+  }
+  function renderSlide() {
+    const s = slideHTML();
+    const el = $("#slide"); el.style.cssText = s.style; el.innerHTML = s.html;
+    const a = auto();
+    $("#sl-one").placeholder = a.one || "1단계 '한 줄 정의'가 들어갑니다";
+    $("#sl-feat").placeholder = a.features || "1단계 Must 기능이 들어갑니다";
+    $("#sl-change").placeholder = a.change || "3단계 변경 기록과 4단계 바꾼 화면이 들어갑니다";
+    $("#sl-promise").placeholder = a.promise || "5단계 약속이 들어갑니다";
+    $$("#swatches button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.ci === (S.slide.color || 0))));
+  }
+  function downscale(file) {
+    return new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onerror = rej;
+      fr.onload = () => { const img = new Image(); img.onerror = rej; img.onload = () => {
+        const m = 1000, k = Math.min(1, m / Math.max(img.width, img.height));
+        const cv = document.createElement("canvas"); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+        cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height); res(cv.toDataURL("image/jpeg", 0.8)); }; img.src = fr.result; };
+      fr.readAsDataURL(file);
+    });
+  }
+
+  /* ---------- pitch ---------- */
+  const SEG = [
+    { k: "problem", l: "문제", sec: 10 },
+    { k: "app", l: "우리 앱", sec: 15 },
+    { k: "change", l: "오늘 바뀐 것", sec: 20 },
+    { k: "promise", l: "약속", sec: 10 },
+    { k: "next", l: "다음", sec: 5 }
+  ];
+  const chars = (s) => String(s || "").replace(/\s/g, "").length;
+  function josa(w, withFinal, without) {
+    const c = String(w || "").trim().slice(-1).charCodeAt(0);
+    if (!(c >= 0xac00 && c <= 0xd7a3)) return w + without;
+    return w + ((c - 0xac00) % 28 ? withFinal : without);
+  }
+  function facts() {
+    const p = P(), t = T(), v = slideVals();
+    return {
+      team: t.name || "", members: t.members || "", app: t.app || "", problem: (p.problem || t.topic || "").trim(), oneLiner: v.one, user: (p.user || "").trim(), scene: (p.scene || "").trim(),
+      must: lines(p.must), wont: lines(p.wont),
+      feedback: S.fb.map((f) => ({ stuck: f.stuck, decision: f.status === "done" ? "반영" : f.status === "keep" ? "반영 안 함" : "미정", note: f.note || "" })),
+      changedFields: changedFields().map((f) => f.label), screenChange: S.css.applied || "",
+      ethicsFix: ETHICS.filter((e) => S.ethics.s[e.id] === "fix").map((e) => e.q + (S.ethics.n[e.id] ? ` → ${S.ethics.n[e.id]}` : "")),
+      promise: v.promise, narrative: (S.pitch.narr || "").trim()
+    };
+  }
+  function pitchPrompt(forJson) {
+    const f = facts();
+    return `예비교사 연수에서 팀이 만든 교실용 웹앱을 1분 동안 소개하는 발표 대본을 써줘.
+
+[규칙]
+- 아래 기록과 서술에 있는 사실만 써. 없는 기능, 숫자, 성과를 지어내지 마.
+- 발표자가 소리 내어 읽는 존댓말 구어체로 써.
+- 다섯 구간으로 나누고, 구간별 길이를 지켜. 한국어는 1초에 공백 제외 약 5글자야.
+  문제 10초(약 50자) · 우리 앱 15초(약 75자) · 오늘 바뀐 것 20초(약 100자) · 약속 10초(약 50자) · 다음 5초(약 25자)
+- '오늘 바뀐 것'이 가장 중요해. 기능 목록 대신, 동료 피드백 → 우리가 고친 것 → 그래서 달라진 점의 순서로 이야기해.
+- '서술'에 나온 팀의 실제 표현을 살려 줘.
+${forJson ? `- 다른 말 없이 JSON만 출력해: {"problem":"…","app":"…","change":"…","promise":"…","next":"…"}` : `- 출력 형식: 구간 이름과 대본만, 다섯 줄로.`}
+
+[기록]
+${JSON.stringify(f, null, 2)}`;
+  }
+  function templateScript() {
+    const f = facts();
+    const narr = f.narrative.split(/(?<=[.!?。])\s+|\n+/).map((s) => s.trim()).filter(Boolean);
+    const firstFb = S.fb.find((x) => x.status === "done") || S.fb[0];
+    const prob = f.problem ? f.problem.split(/(?<=[.!?。])\s+|\n+/)[0] : "";
+    const out = {};
+    out.problem = prob ? `${f.user ? f.user.split(/[(\n]/)[0].trim() + "에게는 이런 문제가 있었습니다. " : ""}${prob.replace(/[.。]?$/, ".")}` : "";
+    out.app = `그래서 저희 ${josa(f.team || "팀", "은", "는")} ${josa(f.app || "이 앱", "을", "를")} 만들었습니다. ${f.oneLiner ? f.oneLiner.replace(/[.。]?$/, ".") : ""}${f.must.length ? ` 핵심 기능은 ${f.must.slice(0, 2).join(", ")}입니다.` : ""}`;
+    let ch = "";
+    if (firstFb) ch += `동료 피드백에서 "${firstFb.stuck.split("\n")[0].replace(/["“”]/g, "")}"라는 지적을 받았습니다. `;
+    if (firstFb && firstFb.note) ch += `그래서 ${firstFb.note.replace(/[.。]?$/, ".")} `;
+    else if (f.changedFields.length) ch += `그래서 PRD의 ${f.changedFields.slice(0, 2).join(", ")}을 다시 썼습니다. `;
+    if (f.screenChange) ch += `화면은 ${f.screenChange.replace(/[.。]?$/, "")}으로 바꿨습니다. `;
+    if (narr[0]) ch += narr[0];
+    out.change = ch.trim();
+    let pr = "";
+    if (f.ethicsFix.length) pr += `윤리 점검에서 보완할 점을 찾았습니다. ${f.ethicsFix[0].split(" → ")[1] ? f.ethicsFix[0].split(" → ")[1].replace(/[.。]?$/, ".") : ""} `;
+    pr += f.promise || "";
+    out.promise = pr.trim();
+    out.next = narr.length > 1 ? narr[narr.length - 1] : "감사합니다.";
+    return out;
+  }
+  function setSegs(obj, by) {
+    S.pitch.segs = SEG.map((s) => ({ k: s.k, text: String(obj[s.k] || "").trim() }));
+    S.pitch.by = by;
+    save(); renderSegs(); navDots();
+  }
+  function renderSegs() {
+    const segs = S.pitch.segs;
+    if (!segs) {
+      $("#segs").innerHTML = `<p class="muted small">서술을 쓰고 위 버튼을 누르면 1~6단계 기록을 합쳐 대본이 만들어집니다. 직접 써도 됩니다: <button class="linkbtn" id="segManual" type="button">빈 대본 칸 열기</button></p>`;
+      $("#bar60").innerHTML = SEG.map((s) => `<div style="flex:${s.sec}">${s.l} ${s.sec}″</div>`).join("");
+      $("#pitchLen").textContent = "";
+      return;
+    }
+    $("#segs").innerHTML = SEG.map((s, i) => { const txt = segs[i]?.text || ""; const sec = chars(txt) / 5; return `<div class="segp"><div class="lab2">${s.l}<span data-sl="${i}">${sec.toFixed(0)}″ / ${s.sec}″</span></div><textarea data-seg="${i}" rows="3" aria-label="${s.l} 대본">${esc(txt)}</textarea></div>`; }).join("");
+    updateLen();
+  }
+  function updateLen() {
+    const segs = S.pitch.segs; if (!segs) return;
+    let tot = 0;
+    $("#bar60").innerHTML = SEG.map((s, i) => { const sec = chars(segs[i]?.text) / 5; tot += sec; return `<div style="flex:${Math.max(sec, 1).toFixed(1)}">${s.l}</div>`; }).join("");
+    SEG.forEach((s, i) => { const el = $(`[data-sl="${i}"]`); if (el) { const sec = chars(segs[i]?.text) / 5; el.textContent = `${sec.toFixed(0)}″ / ${s.sec}″`; el.style.color = sec > s.sec * 1.25 ? "var(--red)" : ""; } });
+    const t = Math.round(tot);
+    $("#pitchLen").textContent = `예상 ${t}초${t > 66 ? " · 줄여야 해요" : t < 45 ? " · 조금 더 써도 돼요" : ""}${S.pitch.by ? " · " + S.pitch.by : ""}`;
+  }
+
+  let sample = null, ctl = null;
+  async function genAI() {
+    if (!sample) return;
+    const btn = $("#genAI"), msg = $("#genMsg");
+    btn.disabled = true; $("#genTpl").disabled = true; $("#genStop").hidden = false; msg.className = "status"; msg.textContent = "AI가 기록을 읽고 대본을 쓰는 중… (10~40초)";
+    ctl = new AbortController();
+    try {
+      const data = await sample.json(pitchPrompt(true), { signal: ctl.signal, cache: false });
+      if (!data || typeof data !== "object") throw { code: "bad_output" };
+      setSegs(data, "AI 초안");
+      msg.textContent = "만들었습니다. 우리 말투로 고쳐 읽어 보세요.";
+    } catch (e) {
+      msg.className = "status err";
+      const c = e && e.code;
+      if (c === "not_granted") { msg.textContent = "AI 사용이 허용되지 않았습니다. '기록으로 바로 대본 만들기'를 쓰세요."; btn.hidden = true; }
+      else if (c === "rate_limited") msg.textContent = "요청이 몰렸습니다. 1분 뒤 다시 누르거나 '기록으로 바로 대본 만들기'를 쓰세요.";
+      else if (c === "aborted" || (e && e.name === "AbortError")) { msg.className = "status"; msg.textContent = "멈췄습니다."; }
+      else msg.textContent = "대본을 만들지 못했습니다. '기록으로 바로 대본 만들기'를 쓰거나 프롬프트를 복사해 다른 AI에서 만들어 보세요.";
+    } finally { btn.disabled = false; $("#genTpl").disabled = false; $("#genStop").hidden = true; ctl = null; }
+  }
+
+  /* ---------- presenter ---------- */
+  let stT0 = 0, stAcc = 0, stRun = false, stRaf = 0;
+  function openStage() {
+    if (!S.pitch.segs) setSegs(templateScript(), "기록으로 만든 초안");
+    const s = slideHTML(); const el = $("#stSlide"); el.style.cssText = s.style; el.innerHTML = s.html;
+    $("#stScript").innerHTML = SEG.map((g, i) => `<div data-st="${i}"><b>${g.l} · ${g.sec}″</b>${esc(S.pitch.segs[i]?.text || "")}</div>`).join("");
+    stAcc = 0; stRun = false; $("#stGo").textContent = "시작"; tickStage();
+    $("#stage").hidden = false; $("#stGo").focus();
+  }
+  function tickStage() {
+    const el = stRun ? stAcc + (performance.now() - stT0) / 1000 : stAcc;
+    const left = 60 - el;
+    const c = $("#stClock"); c.textContent = left >= 0 ? Math.ceil(left) : "+" + Math.floor(-left); c.classList.toggle("over", left < 0);
+    $("#stProg").style.width = Math.min(100, el / 60 * 100) + "%";
+    let acc = 0, cur = SEG.length - 1;
+    for (let i = 0; i < SEG.length; i++) { acc += SEG[i].sec; if (el < acc) { cur = i; break; } }
+    $$("#stScript [data-st]").forEach((d) => d.classList.toggle("on", +d.dataset.st === cur));
+    const on = $(`#stScript [data-st="${cur}"]`); if (on && stRun) on.scrollIntoView({ block: "nearest" });
+    if (stRun) stRaf = requestAnimationFrame(tickStage);
+  }
+
+  /* ---------- activity timer ---------- */
+  let cur = "start", tLeft = 0, tRun = false, tEnd = 0, tInt = 0;
+  function setTimerFor(id) { if (tRun) return; const s = STEPS.find((x) => x.id === id); tLeft = s.min * 60; $("#timerLbl").textContent = `${s.n === "0" ? "준비" : s.n + "단계"} ${s.min}분`; drawClock(); }
+  function drawClock() { const v = Math.abs(Math.round(tLeft)); const c = $("#clock"); c.textContent = (tLeft < 0 ? "+" : "") + String(Math.floor(v / 60)).padStart(2, "0") + ":" + String(v % 60).padStart(2, "0"); c.classList.toggle("over", tLeft < 0); }
+
+  /* ---------- nav & routing ---------- */
+  function navDots() {
+    const done = {
+      start: !!(T().name && T().app && T().topic),
+      prd: REQUIRED.every((f) => (P()[f.k] || "").trim()),
+      feedback: S.fb.length >= 2,
+      revise: S.fb.length > 0 && S.fb.every((f) => f.status),
+      css: (S.css.done || 0) >= 3 && !!S.css.applied,
+      ethics: ETHICS.every((e) => S.ethics.s[e.id]) && !!(S.ethics.promise || "").trim(),
+      onepage: !!(slideVals().one && slideVals().features),
+      pitch: !!S.pitch.segs
+    };
+    $$("[data-dot]").forEach((d) => d.classList.toggle("done", !!done[d.dataset.dot]));
+  }
+  function route() {
+    let id = (location.hash || "").slice(1);
+    if (!STEPS.some((s) => s.id === id)) id = "start";
+    cur = id;
+    STEPS.forEach((s) => { $("#s-" + s.id).hidden = s.id !== id; });
+    $$("[data-step]").forEach((a) => { if (a.dataset.step === id) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
+    if (id === "revise" && !S.prdV1 && Object.values(P()).some((v) => (v || "").trim())) { S.prdV1 = Object.assign({}, P(), { _at: Date.now() }); save(); }
+    if (id === "prd" && !(P().problem || "").trim() && (T().topic || "").trim()) { S.prd.problem = T().topic; fillInputs(); save(); }
+    setTimerFor(id);
+    refresh();
+    const a = $(`[data-step="${id}"]`); if (a && window.matchMedia("(max-width: 860px)").matches) a.scrollIntoView({ inline: "center", block: "nearest" });
+    window.scrollTo({ top: 0 });
+  }
+
+  function refresh() {
+    $("#teamChip").textContent = T().name ? `${T().name}${T().app ? " · " + T().app : ""}` : "팀 이름을 정해 주세요";
+    renderPRDStatus(); renderPRDCard(); renderRevise(); prompts(); renderEthics(); renderSlide(); navDots();
+  }
+  let rT;
+  const refreshSoon = () => { clearTimeout(rT); rT = setTimeout(refresh, 120); };
+
+  /* ---------- export ---------- */
+  function exportMD() {
+    const t = T(), f = facts();
+    const seg = S.pitch.segs ? SEG.map((s, i) => `- ${s.l} (${s.sec}초): ${S.pitch.segs[i]?.text || ""}`).join("\n") : "(아직 없음)";
+    return `# ${t.app || "앱"} · ${t.name || "팀"} (4차시 완성 워크북)
+팀원: ${t.members || ""}
+앱 주소: ${t.link || ""}
+
+# PRD v2
+${prdText()}
+
+# 받은 피드백과 결정
+${S.fb.map((x, i) => `${i + 1}. [${x.from || "익명"}] 막힘: ${x.stuck}\n   이해됨: ${x.clear || "-"} / 질문: ${x.q || "-"}\n   결정: ${x.status === "done" ? "반영" : x.status === "keep" ? "반영 안 함" : "미정"} ${x.note || ""}`).join("\n") || "(없음)"}
+
+# 화면 다듬기
+예시 앱 미션 통과: ${S.css.done || 0}/3
+우리 앱에서 바꾼 것: ${S.css.applied || "-"}
+
+# 윤리 점검
+${ETHICS.map((e) => `- [${{ ok: "지킴", fix: "보완 필요", na: "해당 없음" }[S.ethics.s[e.id]] || "미점검"}] ${e.q}${S.ethics.n[e.id] ? ` → ${S.ethics.n[e.id]}` : ""}`).join("\n")}
+약속: ${f.promise || "-"}
+
+# 1분 발표 대본
+${seg}
+
+# 오늘 과정 서술
+${f.narrative || "-"}
+`;
+  }
+  async function copyText(text, btn) {
+    try { await navigator.clipboard.writeText(text); toast("복사했습니다"); }
+    catch (e) {
+      const ta = document.createElement("textarea"); ta.value = text; ta.style.cssText = "position:fixed;left:0;top:0;opacity:0;"; document.body.appendChild(ta); ta.select();
+      let ok = false; try { ok = document.execCommand("copy"); } catch (_) { /* ignore */ }
+      ta.remove(); toast(ok ? "복사했습니다" : "복사가 막혔습니다. 텍스트를 직접 선택해 복사하세요.");
+    }
+  }
+
+  /* ---------- events ---------- */
+  document.addEventListener("input", (e) => {
+    const el = e.target;
+    if (el.dataset.k) {
+      setK(el.dataset.k, el.value);
+      $$(`[data-k="${el.dataset.k}"]`).forEach((o) => { if (o !== el) o.value = el.value; });
+      save(); refreshSoon();
+    } else if (el.dataset.fbn) {
+      const f = S.fb.find((x) => x.id === el.dataset.fbn); if (f) { f.note = el.value; save(); refreshSoon(); }
+    } else if (el.dataset.seg != null) {
+      S.pitch.segs[+el.dataset.seg].text = el.value; save(); updateLen();
+    } else if (el.id === "cssCode") {
+      S.css.code = el.value; save(); clearTimeout(el._t); el._t = setTimeout(applyCSS, 200);
+    }
+  });
+  $("#cssCode").addEventListener("keydown", (e) => {
+    if (e.key === "Tab" && !e.shiftKey) { e.preventDefault(); const t = e.target, s = t.selectionStart; t.setRangeText("  ", s, t.selectionEnd, "end"); t.dispatchEvent(new Event("input", { bubbles: true })); }
+  });
+
+  document.addEventListener("click", async (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.copy) { copyText($("#" + b.dataset.copy).textContent, b); return; }
+    if (b.dataset.copyFn === "script") { copyText(S.pitch.segs ? SEG.map((s, i) => `[${s.l} ${s.sec}초] ${S.pitch.segs[i]?.text || ""}`).join("\n") : "아직 대본이 없습니다.", b); return; }
+    if (b.dataset.fbdel) { S.fb = S.fb.filter((x) => x.id !== b.dataset.fbdel); save(); renderFB(); refresh(); return; }
+    if (b.dataset.fbs) { const f = S.fb.find((x) => x.id === b.dataset.fbs); if (f) { f.status = f.status === b.dataset.val ? "" : b.dataset.val; save(); renderFB(); refresh(); } return; }
+    if (b.closest(".eth-item")) { const id = b.closest(".eth-item").dataset.eid; S.ethics.s[id] = S.ethics.s[id] === b.dataset.v ? "" : b.dataset.v; save(); renderEthics(); refresh(); return; }
+    if (b.dataset.w) { pvWidth = b.dataset.w; $$("[data-w]").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); applyCSS(); return; }
+    if (b.dataset.ci != null) { S.slide.color = +b.dataset.ci; save(); renderSlide(); return; }
+    if (b.id === "segManual") { setSegs({}, ""); return; }
+  });
+
+  $("#fbAdd").addEventListener("click", () => {
+    const stuck = $("#fb-stuck").value.trim();
+    if (!stuck) { $("#fbMsg").className = "status err"; $("#fbMsg").textContent = "'막힘' 칸을 채워 주세요. 해석이 갈리는 문장을 하나 인용하면 됩니다."; $("#fb-stuck").focus(); return; }
+    S.fb.push({ id: "f" + Date.now().toString(36), from: $("#fb-from").value.trim(), clear: $("#fb-clear").value.trim(), stuck, q: $("#fb-q").value.trim(), status: "", note: "" });
+    ["#fb-from", "#fb-clear", "#fb-stuck", "#fb-q"].forEach((s) => { $(s).value = ""; });
+    $("#fbMsg").className = "status"; $("#fbMsg").textContent = "피드백 카드를 남겼습니다. 자리로 돌아가세요.";
+    save(); renderFB(); refresh();
+  });
+
+  $("#v1Btn").addEventListener("click", () => { S.prdV1 = Object.assign({}, P(), { _at: Date.now() }); save(); refresh(); toast("현재 PRD를 v1로 고정했습니다"); });
+  $("#cssReset").addEventListener("click", () => { $("#cssCode").value = CSS0; S.css.code = CSS0; save(); applyCSS(); });
+  $("#promiseSuggest").addEventListener("click", () => { const s = suggestPromise(); if (s.startsWith("지킴")) { toast(s); return; } S.ethics.promise = s; fillInputs(); save(); refresh(); });
+  $("#sl-img").addEventListener("change", async (e) => { const f = e.target.files[0]; if (!f) return; try { S.slideImg = await downscale(f); save(); renderSlide(); } catch (_) { toast("이미지를 읽지 못했습니다. PNG나 JPG로 다시 올려 주세요."); } e.target.value = ""; });
+  $("#imgClear").addEventListener("click", () => { S.slideImg = ""; save(); renderSlide(); });
+
+  $("#genTpl").addEventListener("click", () => {
+    if (S.pitch.segs && S.pitch.segs.some((s) => s.text) && !$("#genTpl").dataset.armed) { $("#genTpl").dataset.armed = "1"; $("#genTpl").textContent = "지금 대본을 덮어쓸까요? 한 번 더 누르기"; setTimeout(() => { delete $("#genTpl").dataset.armed; $("#genTpl").textContent = "기록으로 바로 대본 만들기"; }, 3500); return; }
+    delete $("#genTpl").dataset.armed; $("#genTpl").textContent = "기록으로 바로 대본 만들기";
+    setSegs(templateScript(), "기록으로 만든 초안"); $("#genMsg").className = "status"; $("#genMsg").textContent = "초안을 만들었습니다. 이어지지 않는 문장을 우리 말로 고치세요.";
+  });
+  $("#genAI").addEventListener("click", genAI);
+  $("#genStop").addEventListener("click", () => ctl && ctl.abort());
+
+  $("#stageBtn").addEventListener("click", openStage);
+  $("#stGo").addEventListener("click", () => { if (stRun) { stAcc += (performance.now() - stT0) / 1000; stRun = false; cancelAnimationFrame(stRaf); $("#stGo").textContent = "이어서"; } else { stT0 = performance.now(); stRun = true; $("#stGo").textContent = "멈춤"; tickStage(); } });
+  $("#stRe").addEventListener("click", () => { stRun = false; cancelAnimationFrame(stRaf); stAcc = 0; $("#stGo").textContent = "시작"; $("#stScript").scrollTop = 0; tickStage(); });
+  $("#stFull").addEventListener("click", () => { const st = $("#stage"); try { (st.requestFullscreen ? st.requestFullscreen() : Promise.reject()).catch(() => toast("이 화면에서는 전체 화면을 쓸 수 없습니다")); } catch (_) { toast("이 화면에서는 전체 화면을 쓸 수 없습니다"); } });
+  function closeStage() { stRun = false; cancelAnimationFrame(stRaf); $("#stage").hidden = true; if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); $("#stageBtn").focus(); }
+  $("#stClose").addEventListener("click", closeStage);
+  document.addEventListener("keydown", (e) => { if (!$("#stage").hidden) { if (e.key === "Escape") closeStage(); else if (e.key === " " && e.target.tagName !== "BUTTON") { e.preventDefault(); $("#stGo").click(); } } });
+
+  $("#tStart").addEventListener("click", () => {
+    if (tRun) { tRun = false; clearInterval(tInt); tLeft = (tEnd - Date.now()) / 1000; $("#tStart").textContent = "이어서"; }
+    else { tRun = true; tEnd = Date.now() + tLeft * 1000; $("#tStart").textContent = "멈춤"; tInt = setInterval(() => { tLeft = (tEnd - Date.now()) / 1000; drawClock(); }, 250); }
+  });
+  $("#tReset").addEventListener("click", () => { tRun = false; clearInterval(tInt); $("#tStart").textContent = "시작"; setTimerFor(cur); });
+
+  $("#exportBtn").addEventListener("click", () => copyText(exportMD()));
+  $("#wipeBtn").addEventListener("click", (e) => {
+    const b = e.currentTarget;
+    if (!b.dataset.armed) { b.dataset.armed = "1"; b.textContent = "모든 입력이 지워집니다. 한 번 더 누르면 삭제"; setTimeout(() => { delete b.dataset.armed; b.textContent = "이 기기의 기록 지우기"; }, 4000); return; }
+    S = blank(); try { localStorage.removeItem(KEY); } catch (_) { /* ignore */ }
+    delete b.dataset.armed; b.textContent = "이 기기의 기록 지우기";
+    fillInputs(); $("#cssCode").value = CSS0; applyCSS(); renderFB(); renderSegs(); refresh(); toast("지웠습니다");
+  });
+
+  window.addEventListener("hashchange", route);
+
+  /* ---------- boot ---------- */
+  buildNav(); buildPRD(); buildEthics(); buildSwatches();
+  fillInputs(); setupLab(); renderFB(); renderSegs(); route();
+
+  if (window.claude && window.claude.use) {
+    window.claude.use("sample").then((s) => { if (s) { sample = s; $("#genAI").hidden = false; } }).catch(() => {});
+    window.claude.use("downloads").then((d) => {
+      if (!d) return;
+      const sb = $("#saveBtn"); sb.hidden = false;
+      sb.addEventListener("click", async () => {
+        try { await d.save({ filename: `4차시-${(T().name || "워크북").replace(/[\\/:*?"<>|]/g, "")}.md`, data: exportMD() }); }
+        catch (e) { if (e && e.code === "unavailable") sb.hidden = true; else if (!(e && e.code === "declined")) toast("저장하지 못했습니다. '워크북 전체 복사'를 쓰세요."); }
+      });
+    }).catch(() => {});
+  }
+})();
+</script>

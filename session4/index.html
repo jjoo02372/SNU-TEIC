@@ -584,7 +584,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   "use strict";
   const KEY = "teic-s4-workbook-v1";
   // 팀 간 메시지 서버 (apps-script/Code.gs를 웹 앱으로 배포한 /exec 주소). 비워 두면 피드백 보드 방식으로 동작합니다.
-  const API_URL = "";
+  const API_URL = "https://script.google.com/macros/s/AKfycbzgwSQtcQgzIKk6t6ex7tUOlZOd0g6iOIF8wITYs53Ezxoh4KNC-THERicrxrHceAja/exec";
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));

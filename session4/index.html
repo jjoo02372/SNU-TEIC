@@ -180,8 +180,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 .rule { background: var(--soft); border-radius: var(--r); padding: 12px 14px; font-size: 14px; display: grid; gap: 4px; }
 .rule b { font-size: 12px; letter-spacing: .06em; }
 
-/* revise */
-.diff-old { font-size: 13px; color: var(--red); text-decoration: line-through; white-space: pre-wrap; word-break: break-word; }
 
 /* css lab */
 .lab { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
@@ -417,7 +415,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     </div>
 
     <div class="block">
-      <h2>PRD v2 <span class="tag" id="changedCount"></span></h2>
+      <h2>PRD v2</h2>
       <div id="reviseForm" class="block"></div>
     </div>
 
@@ -714,8 +712,8 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   function fieldHTML(f, mode) {
     const id = `${mode}-${f.k}`;
     const req = f.optional ? `<span class="req" style="color:var(--muted)">선택</span>` : `<span class="req">필수</span>`;
-    const ex = mode === "prd" ? `<details class="exd"><summary>예시 보기</summary><div class="ex"><div class="bad"><b>모호한 예</b>${esc(f.bad)}</div><div class="good"><b>구체적인 예</b>${esc(f.good)}</div></div></details>` : `<div class="diff-old" data-old="${f.k}" hidden></div>`;
-    return `<div class="field" data-field="${f.k}"><label for="${id}">${f.label} ${req}<span class="chip red" data-changed="${f.k}" hidden>v1에서 바뀜</span></label>${mode === "prd" ? `<span class="hint">${f.tip}</span>` : ""}<textarea id="${id}" data-k="prd.${f.k}" rows="${f.rows}" placeholder="${esc(f.good)}"></textarea>${ex}</div>`;
+    const ex = mode === "prd" ? `<details class="exd"><summary>예시 보기</summary><div class="ex"><div class="bad"><b>모호한 예</b>${esc(f.bad)}</div><div class="good"><b>구체적인 예</b>${esc(f.good)}</div></div></details>` : "";
+    return `<div class="field" data-field="${f.k}"><label for="${id}">${f.label} ${req}</label>${mode === "prd" ? `<span class="hint">${f.tip}</span>` : ""}<textarea id="${id}" data-k="prd.${f.k}" rows="${f.rows}" placeholder="${esc(f.good)}"></textarea>${ex}</div>`;
   }
   function buildPRD() {
     $("#prdForm").innerHTML = `<div class="panel">` + FIELDS.map((f) => fieldHTML(f, "prd")).join("") + `</div>`;
@@ -795,14 +793,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   }
   function renderRevise() {
     $("#v1Info").textContent = S.prdV1 ? `PRD v1 고정: ${new Date(S.prdV1._at).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}` : "PRD v1이 아직 고정되지 않았습니다.";
-    const ch = changedFields();
-    $("#changedCount").textContent = S.prdV1 ? `${ch.length}칸 바뀜` : "";
-    FIELDS.forEach((f) => {
-      const changed = ch.includes(f);
-      $$(`[data-changed="${f.k}"]`).forEach((el) => { el.hidden = !changed; });
-      const old = $(`[data-old="${f.k}"]`);
-      if (old) { const ov = S.prdV1 ? (S.prdV1[f.k] || "").trim() : ""; old.hidden = !changed || !ov; old.textContent = ov; }
-    });
   }
 
   function changeLog() {

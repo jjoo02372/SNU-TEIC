@@ -13,11 +13,20 @@
 var SHEET_NAME = 'messages';
 var KINDS = { prd: true, feedback: true, reply: true };
 var MAX_BODY = 8000;
-// 피드백 보드 시트 ID (시트 주소의 /d/ 와 /edit 사이). 시트에서 열지 않고 따로 만든 스크립트도 이 시트에 저장합니다.
-var SPREADSHEET_ID = '1CO0CH6IwnQzJCZPnWSaNYoOkKJkfIx4lx9BAfRD0ZYE';
+// 시트에서 열지 않고 따로 만든 스크립트는 처음 실행할 때 메시지 시트를 직접 만들고 그 ID를 기억합니다.
+function spreadsheet_() {
+  var active = SpreadsheetApp.getActiveSpreadsheet();
+  if (active) return active;
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('SPREADSHEET_ID');
+  if (id) return SpreadsheetApp.openById(id);
+  var ss = SpreadsheetApp.create('TEIC 4차시 팀 메시지');
+  props.setProperty('SPREADSHEET_ID', ss.getId());
+  return ss;
+}
 
 function sheet_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet() || SpreadsheetApp.openById(SPREADSHEET_ID);
+  var ss = spreadsheet_();
   var sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(SHEET_NAME);
@@ -96,4 +105,11 @@ function doPost(e) {
   } finally {
     try { lock.releaseLock(); } catch (e2) { /* not held */ }
   }
+}
+
+// 편집기에서 실행해 시트 접근을 확인하는 함수 (메시지 시트 주소도 로그에 남깁니다)
+function testTeams() {
+  var out = doGet({ parameter: { action: 'teams' } });
+  Logger.log(out.getContent());
+  Logger.log('메시지 시트: ' + spreadsheet_().getUrl());
 }

@@ -13,9 +13,11 @@
 var SHEET_NAME = 'messages';
 var KINDS = { prd: true, feedback: true, reply: true };
 var MAX_BODY = 8000;
+// 피드백 보드 시트 ID (시트 주소의 /d/ 와 /edit 사이). 시트에서 열지 않고 따로 만든 스크립트도 이 시트에 저장합니다.
+var SPREADSHEET_ID = '1CO0CH6IwnQzJCZPnWSaNYoOkKJkfIx4lx9BAfRD0ZYE';
 
 function sheet_() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.getActiveSpreadsheet() || SpreadsheetApp.openById(SPREADSHEET_ID);
   var sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(SHEET_NAME);

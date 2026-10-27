@@ -39,6 +39,7 @@
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
+body:not(.live) .live-only, body.live .board-only { display: none !important; }
 body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.65; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--board); }
 h1, h2, h3 { text-wrap: balance; line-height: 1.3; margin: 0; }
@@ -346,17 +347,32 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">1부 · 설계를 다시 쓰다</span></div>
       <h1>2. 팀 간 피드백: <span class="lens-q">남이 읽고 만들 수 있는가</span></h1>
     </div>
-    <div class="rule"><span>노트북은 바꾸지 않습니다. 각자 자리에서 <b>피드백 보드(구글 시트)</b>로 PRD와 피드백을 주고받습니다. <b>아이디어 평가 없이, 이 문서만으로 만들 수 있는지만</b> 봅니다.</span>
+    <div class="rule live-only"><span>각자 자리에서 우리 PRD를 보내고, 다른 팀 PRD를 골라 피드백을 보냅니다. 받은 피드백은 자동으로 도착합니다. <b>아이디어 평가 없이, 이 문서만으로 만들 수 있는지만</b> 봅니다.</span></div>
+    <div class="rule board-only"><span>노트북은 바꾸지 않습니다. 각자 자리에서 <b>피드백 보드(구글 시트)</b>로 PRD와 피드백을 주고받습니다. <b>아이디어 평가 없이, 이 문서만으로 만들 수 있는지만</b> 봅니다.</span>
       <ol class="small" style="margin:4px 0 0;padding-left:1.3em"><li>아래 <b>보드에 붙일 PRD 복사</b>를 눌러 보드의 우리 팀 줄 D칸에 붙여 넣기</li><li>보드에서 짝 팀 줄의 PRD를 읽고, 그 줄의 E~H칸(쓴 사람 · 이해됨 · 막힘 · 질문)에 피드백 쓰기</li><li>우리 팀 줄의 E~H칸을 한꺼번에 복사해 아래 <b>받은 피드백 붙여넣기</b>에 붙이고 카드로 저장하기</li></ol>
       <div class="row" style="margin-top:6px"><a class="btn" id="boardLink" href="https://docs.google.com/spreadsheets/d/1CO0CH6IwnQzJCZPnWSaNYoOkKJkfIx4lx9BAfRD0ZYE/edit" target="_blank" rel="noopener">피드백 보드 열기</a></div></div>
 
     <div class="block">
       <h2>우리 PRD 보내기 <span class="tag" id="fbFor"></span></h2>
       <div class="panel prd-card" id="prdCard"></div>
-      <div class="row"><button class="btn chalk" id="prdCopy" type="button">보드에 붙일 PRD 복사</button><span class="status">한 줄로 복사되니 보드 칸을 한 번 클릭하고 붙여 넣으면 됩니다.</span></div>
+      <div class="row live-only"><button class="btn chalk" id="livePrdSend" type="button">우리 PRD 보내기</button><span class="status" id="livePrdMsg">고친 뒤 다시 보내면 최신본으로 바뀝니다.</span></div>
+      <div class="row board-only"><button class="btn chalk" id="prdCopy" type="button">보드에 붙일 PRD 복사</button><span class="status">한 줄로 복사되니 보드 칸을 한 번 클릭하고 붙여 넣으면 됩니다.</span></div>
     </div>
 
-    <div class="block">
+    <div class="block live-only">
+      <h2>다른 팀 PRD에 피드백 보내기</h2>
+      <div class="panel">
+        <div class="row"><select id="liveTeam" aria-label="피드백할 팀" style="width:auto;min-width:12em;max-width:100%"></select><button class="linkbtn" id="liveTeamsReload" type="button">팀 목록 새로고침</button></div>
+        <div class="prd-card" id="livePrdCard"></div>
+        <div class="field"><label for="lf-name">쓰는 사람 이름</label><input type="text" id="lf-name" placeholder="예: 정OO"></div>
+        <div class="field"><label for="lf-clear">이해됨: 이 부분은 그대로 만들 수 있다</label><textarea id="lf-clear" rows="2" placeholder="예: 핵심 시나리오 1~3단계는 순서와 버튼이 분명해서 바로 만들 수 있음"></textarea></div>
+        <div class="field"><label for="lf-stuck">막힘: 두 가지 이상으로 해석되는 문장 <span class="req">필수</span></label><textarea id="lf-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot; → 전체 화면인지, 글자만 큰 건지 모르겠음"></textarea></div>
+        <div class="field"><label for="lf-q">질문 하나: 만드는 사람이라면 꼭 물어볼 것</label><textarea id="lf-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
+        <div class="row"><button class="btn" id="liveSend" type="button">이 팀에 피드백 보내기</button><span class="status" id="liveMsg" aria-live="polite"></span></div>
+      </div>
+    </div>
+
+    <div class="block board-only">
       <h2>받은 피드백 옮겨 오기 <span class="tag">보드의 우리 팀 줄 E~H칸</span></h2>
       <div class="panel">
         <div class="field"><label for="fb-paste">받은 피드백 붙여넣기</label><span class="hint">보드에서 우리 팀 줄의 E~H칸 네 칸을 드래그해 복사한 뒤 여기에 붙여 넣으면 아래 칸이 자동으로 채워집니다. 직접 옮겨 적어도 됩니다.</span><textarea id="fb-paste" rows="2" placeholder="여기에 붙여넣기 (Ctrl+V / ⌘V)"></textarea></div>
@@ -371,6 +387,11 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     <div class="block">
       <h2>받은 피드백 <span class="tag" id="fbCount">0장</span></h2>
       <div class="fb-list" id="fbList"></div>
+    </div>
+
+    <div class="block live-only">
+      <h2>우리 피드백에 온 답장 <span class="tag" id="replyCount"></span></h2>
+      <div class="fb-list" id="replyList"></div>
     </div>
     <div class="pager"><a class="btn ghost" href="#prd">← 1단계</a><a class="btn" href="#revise">3단계 PRD 고치기로 →</a></div>
   </section>
@@ -562,6 +583,8 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 (function () {
   "use strict";
   const KEY = "teic-s4-workbook-v1";
+  // 팀 간 메시지 서버 (apps-script/Code.gs를 웹 앱으로 배포한 /exec 주소). 비워 두면 피드백 보드 방식으로 동작합니다.
+  const API_URL = "";
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -673,10 +696,10 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   const APP_HTML = `<div class="app"><div class="top"><h1>모둠 뽑기</h1><p>모둠 수를 정하고 버튼을 누르세요 · 예시 데이터</p></div><div class="controls"><label>모둠 수 <input type="number" value="4" min="2" max="8"></label><button class="btn" type="button">모둠 만들기</button></div><div class="groups"><div class="group"><h2>1모둠</h2><p>3번 · 11번 · 19번 · 24번</p></div><div class="group"><h2>2모둠</h2><p>1번 · 8번 · 15번 · 27번</p></div><div class="group"><h2>3모둠</h2><p>5번 · 12번 · 20번 · 22번</p></div><div class="group"><h2>4모둠</h2><p>2번 · 9번 · 17번 · 26번</p></div></div></div>`;
 
   /* ---------- state ---------- */
-  const blank = () => ({ team: {}, prd: {}, prdV1: null, fb: [], css: { code: CSS0 }, ethics: { s: {}, n: {} }, slide: { color: 0 }, slideImg: "", pitch: { segs: null } });
+  const blank = () => ({ team: {}, prd: {}, prdV1: null, fb: [], css: { code: CSS0 }, ethics: { s: {}, n: {} }, slide: { color: 0 }, slideImg: "", pitch: { segs: null }, replies: [], inboxSince: 0, inboxTeam: "" });
   let S = blank();
   try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) { /* storage unavailable */ }
-  S.ethics.s ??= {}; S.ethics.n ??= {};
+  S.ethics.s ??= {}; S.ethics.n ??= {}; S.replies ??= [];
   let saveT;
   function save() { clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* full or blocked */ } }, 250); }
   const getK = (p) => p.split(".").reduce((o, k) => (o == null ? undefined : o[k]), S);
@@ -755,13 +778,14 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     if (withDecision) {
       dec = `<div class="row"><span class="seg" role="group" aria-label="반영 여부">` +
         [["done", "반영함"], ["keep", "반영 안 함"]].map(([v, l]) => `<button type="button" data-fbs="${f.id}" data-v="${v === "done" ? "ok" : "na"}" data-val="${v}" aria-pressed="${f.status === v}">${l}</button>`).join("") +
-        `</span></div><input type="text" data-fbn="${f.id}" value="${esc(f.note || "")}" placeholder="${f.status === "keep" ? "왜 바꾸지 않았나요?" : "어떻게 바꿨나요? 예: '크게'를 '전체 화면, 글자 48px'로 수정"}" aria-label="결정 이유">`;
+        `</span>${live && f.fromTeam ? `<button class="linkbtn" data-reply="${f.id}" type="button">${f.replied ? "답장 다시 보내기" : esc(f.fromTeam) + "에 답장 보내기"}</button>` : ""}</div><input type="text" data-fbn="${f.id}" value="${esc(f.note || "")}" placeholder="${f.status === "keep" ? "왜 바꾸지 않았나요?" : "어떻게 바꿨나요? 예: '크게'를 '전체 화면, 글자 48px'로 수정"}" aria-label="결정 이유">`;
     }
     return `<div class="fb"><div class="who"><span>${esc(f.from || "익명")}</span>${withDecision ? "" : `<button class="linkbtn" data-fbdel="${f.id}" type="button">지우기</button>`}</div>${kv("이해됨", f.clear)}<div class="kv"><span>막힘</span><span class="pen">${esc(f.stuck)}</span></div>${kv("질문", f.q)}${dec}</div>`;
   }
   function renderFB() {
     $("#fbCount").textContent = S.fb.length + "장";
-    $("#fbList").innerHTML = S.fb.length ? S.fb.map((f) => fbCardHTML(f, false)).join("") : `<p class="muted small">아직 받은 피드백이 없습니다. 짝 팀이 보드에 피드백을 쓰면, 우리 팀 줄의 E~H칸을 복사해 위에 붙여 넣으세요.</p>`;
+    $("#fbList").innerHTML = S.fb.length ? S.fb.map((f) => fbCardHTML(f, false)).join("") : `<p class="muted small">${live ? "아직 받은 피드백이 없습니다. 다른 팀이 보내면 여기에 자동으로 도착합니다." : "아직 받은 피드백이 없습니다. 짝 팀이 보드에 피드백을 쓰면, 우리 팀 줄의 E~H칸을 복사해 위에 붙여 넣으세요."}</p>`;
+    renderReplies();
     $("#decList").innerHTML = S.fb.length ? S.fb.map((f) => fbCardHTML(f, true)).join("") : `<p class="muted small">2단계에서 받은 피드백이 없습니다. 미니 미션 1의 AI 질문 중 하나를 피드백으로 옮겨 적어도 됩니다.</p>`;
     const decided = S.fb.filter((f) => f.status).length;
     $("#decCount").textContent = S.fb.length ? `${decided} / ${S.fb.length} 결정` : "";
@@ -1283,9 +1307,118 @@ ${f.narrative || "-"}
 
   window.addEventListener("hashchange", route);
 
+  /* ---------- team messages (live mode) ---------- */
+  let live = false, teams = [], polling = false;
+  const myTeam = () => (T().name || "").trim();
+  async function apiGet(params) {
+    const r = await fetch(API_URL + "?" + new URLSearchParams(params));
+    const j = await r.json(); if (!j.ok) throw new Error(j.error || "server_error"); return j;
+  }
+  async function apiPost(data) {
+    const r = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
+    const j = await r.json(); if (!j.ok) throw new Error(j.error || "server_error"); return j;
+  }
+  const hhmm = (t) => new Date(t).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
+  function prdCardHTML(prd) {
+    return FIELDS.map((f) => { const v = String((prd || {})[f.k] || "").trim(); return v ? `<div class="it"><div class="k">${f.label}</div><div class="v">${esc(v)}</div></div>` : ""; }).join("") || `<p class="muted small">비어 있는 PRD입니다.</p>`;
+  }
+  function renderTeams() {
+    const sel = $("#liveTeam"), keep = sel.value;
+    const others = teams.filter((t) => t.team !== myTeam());
+    sel.innerHTML = others.length
+      ? `<option value="">피드백할 팀 고르기 (${others.length}팀)</option>` + others.map((t) => `<option value="${esc(t.team)}">${esc(t.team)}${t.app ? " · " + esc(t.app) : ""}</option>`).join("")
+      : `<option value="">아직 PRD를 보낸 다른 팀이 없습니다</option>`;
+    if (others.some((t) => t.team === keep)) sel.value = keep;
+    renderLivePrd();
+  }
+  function renderLivePrd() {
+    const t = teams.find((x) => x.team === $("#liveTeam").value);
+    $("#livePrdCard").innerHTML = t ? `<p class="small muted">${esc(t.team)} · ${hhmm(t.time)}에 보낸 PRD</p>` + prdCardHTML(t.prd) : `<p class="muted small">위에서 팀을 고르면 그 팀의 PRD가 여기에 보입니다.</p>`;
+  }
+  async function loadTeams() {
+    if (!live) return;
+    try { teams = (await apiGet({ action: "teams" })).teams || []; renderTeams(); } catch (_) { /* keep the last list */ }
+  }
+  function renderReplies() {
+    if (!live) return;
+    $("#replyCount").textContent = S.replies.length ? S.replies.length + "개" : "";
+    $("#replyList").innerHTML = S.replies.length
+      ? S.replies.map((r) => `<div class="fb"><div class="who"><span>${esc(r.from)}</span><span>${hhmm(r.time)}</span></div><div class="kv"><span>우리 지적</span><span class="pen">${esc(r.stuck)}</span></div><div class="kv"><span>결정</span><span>${r.status === "done" ? "반영함" : r.status === "keep" ? "반영 안 함" : "미정"}${r.note ? " · " + esc(r.note) : ""}</span></div></div>`).join("")
+      : `<p class="muted small">우리가 보낸 피드백에 다른 팀이 답장하면 여기에 보입니다.</p>`;
+  }
+  async function poll() {
+    if (!live || polling || document.hidden || !myTeam()) return;
+    if (S.inboxTeam !== myTeam()) { S.inboxTeam = myTeam(); S.inboxSince = 0; }
+    polling = true;
+    try {
+      const j = await apiGet({ action: "inbox", team: myTeam(), since: S.inboxSince || 0 });
+      let nf = 0, nr = 0;
+      (j.items || []).forEach((m) => {
+        S.inboxSince = Math.max(S.inboxSince || 0, m.time);
+        const b = m.body || {};
+        if (m.kind === "feedback" && !S.fb.some((f) => f.rid === m.id)) {
+          S.fb.push({ id: "r" + m.id, rid: m.id, fromTeam: m.from, from: m.from + (b.name ? " · " + b.name : ""), clear: b.clear || "", stuck: b.stuck || "", q: b.q || "", status: "", note: "" }); nf++;
+        } else if (m.kind === "reply" && !S.replies.some((r) => r.id === m.id)) {
+          S.replies.push({ id: m.id, time: m.time, from: m.from, stuck: b.stuck || "", status: b.status || "", note: b.note || "" }); nr++;
+        }
+      });
+      if (nf || nr) { save(); renderFB(); refresh(); toast(nf ? `새 피드백 ${nf}개가 도착했습니다` : `답장 ${nr}개가 도착했습니다`); }
+    } catch (_) { /* try again next round */ }
+    polling = false;
+  }
+  function needTeam(msgEl) {
+    if (myTeam()) return false;
+    msgEl.className = "status err"; msgEl.textContent = "준비 단계에서 팀 이름을 먼저 정해 주세요."; return true;
+  }
+  $("#livePrdSend").addEventListener("click", async (e) => {
+    const b = e.currentTarget, msg = $("#livePrdMsg");
+    if (needTeam(msg)) return;
+    b.disabled = true; msg.className = "status"; msg.textContent = "보내는 중…";
+    try {
+      const prd = {}; FIELDS.forEach((f) => { prd[f.k] = P()[f.k] || ""; });
+      const j = await apiPost({ from: myTeam(), kind: "prd", body: { app: T().app || "", prd } });
+      msg.textContent = `${hhmm(j.time)}에 보냈습니다. 고친 뒤 다시 보내면 최신본으로 바뀝니다.`; loadTeams();
+    } catch (_) { msg.className = "status err"; msg.textContent = "보내지 못했습니다. 인터넷 연결을 확인하고 다시 눌러 주세요."; }
+    b.disabled = false;
+  });
+  $("#liveTeam").addEventListener("change", renderLivePrd);
+  $("#liveTeamsReload").addEventListener("click", loadTeams);
+  $("#liveSend").addEventListener("click", async (e) => {
+    const b = e.currentTarget, msg = $("#liveMsg");
+    if (needTeam(msg)) return;
+    const to = $("#liveTeam").value, stuck = $("#lf-stuck").value.trim();
+    if (!to) { msg.className = "status err"; msg.textContent = "피드백할 팀을 먼저 고르세요."; return; }
+    if (!stuck) { msg.className = "status err"; msg.textContent = "'막힘' 칸을 채워 주세요."; $("#lf-stuck").focus(); return; }
+    b.disabled = true; msg.className = "status"; msg.textContent = "보내는 중…";
+    try {
+      await apiPost({ from: myTeam(), to, kind: "feedback", body: { name: $("#lf-name").value.trim(), clear: $("#lf-clear").value.trim(), stuck, q: $("#lf-q").value.trim() } });
+      ["#lf-clear", "#lf-stuck", "#lf-q"].forEach((s) => { $(s).value = ""; });
+      msg.textContent = `${to}에 보냈습니다.`;
+    } catch (_) { msg.className = "status err"; msg.textContent = "보내지 못했습니다. 다시 눌러 주세요."; }
+    b.disabled = false;
+  });
+  document.addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-reply]"); if (!b) return;
+    const f = S.fb.find((x) => x.id === b.dataset.reply); if (!f || !myTeam()) return;
+    if (!f.status) { toast("반영함 / 반영 안 함을 먼저 고르세요"); return; }
+    b.disabled = true;
+    try { await apiPost({ from: myTeam(), to: f.fromTeam, kind: "reply", body: { stuck: f.stuck, status: f.status, note: f.note || "" } }); f.replied = true; save(); renderFB(); toast(`${f.fromTeam}에 답장을 보냈습니다`); }
+    catch (_) { b.disabled = false; toast("답장을 보내지 못했습니다. 다시 눌러 주세요."); }
+  });
+  document.addEventListener("visibilitychange", poll);
+  window.addEventListener("hashchange", () => { if (location.hash === "#feedback") loadTeams(); });
+
   /* ---------- boot ---------- */
   buildNav(); buildPRD(); buildEthics(); buildSwatches();
   fillInputs(); setupLab(); renderFB(); renderSegs(); route();
+
+  if (API_URL) {
+    apiGet({ action: "teams" }).then((j) => {
+      live = true; document.body.classList.add("live");
+      teams = j.teams || []; renderTeams(); renderFB(); poll();
+      setInterval(poll, 10000);
+    }).catch(() => { /* server unreachable (or blocked inside an artifact): keep the board flow */ });
+  }
 
   if (window.claude && window.claude.use) {
     window.claude.use("sample").then((s) => { if (s) { sample = s; $("#genAI").hidden = false; } }).catch(() => {});

@@ -291,7 +291,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <button class="btn ghost" id="exportBtn" type="button">워크북 전체 복사</button>
       <button class="btn ghost" id="saveBtn" type="button" hidden>워크북 파일로 저장 (.md)</button>
       <button class="linkbtn" id="wipeBtn" type="button">이 기기의 기록 지우기</button>
-      <p class="small muted">입력한 내용은 이 브라우저에만 저장됩니다. 다른 기기에서 이어 쓰려면 위 버튼으로 복사해 두세요.</p>
     </div>
   </aside>
 
@@ -303,10 +302,10 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">준비 · 3분</span></div>
       <h1>오늘은 만든 앱을 <span class="lens-q">말로 설명할 수 있는 앱</span>으로 바꿉니다</h1>
     </div>
-    <p class="lead">1~3차시에 문제를 정의하고 간단한 웹앱을 만들었습니다. 4차시에는 새 기능을 더하지 않습니다. 이미 만든 앱을 문서(PRD)로 다시 쓰고, 다른 팀에게 읽혀 보고, 화면과 윤리를 점검한 뒤, 1분 안에 소개합니다. 각 단계는 <b>서로 다른 질문 하나</b>만 다룹니다. 앞 단계에서 쓴 내용은 다음 단계로 자동으로 넘어가므로 같은 내용을 두 번 쓰지 않아도 됩니다.</p>
+    <p class="lead">입력한 내용은 다음 단계로 자동으로 넘어갑니다.</p>
 
     <div class="block">
-      <h2>우리 팀 정보 <span class="tag">모든 단계에 쓰입니다</span></h2>
+      <h2>우리 팀 정보</h2>
       <div class="panel">
         <div class="grid2">
           <div class="field"><label for="t-name">팀 이름 <span class="req">필수</span></label><input type="text" id="t-name" data-k="team.name" placeholder="예: 3조 아침조회"></div>
@@ -315,21 +314,10 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
           <div class="field"><label for="t-link">앱 주소 (있으면)</label><input type="text" id="t-link" data-k="team.link" placeholder="예: Gemini Canvas 또는 Claude 아티팩트 공유 링크"></div>
         </div>
         <div class="field"><label for="t-topic">1차시에 정의한 문제 <span class="req">필수</span></label>
-          <span class="hint">그때 쓴 문장을 그대로 붙여넣으세요. 1단계 PRD의 '해결할 문제' 칸으로 이어집니다.</span>
           <textarea id="t-topic" data-k="team.topic" rows="3" placeholder="예: 1인 1역 배정을 종이로 하다 보니 시간이 오래 걸리고, 같은 학생에게 궂은 역할이 반복된다."></textarea></div>
       </div>
     </div>
 
-    <div class="block">
-      <h2>오늘의 흐름 <span class="tag">80분</span></h2>
-      <div class="tbl-wrap">
-        <table class="flow">
-          <thead><tr><th>시간</th><th>활동</th><th>이 단계의 질문</th><th>남기는 것</th><th>다음 단계로 넘기는 것</th></tr></thead>
-          <tbody id="flowBody"></tbody>
-        </table>
-      </div>
-      <p class="small muted">피드백은 <b>글이 읽히는지</b>, CSS는 <b>화면이 보이는지</b>, 윤리는 <b>누가 다칠 수 있는지</b>만 봅니다. 앞 단계에서 다룬 질문은 다음 단계에서 다시 묻지 않습니다.</p>
-    </div>
     <div class="pager"><span></span><a class="btn" href="#prd">1단계 PRD 쓰기로 →</a></div>
   </section>
 
@@ -339,17 +327,11 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">1부 · 설계를 다시 쓰다</span><span>개인 작성 15분</span></div>
       <h1>1. PRD 쓰기: <span class="lens-q">무엇을, 누구를 위해</span> 만드는가</h1>
     </div>
-    <div class="handoff">
-      <div><b>입력</b>준비 단계의 팀 정보, 1차시 문제 정의</div>
-      <div><b>결과물</b>PRD 초안 (v1)</div>
-      <div><b>넘기는 것</b>2단계에서 다른 팀이 이 PRD만 읽고 피드백합니다</div>
-    </div>
-    <p class="lead">PRD(제품 요구사항 문서)는 <b>나 대신 AI나 다른 사람이 읽고 똑같은 앱을 만들 수 있게 하는 문서</b>입니다. 이미 만든 앱을 보면서 쓰세요. 좋은 PRD에는 <b>숫자, 순서, 그리고 만들지 않을 것</b>이 들어 있습니다.</p>
+    <p class="lead">이 문서만 보고 다른 사람이 같은 앱을 만들 수 있게 쓰세요.</p>
 
     <div class="panel">
       <div class="row" style="justify-content:space-between">
         <span class="small"><b id="prdDone">0</b> / <span id="prdTotal">10</span> 칸 작성</span>
-        <span class="small muted">칸마다 '예시 보기'를 열면 나쁜 예와 좋은 예를 볼 수 있어요</span>
       </div>
       <div class="meter"><i id="prdMeter"></i></div>
     </div>
@@ -358,16 +340,11 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 
     <div class="panel vague" aria-live="polite">
       <div class="row" style="justify-content:space-between"><b>모호어 검사</b><span class="chip" id="vagueCount">0개</span></div>
-      <p class="small muted">'편리하게', '다양한', '적절히'처럼 읽는 사람마다 다르게 해석하는 말을 찾아 줍니다. 숫자나 구체적인 행동으로 바꿔 보세요.</p>
       <div id="vagueOut" class="small"></div>
     </div>
 
     <div class="mission">
       <div class="mh"><b>미니 미션 1</b><h3>AI 개발자에게 질문 받기</h3><span class="small muted">3분</span></div>
-      <ol>
-        <li>아래 프롬프트를 복사해 평소 쓰는 AI(Claude, Gemini, ChatGPT)에 붙여넣으세요. 내 PRD가 자동으로 들어가 있습니다.</li>
-        <li>AI가 고른 '두 가지로 해석되는 문장' 중 하나를 골라 위 PRD에서 고치세요.</li>
-      </ol>
       <pre class="prompt" id="p1"></pre>
       <div class="row"><button class="btn chalk" data-copy="p1" type="button">프롬프트 복사</button></div>
     </div>
@@ -380,17 +357,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">1부 · 설계를 다시 쓰다</span><span>팀 간 교환 15분</span></div>
       <h1>2. 팀 간 피드백: <span class="lens-q">남이 읽고 만들 수 있는가</span></h1>
     </div>
-    <div class="handoff">
-      <div><b>입력</b>1단계 PRD v1 (아래 카드)</div>
-      <div><b>결과물</b>빨간 펜 피드백 카드 2장 이상</div>
-      <div><b>넘기는 것</b>3단계에서 카드 한 장마다 반영 여부를 정합니다</div>
-    </div>
-    <div class="rule">
-      <b>진행 방법</b>
-      <span>① 옆 팀과 노트북을 바꿔 앉습니다. ② 상대 팀 화면의 PRD 카드만 읽습니다 (앱은 열지 않습니다). ③ 아래 피드백 카드를 상대 팀 화면에 직접 써서 남깁니다. ④ 7분 뒤 한 번 더 다른 팀과 바꿉니다.</span>
-      <b style="margin-top:6px">피드백 규칙</b>
-      <span>아이디어가 좋은지는 평가하지 않습니다. <b>"이 문서만 보고 내가 똑같이 만들 수 있는가"</b>만 봅니다. 화면 디자인과 윤리는 4·5단계에서 따로 다룹니다.</span>
-    </div>
+    <div class="rule"><span>옆 팀과 자리를 바꿔 PRD만 읽고 카드를 남깁니다. <b>아이디어 평가 없이, 이 문서만으로 만들 수 있는지만</b> 봅니다.</span></div>
 
     <div class="block">
       <h2>읽을 PRD <span class="tag" id="fbFor"></span></h2>
@@ -402,7 +369,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="panel">
         <div class="field"><label for="fb-from">쓰는 사람 (팀 / 이름)</label><input type="text" id="fb-from" placeholder="예: 5조 정OO"></div>
         <div class="field"><label for="fb-clear">이해됨: 이 부분은 그대로 만들 수 있다</label><textarea id="fb-clear" rows="2" placeholder="예: 핵심 시나리오 1~3단계는 순서와 버튼이 분명해서 바로 만들 수 있음"></textarea></div>
-        <div class="field"><label for="fb-stuck">막힘: 두 가지 이상으로 해석되는 문장 <span class="req">필수</span></label><span class="hint">PRD의 문장을 그대로 따옴표로 인용하고, 어떻게 다르게 읽혔는지 적으세요.</span><textarea id="fb-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot; → 전체 화면인지, 글자만 큰 건지 모르겠음"></textarea></div>
+        <div class="field"><label for="fb-stuck">막힘: 두 가지 이상으로 해석되는 문장 <span class="req">필수</span></label><textarea id="fb-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot; → 전체 화면인지, 글자만 큰 건지 모르겠음"></textarea></div>
         <div class="field"><label for="fb-q">질문 하나: 만드는 사람이라면 꼭 물어볼 것</label><textarea id="fb-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
         <div class="row"><button class="btn" id="fbAdd" type="button">피드백 카드 남기기</button><span class="status" id="fbMsg"></span></div>
       </div>
@@ -421,19 +388,13 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">1부 · 설계를 다시 쓰다</span><span>팀 작업 10분</span></div>
       <h1>3. PRD 고치기: <span class="lens-q">무엇이 왜 바뀌었나</span></h1>
     </div>
-    <div class="handoff">
-      <div><b>입력</b>2단계 피드백 카드, PRD v1</div>
-      <div><b>결과물</b>PRD v2와 변경 기록</div>
-      <div><b>넘기는 것</b>변경 기록은 6단계 슬라이드와 7단계 발표의 '오늘 바뀐 것'이 됩니다</div>
-    </div>
-    <p class="lead">피드백을 모두 받아들일 필요는 없습니다. 카드마다 <b>반영 / 반영 안 함</b>을 고르고 그 이유를 한 줄로 남기세요. "왜 안 바꿨는지"도 좋은 설계 기록입니다.</p>
+    <p class="lead">피드백마다 반영 여부와 이유를 한 줄로 남기세요.</p>
 
     <div class="panel">
       <div class="row" style="justify-content:space-between">
         <span class="small" id="v1Info">PRD v1이 아직 고정되지 않았습니다.</span>
         <button class="btn ghost" id="v1Btn" type="button">지금 PRD를 v1로 고정</button>
       </div>
-      <p class="small muted">이 단계를 처음 열면 현재 PRD가 v1로 자동 고정됩니다. 아래에서 고치면 바뀐 칸에 v1 문장이 빨간 줄로 남습니다.</p>
     </div>
 
     <div class="block">
@@ -448,10 +409,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 
     <div class="mission">
       <div class="mh"><b>미니 미션 2</b><h3>바뀐 PRD를 앱에 반영할 지시문 만들기</h3><span class="small muted">3분</span></div>
-      <ol>
-        <li>프롬프트에 v1→v2 변경점과 '만들지 않을 것'이 자동으로 들어갑니다.</li>
-        <li>앱을 만든 AI 대화에 붙여넣으세요. 대화가 길어서 AI가 앞의 규칙을 잊은 것 같으면 새 대화에서 PRD v2 전체와 함께 시작하세요.</li>
-      </ol>
       <pre class="prompt" id="p2"></pre>
       <div class="row"><button class="btn chalk" data-copy="p2" type="button">프롬프트 복사</button></div>
     </div>
@@ -464,22 +421,11 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">2부 · 보여주고 책임지기</span><span>실습 10분</span></div>
       <h1>4. 화면 다듬기: <span class="lens-q">어떻게 보이는가</span></h1>
     </div>
-    <div class="handoff">
-      <div><b>입력</b>예시 앱 (모둠 뽑기), 우리 앱</div>
-      <div><b>결과물</b>예시 앱 미션 3개 통과, 우리 앱에서 바꾼 화면 한 가지</div>
-      <div><b>넘기는 것</b>'바꾼 화면'은 슬라이드와 발표에 들어갑니다</div>
-    </div>
-    <p class="lead">CSS는 기능은 그대로 두고 <b>보이는 모습만</b> 바꾸는 언어입니다. 그래서 화면 수정은 AI에게 "HTML과 JavaScript는 건드리지 말고 CSS만"이라고 범위를 정해 요청하는 것이 안전합니다. 먼저 아래 예시 앱으로 직접 고쳐 본 뒤, 같은 방법을 우리 앱에 적용합니다.</p>
+    <p class="lead">예시 앱으로 연습한 뒤, 우리 앱 한 곳을 CSS만으로 바꿉니다.</p>
 
-    <div class="cheat">
-      <div><b>규칙 한 줄 읽기</b><br><code>.btn { font-size: 16px; }</code><br><code>.btn</code>(어디를) <code>font-size</code>(무엇을) <code>16px</code>(얼마나)</div>
-      <div><b>색은 변수 하나로</b><br><code>--main: #2f6fde;</code>를 바꾸면 <code>var(--main)</code>을 쓰는 곳이 모두 바뀝니다.</div>
-      <div><b>줄바꿈 허용</b><br><code>flex-wrap: wrap;</code>을 넣으면 가로로 늘어선 상자가 화면이 좁을 때 아랫줄로 내려갑니다.</div>
-      <div><b>내 앱에서 찾기</b><br>앱 화면에서 바꾸고 싶은 곳을 마우스 오른쪽 클릭 → '검사'(F12)를 누르면 그 부분의 클래스 이름이 보입니다.</div>
-    </div>
 
     <div class="block">
-      <h2>예시 앱으로 연습하기 <span class="tag">왼쪽 CSS를 고치면 오른쪽이 바로 바뀝니다</span></h2>
+      <h2>예시 앱으로 연습하기</h2>
       <div class="lab">
         <div class="field">
           <div class="row" style="justify-content:space-between"><label for="cssCode">CSS</label><button class="linkbtn" id="cssReset" type="button">처음 CSS로 되돌리기</button></div>
@@ -513,12 +459,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">2부 · 보여주고 책임지기</span><span>팀 점검 5분</span></div>
       <h1>5. 윤리 점검: <span class="lens-q">누가 다칠 수 있는가</span></h1>
     </div>
-    <div class="handoff">
-      <div><b>입력</b>PRD v2의 '데이터'와 '만들지 않을 것'</div>
-      <div><b>결과물</b>보완 목록, 우리 앱의 약속 한 문장</div>
-      <div><b>넘기는 것</b>'약속'은 슬라이드 하단과 발표의 마지막 부분이 됩니다</div>
-    </div>
-    <p class="lead">교실 앱은 사용자가 학생이고, 학생은 사용을 거절하기 어렵습니다. 항목마다 <b>지킴 / 보완 필요 / 해당 없음</b>을 고르세요. '보완 필요'를 고르면 무엇을 할지 한 줄로 적습니다. 모든 항목을 '지킴'으로 고르는 것보다 정직하게 '보완 필요'를 찾는 것이 목표입니다.</p>
+    <p class="lead">항목마다 지킴 / 보완 필요 / 해당 없음을 고르세요.</p>
 
     <div class="panel">
       <div class="row" style="justify-content:space-between">
@@ -533,7 +474,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <h2>우리 앱의 약속 <span class="tag">한 문장</span></h2>
       <div class="panel">
         <div class="field"><label for="e-promise">학생과 동료 교사에게 하는 약속</label>
-          <span class="hint">'지킴'으로 고른 항목 중 가장 중요한 것을 사용자 입장의 말로 바꾸세요.</span>
           <input type="text" id="e-promise" data-k="ethics.promise" placeholder="예: 이 앱은 학생 이름을 저장하지 않고, 결과는 교사만 다시 뽑을 수 있습니다.">
           <div class="row"><button class="linkbtn" id="promiseSuggest" type="button">체크 결과로 초안 만들기</button></div>
         </div>
@@ -542,7 +482,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 
     <div class="mission">
       <div class="mh"><b>미니 미션 4</b><h3>학생의 '최악의 하루' 시나리오 받기</h3><span class="small muted">팀 과제 또는 연수 후</span></div>
-      <p class="small">체크리스트로 찾기 어려운 위험을 AI에게 이야기 형식으로 찾게 합니다. 결과 중 하나를 '보완 필요'에 추가하세요.</p>
       <pre class="prompt" id="p4"></pre>
       <div class="row"><button class="btn chalk" data-copy="p4" type="button">프롬프트 복사</button></div>
     </div>
@@ -555,12 +494,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">2부 · 보여주고 책임지기</span><span>팀 작업 5분</span></div>
       <h1>6. 팀 소개 한 장: <span class="lens-q">한눈에</span> 보이는가</h1>
     </div>
-    <div class="handoff">
-      <div><b>입력</b>PRD v2, 변경 기록, 바꾼 화면, 약속</div>
-      <div><b>결과물</b>발표 화면에 띄울 16:9 슬라이드 한 장</div>
-      <div><b>넘기는 것</b>7단계 발표 모드의 배경 화면이 됩니다</div>
-    </div>
-    <p class="lead">앞 단계에서 쓴 내용으로 슬라이드가 이미 채워져 있습니다. 새로 쓰지 말고 <b>줄이기만</b> 하세요. 빈칸으로 두면 자동으로 채운 문장을 그대로 씁니다.</p>
+    <p class="lead">자동으로 채워졌습니다. 빈칸은 그대로 두고 줄일 곳만 고치세요.</p>
 
     <div class="slide-wrap"><div class="slide" id="slide"></div></div>
 
@@ -575,7 +509,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
         <div class="field"><span class="label">색</span><div class="swatches" id="swatches"></div></div>
         <div class="field"><label for="sl-img">앱 화면 캡처 (선택)</label>
           <input type="file" id="sl-img" accept="image/*">
-          <span class="hint">학생 이름이나 얼굴이 보이는 캡처는 쓰지 마세요. <button class="linkbtn" id="imgClear" type="button">이미지 빼기</button></span></div>
+          <span class="hint"><button class="linkbtn" id="imgClear" type="button">이미지 빼기</button></span></div>
       </div>
     </div>
     <div class="pager"><a class="btn ghost" href="#ethics">← 5단계</a><a class="btn" href="#pitch">7단계 1분 발표로 →</a></div>
@@ -587,16 +521,11 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">2부 · 보여주고 책임지기</span><span>준비 3분 + 팀별 발표 1분 (전체 20분)</span></div>
       <h1>7. 1분 발표: <span class="lens-q">우리의 이야기</span>로 말하기</h1>
     </div>
-    <div class="handoff">
-      <div><b>입력</b>1~6단계 전체 + 지금 쓰는 서술</div>
-      <div><b>결과물</b>60초 대본과 발표 화면</div>
-      <div><b>구조</b>문제 10초 · 우리 앱 15초 · 오늘 바뀐 것 20초 · 약속 10초 · 다음 5초</div>
-    </div>
-    <p class="lead">기능 목록을 읽지 말고 <b>오늘 무엇이 바뀌었는지</b>를 이야기하세요. 아래에 오늘 과정을 편하게 서술하면, 1~6단계 기록과 합쳐 60초 대본을 만들어 줍니다.</p>
+    <p class="lead">오늘 과정을 서술하면 60초 대본이 만들어집니다.</p>
 
     <div class="panel">
       <div class="field"><label for="pi-narr">오늘 과정 서술</label>
-        <span class="hint">이 질문에 답하듯 쓰면 됩니다. 가장 뜻밖이었던 피드백은? PRD를 고치면서 버린 것은? 윤리 점검에서 처음 알게 된 것은? 다음에 이 앱으로 하고 싶은 것은?</span>
+        <span class="hint">가장 뜻밖이었던 피드백, 바꾼 것, 다음에 하고 싶은 것</span>
         <textarea id="pi-narr" data-k="pitch.narr" rows="6" placeholder="예: 다른 팀이 '크게 보여준다'가 무슨 뜻인지 모르겠다고 해서 처음으로 우리 문서가 우리끼리만 통하는 말이라는 걸 알았다. 그래서 전자칠판 전체 화면, 글자 48px로 숫자를 정했다. 윤리 점검을 하다가 학생 이름을 저장하고 있었다는 걸 발견해서 번호만 쓰기로 바꿨다. 다음에는 실제 우리 반 학생들과 2주 동안 써 보고 싶다."></textarea></div>
       <div class="row">
         <button class="btn chalk" id="genAI" type="button" hidden>AI로 대본 만들기</button>
@@ -606,7 +535,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       </div>
       <details class="exd"><summary>다른 AI에서 만들고 싶다면: 프롬프트 복사</summary>
         <pre class="prompt" id="p5"></pre>
-        <div class="row" style="margin-top:8px"><button class="btn ghost" data-copy="p5" type="button">프롬프트 복사</button><span class="small muted">결과를 아래 칸에 나눠 붙여넣으세요.</span></div>
+        <div class="row" style="margin-top:8px"><button class="btn ghost" data-copy="p5" type="button">프롬프트 복사</button></div>
       </details>
     </div>
 
@@ -614,7 +543,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <h2>60초 대본 <span class="tag" id="pitchLen"></span></h2>
       <div class="bar60" id="bar60" aria-hidden="true"></div>
       <div class="segs" id="segs"></div>
-      <p class="small muted">한국어 발표는 1초에 약 5글자(공백 제외)로 계산합니다. 구간 시간보다 길면 빨간색으로 표시됩니다.</p>
       <div class="row"><button class="btn" id="stageBtn" type="button">발표 화면 열기 (60초 타이머)</button><button class="btn ghost" data-copy-fn="script" type="button">대본 복사</button></div>
     </div>
     <div class="pager"><a class="btn ghost" href="#onepage">← 6단계</a><span></span></div>
@@ -766,16 +694,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   /* ---------- build static pieces ---------- */
   function buildNav() {
     const parts = [["준비", [0]], ["1부 · 설계를 다시 쓰다 (40분)", [1, 2, 3]], ["2부 · 보여주고 책임지기 (40분)", [4, 5, 6, 7]]];
-    $("#planNav").innerHTML = "<div>" + parts.map(([h, idx]) => `<h2>${h}</h2><ol>` + idx.map((i) => { const s = STEPS[i]; return `<li><a href="#${s.id}" data-step="${s.id}"><span class="no">${s.n}</span><span>${s.t}<i class="dot" data-dot="${s.id}"></i></span><span class="min">${s.min}′</span><span class="lens">${s.lens}</span></a></li>`; }).join("") + "</ol>").join("") + "</div>";
-    let t = 0, rows = "";
-    STEPS.forEach((s, i) => {
-      if (i === 1) rows += `<tr class="part"><td colspan="5">1부 · 설계를 다시 쓰다 (40분)</td></tr>`;
-      if (i === 4) rows += `<tr class="part"><td colspan="5">2부 · 보여주고 책임지기 (40분)</td></tr>`;
-      if (i === 0) return;
-      const a = t; t += s.min;
-      rows += `<tr><td class="t">${a}–${t}′</td><td><b>${s.n}. ${s.t}</b></td><td>${s.lens}</td><td>${s.out}</td><td>${s.next}</td></tr>`;
-    });
-    $("#flowBody").innerHTML = rows;
+    $("#planNav").innerHTML = "<div>" + parts.map(([h, idx]) => `<h2>${h}</h2><ol>` + idx.map((i) => { const s = STEPS[i]; return `<li><a href="#${s.id}" data-step="${s.id}"><span class="no">${s.n}</span><span>${s.t}<i class="dot" data-dot="${s.id}"></i></span><span class="min">${s.min}′</span></a></li>`; }).join("") + "</ol>").join("") + "</div>";
   }
 
   function fieldHTML(f, mode) {
@@ -794,7 +713,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     let cat = "", h = "";
     ETHICS.forEach((e) => {
       if (e.cat !== cat) { cat = e.cat; h += `<div class="eth-cat">${cat}</div>`; }
-      h += `<div class="eth-item" data-eid="${e.id}"><div class="q">${e.q}<span class="h">${e.h}</span></div><span class="seg" role="group" aria-label="점검 결과">` +
+      h += `<div class="eth-item" data-eid="${e.id}"><div class="q">${e.q}</div><span class="seg" role="group" aria-label="점검 결과">` +
         [["ok", "지킴"], ["fix", "보완 필요"], ["na", "해당 없음"]].map(([v, l]) => `<button type="button" data-v="${v}" aria-pressed="false">${l}</button>`).join("") +
         `</span><input type="text" id="en-${e.id}" data-k="ethics.n.${e.id}" placeholder="무엇을 하겠나요? 예: 이름 칸을 번호로 바꾸기" hidden></div>`;
     });

@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>4차시 완성 워크북</title>
+<title>실습용 아티팩트</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -141,7 +141,6 @@ details.exd[open] > summary { margin-bottom: 6px; }
 .chip.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); }
 .chip.warn { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, transparent); }
 .chip.red { color: var(--red); border-color: color-mix(in srgb, var(--red) 45%, transparent); }
-.vague mark { background: color-mix(in srgb, var(--red) 15%, transparent); color: var(--red); padding: 0 3px; border-radius: 3px; }
 
 /* mission (prompt) cards */
 .mission { border: 1.5px dashed var(--ink); border-radius: var(--r); padding: 14px 16px; display: grid; gap: 10px; background: var(--surface); min-width: 0; }
@@ -214,16 +213,16 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 
 /* slide */
 .slide-wrap { container-type: inline-size; max-width: 100%; }
-.slide { --sc: #23403a; --sc-ink: #ffffff; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; border-radius: 6px; overflow: hidden; display: grid; grid-template-columns: 1.15fr 1fr; background: #fbfbf8; color: #1c2a25; border: 1px solid var(--line); font-family: var(--font-body); }
+.slide { --sc: #23403a; --sc-ink: #ffffff; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; border-radius: 6px; overflow: hidden; display: grid; grid-template-columns: 2fr 3fr; background: #fbfbf8; color: #1c2a25; border: 1px solid var(--line); font-family: var(--font-body); }
 .slide .l { background: var(--sc); color: var(--sc-ink); padding: 4.5cqw 4cqw; display: flex; flex-direction: column; gap: 1.6cqw; min-width: 0; }
 .slide .team { font-size: 1.6cqw; letter-spacing: .08em; opacity: .85; }
-.slide .app { font-size: 4.6cqw; font-weight: 700; line-height: 1.15; overflow-wrap: anywhere; }
+.slide .app { font-size: 3.8cqw; font-weight: 700; line-height: 1.15; overflow-wrap: anywhere; }
 .slide .one { font-size: 1.9cqw; line-height: 1.5; opacity: .95; }
 .slide .who { margin-top: auto; font-size: 1.5cqw; opacity: .8; }
 .slide .r { padding: 3.6cqw 3.4cqw; display: flex; flex-direction: column; gap: 1.6cqw; min-width: 0; }
-.slide .r h4 { margin: 0; font-size: 1.3cqw; letter-spacing: .1em; color: #6a7a73; font-weight: 500; }
+.slide .r h4 { margin: 0 0 .8cqw; font-size: 1.4cqw; letter-spacing: .1em; color: #6a7a73; font-weight: 500; }
 .slide .r ul { margin: 0; padding-left: 1.2em; font-size: 1.75cqw; line-height: 1.45; }
-.slide .r p { font-size: 1.7cqw; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.slide .r p { font-size: 2.1cqw; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
 .slide .img { flex: 1 1 auto; min-height: 0; border-radius: .6cqw; background: #e9eee9 center / cover no-repeat; }
 .slide .promise { border-top: .2cqw solid var(--sc); padding-top: 1cqw; font-size: 1.6cqw; }
 .swatches { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -254,7 +253,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
   <div class="band-in">
     <div>
       <div class="event">SNU TEIC 바이브코딩 연수 · 4차시</div>
-      <div class="name">완성 워크북</div>
+      <div class="name">실습용 아티팩트</div>
     </div>
     <span class="team" id="teamChip">팀 이름을 정해 주세요</span>
   </div>
@@ -284,7 +283,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <h2>우리 팀 정보</h2>
       <div class="panel">
         <div class="grid2">
-          <div class="field"><label for="t-name">팀 이름 <span class="req">필수</span></label><input type="text" id="t-name" data-k="team.name" placeholder="예: 3조 아침조회"></div>
+          <div class="field"><label for="t-name">팀 이름 <span class="req">필수</span></label><input type="text" id="t-name" data-k="team.name" placeholder="예: 아침조회팀"></div>
           <div class="field"><label for="t-members">팀원</label><input type="text" id="t-members" data-k="team.members" placeholder="예: 김OO, 이OO, 박OO (발표 슬라이드에 들어갑니다)"></div>
           <div class="field"><label for="t-app">앱 이름 <span class="req">필수</span></label><input type="text" id="t-app" data-k="team.app" placeholder="예: 오늘의 1인 1역"></div>
           <div class="field"><label for="t-link">앱 주소 (있으면)</label><input type="text" id="t-link" data-k="team.link" placeholder="예: Gemini Canvas 또는 Claude 아티팩트 공유 링크"></div>
@@ -303,7 +302,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">1부 · 설계를 다시 쓰다</span></div>
       <h1>1. PRD 쓰기: <span class="lens-q">무엇을, 누구를 위해</span> 만드는가</h1>
     </div>
-    <p class="lead">이 문서만 보고 다른 사람이 같은 앱을 만들 수 있게 쓰세요.</p>
+    <p class="lead">자신이 만들고자 하는 앱을 말로 구체적으로 설명해 봅시다.</p>
 
     <div class="panel">
       <div class="row" style="justify-content:space-between">
@@ -314,10 +313,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 
     <div id="prdForm" class="block"></div>
 
-    <div class="panel vague" aria-live="polite">
-      <div class="row" style="justify-content:space-between"><b>모호어 검사</b><span class="chip" id="vagueCount">0개</span></div>
-      <div id="vagueOut" class="small"></div>
-    </div>
 
     <div class="mission">
       <div class="mh"><b>미니 미션 1</b><h3>AI 개발자에게 질문 받기</h3></div>
@@ -350,7 +345,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="panel">
         <div class="row"><select id="liveTeam" aria-label="피드백할 팀" style="width:auto;min-width:12em;max-width:100%"></select><button class="linkbtn" id="liveTeamsReload" type="button">팀 목록 새로고침</button></div>
         <div class="prd-card" id="livePrdCard"></div>
-        <div class="field"><label for="lf-team">우리 팀 이름 <span class="req">필수</span></label><input type="text" id="lf-team" data-k="team.name" placeholder="예: 5조"></div>
+        <div class="field"><label for="lf-team">우리 팀 이름 <span class="req">필수</span></label><input type="text" id="lf-team" data-k="team.name" placeholder="예: 아침조회팀"></div>
         <div class="field"><label for="lf-clear">긍정적인 점 <span class="req">필수</span></label><textarea id="lf-clear" rows="2" placeholder="예: 핵심기능이 &quot;행동 → 화면 반응&quot; 순서로 적혀 있어서 그대로 만들 수 있음"></textarea></div>
         <div class="field"><label for="lf-stuck">개선할 점 <span class="req">필수</span></label><textarea id="lf-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot;가 전체 화면인지 글자만 큰 건지 모호함 → 글자 크기를 숫자로 적으면 좋겠음"></textarea></div>
         <div class="field"><label for="lf-q">질문</label><textarea id="lf-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
@@ -362,7 +357,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <h2>받은 피드백 옮겨 오기 <span class="tag">보드의 우리 팀 줄 E~H칸</span></h2>
       <div class="panel">
         <div class="field"><label for="fb-paste">받은 피드백 붙여넣기</label><span class="hint">보드에서 우리 팀 줄의 E~H칸 네 칸을 드래그해 복사한 뒤 여기에 붙여 넣으면 아래 칸이 자동으로 채워집니다. 직접 옮겨 적어도 됩니다.</span><textarea id="fb-paste" rows="2" placeholder="여기에 붙여넣기 (Ctrl+V / ⌘V)"></textarea></div>
-        <div class="field"><label for="fb-from">보낸 팀 이름 <span class="req">필수</span></label><input type="text" id="fb-from" placeholder="예: 5조"></div>
+        <div class="field"><label for="fb-from">보낸 팀 이름 <span class="req">필수</span></label><input type="text" id="fb-from" placeholder="예: 모둠뽑기팀"></div>
         <div class="field"><label for="fb-clear">긍정적인 점 <span class="req">필수</span></label><textarea id="fb-clear" rows="2" placeholder="예: 핵심기능이 &quot;행동 → 화면 반응&quot; 순서로 적혀 있어서 그대로 만들 수 있음"></textarea></div>
         <div class="field"><label for="fb-stuck">개선할 점 <span class="req">필수</span></label><textarea id="fb-stuck" rows="2" placeholder="예: &quot;결과를 크게 보여준다&quot;가 전체 화면인지 글자만 큰 건지 모호함 → 글자 크기를 숫자로 적으면 좋겠음"></textarea></div>
         <div class="field"><label for="fb-q">질문</label><textarea id="fb-q" rows="2" placeholder="예: 결석한 학생이 있으면 그 번호는 빼고 배정하나요?"></textarea></div>
@@ -421,7 +416,8 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
       <div class="meta"><span class="part">2부 · 보여주고 책임지기</span></div>
       <h1>4. 화면 다듬기: <span class="lens-q">어떻게 보이는가</span></h1>
     </div>
-    <p class="lead">예시 앱으로 연습한 뒤, 우리 앱 한 곳을 CSS만으로 바꿉니다.</p>
+    <p class="lead">기능은 그대로 두고 보이는 모습만 바꿔 봅니다. 많이 바꾸지 않고 두 군데만 고칩니다.</p>
+    <div class="rule"><span>① 아래 예시 앱의 CSS에서 <b>색 하나</b>와 <b>버튼 크기</b>만 바꿔 미션 2개를 통과합니다. 고친 내용은 오른쪽 화면에 바로 보입니다.</span><span>② 같은 방법으로 우리 앱에서 바꿀 곳 <b>한 군데</b>를 정하고, 미니 미션 3의 프롬프트를 앱을 만든 AI에 붙여넣습니다.</span></div>
 
 
     <div class="block">
@@ -432,8 +428,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
           <textarea id="cssCode" class="code" spellcheck="false" aria-label="예시 앱 CSS"></textarea>
         </div>
         <div class="field">
-          <div class="row" style="justify-content:space-between"><span class="label">미리보기</span>
-            <span class="seg" role="group" aria-label="미리보기 폭"><button type="button" data-w="wide" aria-pressed="true">넓게</button><button type="button" data-w="360" aria-pressed="false">휴대폰 360px</button></span></div>
+          <span class="label">미리보기</span>
           <div class="preview-box"><div class="preview-host" id="pv"></div></div>
           <div class="checks" id="checks"></div>
         </div>
@@ -481,7 +476,7 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     </div>
 
     <div class="mission">
-      <div class="mh"><b>미니 미션 4</b><h3>학생의 '최악의 하루' 시나리오 받기</h3></div>
+      <div class="mh"><b>미니 미션 4</b><h3>'보완 필요' 항목을 우리 앱에 반영하기</h3></div>
       <pre class="prompt" id="p4"></pre>
       <div class="row"><button class="btn chalk" data-copy="p4" type="button">프롬프트 복사</button></div>
     </div>
@@ -572,7 +567,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     { k: "link", label: "웹 앱 링크", tip: "다른 팀이 실제로 눌러 볼 수 있는 공유 링크. 준비 단계에서 적은 앱 주소가 자동으로 들어갑니다.", bad: "(내 컴퓨터에만 있는 파일)", good: "https://claude.ai/artifact/…", rows: 1 }
   ];
   const REQUIRED = FIELDS.filter((f) => !f.optional);
-  const VAGUE = ["편리", "쉽게", "쉬운", "간편", "다양한", "다양하게", "적절", "효과적", "깔끔", "예쁘", "예쁜", "재미있", "빠르게", "직관적", "최적", "유용", "알아서", "등등", "기타", "여러 가지", "많은", "좋은", "잘 "];
 
   const ETHICS = [
     { cat: "개인정보", id: "e1", q: "이름·학번·연락처·사진 없이도 앱이 돌아가나요?", h: "번호나 별명으로 바꿀 수 있으면 바꿉니다. 연습할 때는 가짜 데이터를 씁니다." },
@@ -714,14 +708,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     const done = REQUIRED.filter((f) => (P()[f.k] || "").trim()).length;
     $("#prdDone").textContent = done;
     $("#prdMeter").style.width = (done / REQUIRED.length * 100) + "%";
-    const found = [];
-    FIELDS.forEach((f) => {
-      const v = P()[f.k] || "";
-      VAGUE.forEach((w) => { if (v.includes(w)) found.push([f.label, w.trim()]); });
-    });
-    $("#vagueCount").textContent = found.length + "개";
-    $("#vagueCount").className = "chip " + (found.length ? "red" : "ok");
-    $("#vagueOut").innerHTML = found.length ? found.map(([l, w]) => `<div>${esc(l)}: <mark>${esc(w)}</mark></div>`).join("") : `<span class="muted">${done ? "찾은 모호어가 없습니다." : "PRD를 쓰면 여기에 결과가 나옵니다."}</span>`;
   }
 
   function renderPRDCard() {
@@ -807,41 +793,29 @@ ${fbs}
 - 폭 360px 화면에서도 가로 스크롤이 생기지 않게 해줘.
 - 바꾼 CSS 부분만 보여주고, 어디에 붙여넣을지 알려줘.`;
 
-    const fixes = ETHICS.filter((e) => S.ethics.s[e.id] === "fix").map((e) => `- ${e.q}${S.ethics.n[e.id] ? ` (계획: ${S.ethics.n[e.id]})` : ""}`).join("\n") || "- (아직 없음)";
+    const fixes = ETHICS.filter((e) => S.ethics.s[e.id] === "fix").map((e) => `- ${e.q}${S.ethics.n[e.id] ? ` (계획: ${S.ethics.n[e.id]})` : ""}`).join("\n") || "- (위 체크리스트에서 '보완 필요'를 고르면 여기에 들어갑니다)";
     $("#p4").textContent =
-`너는 학교 현장의 개인정보 보호와 학생 인권을 검토하는 선생님이야. 아래 교실용 웹앱 설명을 읽고, 이 앱 때문에 학생 한 명이 겪을 수 있는 '최악의 하루' 시나리오 3개를 짧은 이야기로 써줘.
+`우리 앱 "${app}"을 학생 보호 관점에서 점검했고, 아래 항목을 보완하기로 했어. 이 항목만 고쳐줘.
 
-각 시나리오마다:
-(1) 원인이 되는 기능이나 데이터
-(2) 미리 막는 방법 한 가지
-(3) 막는 데 드는 노력: 쉬움 / 보통 / 어려움
+[보완할 항목]
+${fixes}
 
-과장하지 말고 실제 교실에서 일어날 법한 일만 써줘.
-
-[앱]
-이름: ${app}
+[앱 정보]
 개요: ${(p.overview || "").replace(/\n/g, " ")}
-목표, 대상: ${(p.goal || "").replace(/\n/g, " ")}
-핵심기능: ${lines(p.core).join(" / ")}
-꼭 있어야 할 기능: ${lines(p.must).join(", ")}
+입력, 저장하는 데이터: ${(p.data || "(없음)").replace(/\n/g, " ")}
 기술스택: ${(p.stack || "").replace(/\n/g, " / ")}
-데이터: ${(p.data || "").replace(/\n/g, " ")}
-만들지 않을 기능: ${lines(p.wont).join(", ")}
 
-[우리가 이미 찾은 보완점]
-${fixes}`;
+[지켜야 할 것]
+- 보완할 항목과 관계없는 기능과 화면은 바꾸지 마.
+- 고치기 전에 무엇을 어떻게 바꿀지 목록으로 먼저 보여주고 내 확인을 기다려.
+- 고친 뒤에는 제대로 고쳐졌는지 확인하는 방법을 알려줘.`;
 
   }
 
   /* ---------- CSS lab ---------- */
-  let pvRoot, probeRoot, pvWidth = "wide";
+  let pvRoot;
   function setupLab() {
     pvRoot = $("#pv").attachShadow({ mode: "open" });
-    const probe = document.createElement("div");
-    probe.setAttribute("aria-hidden", "true");
-    probe.style.cssText = "position:fixed;left:0;top:0;width:360px;visibility:hidden;pointer-events:none;z-index:-1;contain:layout;";
-    document.body.appendChild(probe);
-    probeRoot = probe.attachShadow({ mode: "open" });
     $("#cssCode").value = S.css.code || CSS0;
     applyCSS();
   }
@@ -849,8 +823,6 @@ ${fixes}`;
     const css = $("#cssCode").value;
     const base = ":host{display:block}*{box-sizing:border-box}";
     pvRoot.innerHTML = `<style>${base}${css}</style>${APP_HTML}`;
-    probeRoot.innerHTML = `<style>${base}${css}</style>${APP_HTML}`;
-    $("#pv").style.width = pvWidth === "360" ? "360px" : "100%";
     requestAnimationFrame(runChecks);
   }
   function runChecks() {
@@ -860,12 +832,9 @@ ${fixes}`;
     const m1 = main && main !== "#8a8a8a" && h1c !== "rgb(51, 51, 51)";
     const br = btn.getBoundingClientRect(), bfs = parseFloat(getComputedStyle(btn).fontSize);
     const m2 = br.height >= 44 && bfs >= 16;
-    const papp = probeRoot.querySelector(".app");
-    const m3 = papp.scrollWidth <= 361;
     const res = [
-      { ok: m1, t: "앱 색 정하기", d: "회색 <code>--main</code>을 앱에 어울리는 색으로 바꾸고, 제목 <code>h1</code>도 <code>var(--main)</code>을 쓰게 하세요.", now: `지금 --main: ${esc(main || "없음")}` },
-      { ok: m2, t: "누르기 쉬운 버튼", d: "<code>.btn</code>의 높이를 44px 이상, 글자를 16px 이상으로. 손가락과 전자칠판 펜으로 누르는 크기입니다.", now: `지금 높이 ${Math.round(br.height)}px · 글자 ${Math.round(bfs)}px` },
-      { ok: m3, t: "휴대폰에서 가로 스크롤 없애기", d: "폭 360px에서 모둠 상자가 화면 밖으로 나갑니다. <code>.groups</code>에 <code>flex-wrap: wrap</code>을, <code>.group</code>의 <code>flex</code>를 <code>1 1 140px</code>로 바꿔 보세요.", now: `360px 화면에서 내용 폭 ${papp.scrollWidth}px` }
+      { ok: m1, t: "앱 색 바꾸기", d: "맨 위 <code>--main: #8a8a8a;</code>의 색을 원하는 색(예: <code>#2f6fde</code>)으로 바꾸고, <code>.top h1</code>의 <code>color: #333333;</code>을 <code>color: var(--main);</code>으로 바꾸세요.", now: `지금 --main: ${esc(main || "없음")}` },
+      { ok: m2, t: "버튼 크게 만들기", d: "<code>.btn</code>에서 <code>font-size: 12px;</code>를 <code>16px</code>로, <code>padding: 3px 8px;</code>를 <code>12px 20px</code>로 바꾸세요. 손가락과 전자칠판 펜으로 누르기 쉬운 크기입니다.", now: `지금 높이 ${Math.round(br.height)}px · 글자 ${Math.round(bfs)}px` }
     ];
     S.css.done = res.filter((r) => r.ok).length;
     $("#checks").innerHTML = res.map((r, i) => `<div class="check"><span class="n">M${i + 1}</span><div><p><b>${r.t}</b></p><p class="how">${r.d}</p><p class="how">${r.now}</p></div><span class="chip ${r.ok ? "ok" : "warn"}">${r.ok ? "통과" : "도전"}</span></div>`).join("");
@@ -959,7 +928,7 @@ ${fixes}`;
       prd: REQUIRED.every((f) => (P()[f.k] || "").trim()),
       feedback: S.fb.length >= 1,
       revise: S.fb.length > 0 && S.fb.every((f) => f.status),
-      css: (S.css.done || 0) >= 3 && !!S.css.applied,
+      css: (S.css.done || 0) >= 2 && !!S.css.applied,
       ethics: ETHICS.every((e) => S.ethics.s[e.id]) && !!(S.ethics.promise || "").trim(),
       onepage: !!(slideVals().one && slideVals().desc),
       pitch: !!S.pitch.opened
@@ -988,7 +957,7 @@ ${fixes}`;
   /* ---------- export ---------- */
   function exportMD() {
     const t = T(), v = slideVals();
-    return `# ${t.app || "앱"} · ${t.name || "팀"} (4차시 완성 워크북)
+    return `# ${t.app || "앱"} · ${t.name || "팀"} (4차시 실습용 아티팩트)
 팀원: ${t.members || ""}
 앱 주소: ${t.link || ""}
 
@@ -999,7 +968,7 @@ ${prdText()}
 ${S.fb.map((x, i) => `${i + 1}. [${x.from || "익명"}] 개선할 점: ${x.stuck}\n   긍정적인 점: ${x.clear || "-"} / 질문: ${x.q || "-"}\n   결정: ${x.status === "done" ? "반영" : x.status === "keep" ? "반영 안 함" : "미정"} ${x.note || ""}`).join("\n") || "(없음)"}
 
 # 화면 다듬기
-예시 앱 미션 통과: ${S.css.done || 0}/3
+예시 앱 미션 통과: ${S.css.done || 0}/2
 우리 앱에서 바꾼 것: ${S.css.applied || "-"}
 
 # 윤리 점검
@@ -1044,7 +1013,6 @@ ${v.desc || "-"}
     if (b.dataset.fbdel) { S.fb = S.fb.filter((x) => x.id !== b.dataset.fbdel); save(); renderFB(); refresh(); return; }
     if (b.dataset.fbs) { const f = S.fb.find((x) => x.id === b.dataset.fbs); if (f) { f.status = f.status === b.dataset.val ? "" : b.dataset.val; save(); renderFB(); refresh(); } return; }
     if (b.closest(".eth-item")) { const id = b.closest(".eth-item").dataset.eid; S.ethics.s[id] = S.ethics.s[id] === b.dataset.v ? "" : b.dataset.v; save(); renderEthics(); refresh(); return; }
-    if (b.dataset.w) { pvWidth = b.dataset.w; $$("[data-w]").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); applyCSS(); return; }
     if (b.dataset.ci != null) { S.slide.color = +b.dataset.ci; save(); renderSlide(); return; }
   });
 

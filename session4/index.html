@@ -247,8 +247,17 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 
 /* footer */
 .foot { border-top: 1px solid var(--line); padding-block: 18px 28px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.foot-in { max-width: 1180px; margin: 0 auto; display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
-.foot-in b { color: var(--ink); font-weight: 500; }
+.foot-in { max-width: 1180px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 20px; font-size: 13px; color: var(--muted); }
+.foot-links { display: flex; align-items: center; gap: 10px; }
+.foot-links button { background: none; border: 0; padding: 0; color: var(--muted); font-size: 13px; cursor: pointer; }
+.foot-links button:hover { color: var(--ink); text-decoration: underline; }
+.foot-links span { color: var(--line); }
+dialog.policy { border: 1px solid var(--line); border-radius: var(--r); background: var(--surface); color: var(--ink); padding: 0; width: min(560px, calc(100vw - 32px)); max-height: min(80vh, 640px); }
+dialog.policy::backdrop { background: rgba(0, 0, 0, .45); }
+dialog.policy .pol-in { padding: 20px 22px; display: grid; gap: 10px; font-size: 14px; }
+dialog.policy h2 { font-size: 18px; }
+dialog.policy h3 { font-size: 14px; margin: 6px 0 0; }
+dialog.policy ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
 
 .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 6px; font-size: 14px; z-index: 60; }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -520,10 +529,40 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
 
 <footer class="foot">
   <div class="foot-in">
-    <p><b>SNU TEIC 바이브코딩 연수 · 4차시 실습용 아티팩트</b></p>
-    <p>입력한 내용은 이 브라우저에만 저장되며, 2단계에서 보낸 PRD와 피드백만 진행자에게 전달됩니다. 학생 실명·연락처 등 개인정보는 입력하지 마세요.</p>
+    <p>© 2026 조르의 과학 실험실. All rights reserved.</p>
+    <p class="foot-links"><button type="button" data-policy="terms">이용약관</button><span aria-hidden="true">|</span><button type="button" data-policy="privacy">개인정보처리방침</button></p>
   </div>
 </footer>
+
+<dialog class="policy" id="pol-terms" aria-labelledby="pol-terms-h">
+  <div class="pol-in">
+    <h2 id="pol-terms-h">이용약관</h2>
+    <ul>
+      <li>이 페이지는 SNU TEIC 바이브코딩 연수 4차시 실습을 위해 제공됩니다.</li>
+      <li>연수 실습 목적으로만 사용해 주세요. 다른 팀이 보낸 PRD와 피드백은 연수 밖으로 옮기거나 공유하지 않습니다.</li>
+      <li>4단계 예시 앱 코드는 연습용으로 자유롭게 고쳐 써도 됩니다.</li>
+      <li>이 페이지는 연수 운영에 맞춰 예고 없이 바뀌거나 종료될 수 있습니다.</li>
+    </ul>
+    <div class="row" style="justify-content:flex-end"><button class="btn" type="button" data-close>닫기</button></div>
+  </div>
+</dialog>
+
+<dialog class="policy" id="pol-privacy" aria-labelledby="pol-privacy-h">
+  <div class="pol-in">
+    <h2 id="pol-privacy-h">개인정보처리방침</h2>
+    <h3>이 브라우저에만 저장되는 내용</h3>
+    <ul><li>팀 정보, PRD, 체크리스트, 슬라이드 등 입력한 내용은 이 브라우저에만 저장되며 다른 곳으로 보내지 않습니다. 왼쪽 메뉴의 '이 기기의 기록 지우기'로 언제든 지울 수 있습니다.</li></ul>
+    <h3>진행자에게 전달되는 내용</h3>
+    <ul>
+      <li>2단계에서 직접 보낸 팀 이름, 앱 이름, PRD 내용, 피드백 내용(긍정적인 점·개선할 점·질문)과 답장만 진행자의 구글 스프레드시트에 기록됩니다.</li>
+      <li>팀원 이름과 앱 화면 캡처는 보내지 않습니다.</li>
+      <li>기록은 팀 간 피드백 전달과 연수 운영에만 쓰며, 연수가 끝나면 삭제합니다.</li>
+    </ul>
+    <h3>입력하지 말아 주세요</h3>
+    <ul><li>학생 실명, 학번, 연락처, 사진 등 개인을 알아볼 수 있는 정보는 입력하지 마세요.</li></ul>
+    <div class="row" style="justify-content:flex-end"><button class="btn" type="button" data-close>닫기</button></div>
+  </div>
+</dialog>
 
 <div class="stage" id="stage" hidden>
   <div class="stage-top">
@@ -1082,6 +1121,14 @@ ${v.desc || "-"}
   });
 
   window.addEventListener("hashchange", route);
+
+  document.addEventListener("click", (e) => {
+    const open = e.target.closest("[data-policy]");
+    if (open) { const d = $("#pol-" + open.dataset.policy); try { d.showModal(); } catch (_) { d.setAttribute("open", ""); } return; }
+    const close = e.target.closest("dialog.policy [data-close]");
+    if (close) close.closest("dialog").close();
+    else if (e.target.matches && e.target.matches("dialog.policy")) e.target.close();
+  });
 
   /* ---------- team messages (live mode) ---------- */
   let live = false, teams = [], polling = false;

@@ -385,12 +385,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     </div>
     <p class="lead">피드백마다 반영 여부와 이유를 한 줄로 남기세요.</p>
 
-    <div class="panel">
-      <div class="row" style="justify-content:space-between">
-        <span class="small" id="v1Info">PRD v1이 아직 고정되지 않았습니다.</span>
-        <button class="btn ghost" id="v1Btn" type="button">지금 PRD를 v1로 고정</button>
-      </div>
-    </div>
 
     <div class="block">
       <h2>피드백마다 결정하기 <span class="tag" id="decCount"></span></h2>
@@ -738,10 +732,6 @@ table.flow tr.part td { background: var(--soft); font-weight: 700; font-size: 13
     if (!S.prdV1) return [];
     return FIELDS.filter((f) => (S.prdV1[f.k] || "").trim() !== (P()[f.k] || "").trim());
   }
-  function renderRevise() {
-    $("#v1Info").textContent = S.prdV1 ? `PRD v1 고정: ${new Date(S.prdV1._at).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}` : "PRD v1이 아직 고정되지 않았습니다.";
-  }
-
 
   /* ---------- prompts ---------- */
   function prompts() {
@@ -949,7 +939,7 @@ ${fixes}
 
   function refresh() {
     $("#teamChip").textContent = T().name ? `${T().name}${T().app ? " · " + T().app : ""}` : "팀 이름을 정해 주세요";
-    renderPRDStatus(); renderPRDCard(); renderRevise(); prompts(); renderEthics(); renderSlide(); navDots();
+    renderPRDStatus(); renderPRDCard(); prompts(); renderEthics(); renderSlide(); navDots();
   }
   let rT;
   const refreshSoon = () => { clearTimeout(rT); rT = setTimeout(refresh, 120); };
@@ -1055,7 +1045,6 @@ ${v.desc || "-"}
     $("#fbMsg").className = "status"; $("#fbMsg").textContent = "아래 칸을 채웠습니다. 확인하고 '피드백 카드 남기기'를 누르세요.";
   });
 
-  $("#v1Btn").addEventListener("click", () => { S.prdV1 = Object.assign({}, P(), { _at: Date.now() }); save(); refresh(); toast("현재 PRD를 v1로 고정했습니다"); });
   $("#cssReset").addEventListener("click", () => { $("#cssCode").value = CSS0; S.css.code = CSS0; save(); applyCSS(); });
   $("#promiseSuggest").addEventListener("click", () => { const s = suggestPromise(); if (s.startsWith("지킴")) { toast(s); return; } S.ethics.promise = s; fillInputs(); save(); refresh(); });
   $("#sl-img").addEventListener("change", async (e) => { const f = e.target.files[0]; if (!f) return; try { S.slideImg = await downscale(f); save(); renderSlide(); } catch (_) { toast("이미지를 읽지 못했습니다. PNG나 JPG로 다시 올려 주세요."); } e.target.value = ""; });
